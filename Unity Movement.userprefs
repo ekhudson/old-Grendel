@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Spawner.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Spawner.cs" Line="98" Column="3" />
+      <File FileName="Assets\Resources\Detonator Explosion Framework\System\CustomDetonatorForce.cs" Line="92" Column="14" />
+      <File FileName="Assets\Scripts\StoneBlock.cs" Line="18" Column="28" />
+      <File FileName="Assets\Scripts\Player.cs" Line="28" Column="39" />
+      <File FileName="Assets\Scripts\Cannon.cs" Line="53" Column="1" />
+      <File FileName="Assets\Scripts\Explode.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BlockGroup.cs" Line="20" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

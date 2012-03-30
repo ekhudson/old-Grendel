@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+
+Project("{EC553932-D219-7EDC-E271-D498F71F0D0E}") = "Unity Movement", "Assembly-CSharp-firstpass-vs.csproj", "{CE851E1C-6E8D-BC73-D7BB-253BC5B2066F}"
+EndProject
+Project("{EC553932-D219-7EDC-E271-D498F71F0D0E}") = "Unity Movement", "Assembly-CSharp-vs.csproj", "{D59C2A37-318B-55EB-FA1C-EEA35611619B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE851E1C-6E8D-BC73-D7BB-253BC5B2066F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE851E1C-6E8D-BC73-D7BB-253BC5B2066F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE851E1C-6E8D-BC73-D7BB-253BC5B2066F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE851E1C-6E8D-BC73-D7BB-253BC5B2066F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D59C2A37-318B-55EB-FA1C-EEA35611619B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D59C2A37-318B-55EB-FA1C-EEA35611619B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D59C2A37-318B-55EB-FA1C-EEA35611619B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D59C2A37-318B-55EB-FA1C-EEA35611619B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	
+EndGlobal
