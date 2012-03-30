@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -57,28 +57,28 @@
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSound.cs" />
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSparks.cs" />
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSpray.cs" />
-     <Compile Include="Assets\Scripts\AIBase.cs" />
-     <Compile Include="Assets\Scripts\BaseObject.cs" />
-     <Compile Include="Assets\Scripts\Bullet.cs" />
-     <Compile Include="Assets\Scripts\Cannon.cs" />
-     <Compile Include="Assets\Scripts\CannonBall.cs" />
-     <Compile Include="Assets\Scripts\Console.cs" />
-     <Compile Include="Assets\Scripts\ConsoleCommands.cs" />
-     <Compile Include="Assets\Scripts\EditorObject.cs" />
-     <Compile Include="Assets\Scripts\Entity.cs" />
-     <Compile Include="Assets\Scripts\EntityManager.cs" />
-     <Compile Include="Assets\Scripts\FactionManager.cs" />
-     <Compile Include="Assets\Scripts\FlockingAgent.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\GameOptions.cs" />
-     <Compile Include="Assets\Scripts\Item.cs" />
-     <Compile Include="Assets\Scripts\MainCamera.cs" />
-     <Compile Include="Assets\Scripts\MapCamera.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\ScreenFlash.cs" />
-     <Compile Include="Assets\Scripts\SearchRadius.cs" />
-     <Compile Include="Assets\Scripts\UserInput.cs" />
-     <Compile Include="Assets\Scripts\Zombie.cs" />
+     <Compile Include="Assets\Scripts\Game\AIBase.cs" />
+     <Compile Include="Assets\Scripts\Game\BaseObject.cs" />
+     <Compile Include="Assets\Scripts\Game\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Game\Cannon.cs" />
+     <Compile Include="Assets\Scripts\Game\CannonBall.cs" />
+     <Compile Include="Assets\Scripts\Game\EditorObject.cs" />
+     <Compile Include="Assets\Scripts\Game\Entity.cs" />
+     <Compile Include="Assets\Scripts\Game\EntityManager.cs" />
+     <Compile Include="Assets\Scripts\Game\FactionManager.cs" />
+     <Compile Include="Assets\Scripts\Game\FlockingAgent.cs" />
+     <Compile Include="Assets\Scripts\Game\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Game\GameOptions.cs" />
+     <Compile Include="Assets\Scripts\Game\Item.cs" />
+     <Compile Include="Assets\Scripts\Game\MainCamera.cs" />
+     <Compile Include="Assets\Scripts\Game\MapCamera.cs" />
+     <Compile Include="Assets\Scripts\Game\Player.cs" />
+     <Compile Include="Assets\Scripts\Game\ScreenFlash.cs" />
+     <Compile Include="Assets\Scripts\Game\SearchRadius.cs" />
+     <Compile Include="Assets\Scripts\Game\UserInput.cs" />
+     <Compile Include="Assets\Scripts\Game\Zombie.cs" />
+     <Compile Include="Assets\Scripts\Utility\Console.cs" />
+     <Compile Include="Assets\Scripts\Utility\ConsoleCommands.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
