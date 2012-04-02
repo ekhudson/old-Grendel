@@ -69,9 +69,9 @@ public class MapCamera : BaseObject {
 	
 	public override void ToggleScript()
 	{
-		if (_camera.enabled) {_camera.enabled = false;}
-		else {_camera.enabled = true;}
-		
+		if (_camera.enabled) {_camera.enabled = false; Console.Instance.OutputToConsole("MiniMap Disabled", Console.Instance.Style_Admin); }
+		else {_camera.enabled = true; Console.Instance.OutputToConsole("MiniMap Enabled", Console.Instance.Style_Admin);}
+				
 		base.ToggleScript();
 	}
 	

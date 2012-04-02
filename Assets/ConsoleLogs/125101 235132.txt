@@ -1,0 +1,16 @@
+User: Elliot Machine: ELLIOT-PC
+OS Platform: Win32NT OS Version: 6.1.7601.0 OS Service Pack: 
+Processor Type: Intel(R) Core(TM) i7 CPU 950 @ 3.07GHz Processor Count: 8
+System Memory: 12280
+GPU: AMD Radeon HD 6900 Series GPU Memory: 2026 GPU Shader: 30
+Unity Version: 3.5.0f1
+
+Total Playtime: 19.09642 
+
+Elliot YY/51/01 23:51:16 - Hello
+Grendel YY/51/01 23:51:16 - I'm sorry Dave, I can't do that.
+Elliot YY/51/01 23:51:17 - Test
+Grendel YY/51/01 23:51:17 - Parameter missing
+Elliot YY/51/01 23:51:19 - Test 1
+Grendel YY/51/01 23:51:19 - Success!
+Grendel YY/51/01 23:51:32 - Log File 125101 235132.txt Created

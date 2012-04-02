@@ -43,9 +43,9 @@ public class Player : Entity
     void Update()
     {
 
-        if (ctrl)
+        if (ctrl && !Console.Instance.ShowConsole) //HACK: Replace with Paused Game State
         {            
-             _tempRotation = new Vector3(0f, Input.GetAxis("Horizontal") * GameManager.UserInputRef.MouseSensitivityHorizontal, 0f); //player rotation
+             _tempRotation = new Vector3(0f, Input.GetAxis("Horizontal") * UserInput.Instance.MouseSensitivityHorizontal, 0f); //player rotation
              _move = Vector3.zero;
 
 

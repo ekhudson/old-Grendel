@@ -1,0 +1,11 @@
+User: Elliot Machine: ELLIOT-PC
+OS Platform: Win32NT OS Version: 6.1.7601.0 OS Service Pack: 
+Processor Type: Intel(R) Core(TM) i7 CPU 950 @ 3.07GHz Processor Count: 8
+System Memory: 12280
+GPU: AMD Radeon HD 6900 Series GPU Memory: 2026 GPU Shader: 30
+Unity Version: 3.5.0f1
+
+Total Playtime: 2.590028 
+
+Elliot YY/52/01 23:52:05 - OutputLog
+Grendel YY/52/01 23:52:05 - Log File 125201 235205.txt Created
