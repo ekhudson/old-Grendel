@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{4217F374-F139-E0BF-5535-1778E40DAD80}</ProjectGuid>
+	<ProjectGuid>{A53CBBDE-58C1-F6AD-4B20-B3D23A0A8236}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -57,35 +57,40 @@
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSound.cs" />
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSparks.cs" />
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSpray.cs" />
-     <Compile Include="Assets\Scripts\Game\AIBase.cs" />
-     <Compile Include="Assets\Scripts\Game\BaseObject.cs" />
-     <Compile Include="Assets\Scripts\Game\Bullet.cs" />
-     <Compile Include="Assets\Scripts\Game\Cannon.cs" />
-     <Compile Include="Assets\Scripts\Game\CannonBall.cs" />
-     <Compile Include="Assets\Scripts\Game\EditorObject.cs" />
-     <Compile Include="Assets\Scripts\Game\Entity.cs" />
-     <Compile Include="Assets\Scripts\Game\EntityManager.cs" />
-     <Compile Include="Assets\Scripts\Game\FactionManager.cs" />
-     <Compile Include="Assets\Scripts\Game\FlockingAgent.cs" />
-     <Compile Include="Assets\Scripts\Game\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Game\GameOptions.cs" />
-     <Compile Include="Assets\Scripts\Game\Item.cs" />
-     <Compile Include="Assets\Scripts\Game\MainCamera.cs" />
-     <Compile Include="Assets\Scripts\Game\MapCamera.cs" />
-     <Compile Include="Assets\Scripts\Game\Player.cs" />
-     <Compile Include="Assets\Scripts\Game\ScreenFlash.cs" />
-     <Compile Include="Assets\Scripts\Game\SearchRadius.cs" />
-     <Compile Include="Assets\Scripts\Game\UserInput.cs" />
-     <Compile Include="Assets\Scripts\Game\Zombie.cs" />
-     <Compile Include="Assets\Scripts\Helper\Singleton.cs" />
-     <Compile Include="Assets\Scripts\UI\ScreenNotification.cs" />
-     <Compile Include="Assets\Scripts\UI\ScreenNotificationManager.cs" />
-     <Compile Include="Assets\Scripts\Utility\Console.cs" />
-     <Compile Include="Assets\Scripts\Utility\ConsoleCommands.cs" />
-     <Compile Include="Assets\Scripts\Utility\ConsoleLog.cs" />
-     <Compile Include="Assets\Scripts\Utility\FPSCounter.cs" />
-     <Compile Include="Assets\Scripts\Utility\InfoTracker.cs" />
-     <Compile Include="Assets\Scripts\Utility\StringTool.cs" />
+     <Compile Include="Assets\Scripts\FogManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Audio\AudioList.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Audio\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\AIBase.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\BaseObject.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\Cannon.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\CannonBall.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\EditorObject.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\Entity.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\EntityManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\FactionManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\FlockingAgent.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\GameOptions.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\Item.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\MainCamera.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\MapCamera.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\Player.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\ScreenFlash.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\SearchRadius.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\UserInput.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Game\Zombie.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Helper\AutoTransparent.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Helper\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Grendel\UI\ScreenNotification.cs" />
+     <Compile Include="Assets\Scripts\Grendel\UI\ScreenNotificationManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Utility\Console.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Utility\ConsoleCommands.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Utility\ConsoleLog.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Utility\FPSCounter.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Utility\InfoTracker.cs" />
+     <Compile Include="Assets\Scripts\Grendel\Utility\StringTool.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
@@ -110,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{8E519D59-9DE7-9EAA-4CC4-27136D015C45}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{EDC56359-EDCD-A7D3-44C0-D661481B232A}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
