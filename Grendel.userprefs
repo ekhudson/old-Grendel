@@ -1,8 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FogManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Grendel\Game\LevelManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\FogManager.cs" Line="19" Column="55" />
+      <File FileName="Assets\Scripts\FogManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grendel\Game\Cannon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grendel\Game\Item.cs" Line="42" Column="23" />
+      <File FileName="Assets\Scripts\Grendel\Game\BaseObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grendel\Game\Zombie.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grendel\UI\ScreenNotificationManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\GrendelEditor\AudioManagerEditor.cs" Line="38" Column="31" />
+      <File FileName="Assets\Editor\GrendelEditor\LevelManagerEditor.cs" Line="11" Column="2" />
+      <File FileName="Assets\Scripts\Grendel\Game\LevelManager.cs" Line="29" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

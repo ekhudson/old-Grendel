@@ -34,9 +34,12 @@ public class Item : BaseObject {
 	
 	//}
 	
-	void OnTriggerEnter(Collider other)
+	//void OnTriggerEnter(Collider other)
+	void OnParticleCollision(GameObject other)
 	{
-		if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLayer"))
+		particleEmitter.emit = false;
+		
+		if (other.layer == LayerMask.NameToLayer("PlayerLayer"))
 		{			
 			PickUp();
 		}		

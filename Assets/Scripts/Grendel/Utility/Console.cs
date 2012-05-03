@@ -821,7 +821,7 @@ public class Console : Singleton<Console>
 		
 		
 		//if the console isn't visible, push a notification to the screen
-		if (!_showConsole)
+		if (!_showConsole && GameOptions.Instance.DebugMode)
 		{
 			new ScreenNotification(text, style.normal.textColor);
 		}

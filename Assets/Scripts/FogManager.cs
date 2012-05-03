@@ -16,9 +16,8 @@ public class FogManager : Singleton<FogManager>
 	// Update is called once per frame
 	void Update () 
 	{
-		float fogValue = (ThePlayer.transform.position.y + 1) * 30;
+		float fogValue = (ThePlayer.transform.position.y + 1) * 30;		
 		
-		Debug.Log(fogValue);
 		RenderSettings.fogEndDistance = fogValue;
 	}
 }

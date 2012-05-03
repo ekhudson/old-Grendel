@@ -42,10 +42,10 @@ public static class ConsoleLog
 		//Write Header Info
 		file.WriteLine(System.String.Format("User Name: {0}", InfoTracker.Instance.Username));
 		file.WriteLine(System.String.Format("Machine Name: {0}", InfoTracker.Instance.MachineName));
-		file.WriteLine(System.String.Format("OS Platform: {0} OS Version: {1} OS Service Pack: {2}", InfoTracker.Instance.OSPlatform, InfoTracker.Instance.OSVersion, InfoTracker.Instance.OSServicePack));
-		file.WriteLine(System.String.Format("Processor Type: {0} Processor Count: {1}", InfoTracker.Instance.ProcessorType, InfoTracker.Instance.ProcessorCount));
+		file.WriteLine(System.String.Format("OS Platform: {0} - OS Version: {1} - OS Service Pack: {2}", InfoTracker.Instance.OSPlatform, InfoTracker.Instance.OSVersion, InfoTracker.Instance.OSServicePack));
+		file.WriteLine(System.String.Format("Processor Type: {0} - Processor Count: {1}", InfoTracker.Instance.ProcessorType, InfoTracker.Instance.ProcessorCount));
 		file.WriteLine(System.String.Format("System Memory: {0}", InfoTracker.Instance.SystemMemory));
-		file.WriteLine(System.String.Format("GPU: {0} GPU Memory: {1} GPU Shader: {2}", InfoTracker.Instance.GPUName, InfoTracker.Instance.GPUMem, InfoTracker.Instance.GPUShader));
+		file.WriteLine(System.String.Format("GPU: {0} - GPU Memory: {1} - GPU Shader: {2}", InfoTracker.Instance.GPUName, InfoTracker.Instance.GPUMem, InfoTracker.Instance.GPUShader));
 		file.WriteLine(System.String.Format("Unity Version: {0}", InfoTracker.Instance.UnityVersion));
 		file.WriteLine(System.String.Format("Unity Editor: {0}", InfoTracker.Instance.IsUnityEditor));
 		file.WriteLine(System.String.Format("\r\n" + "Total Playtime: {0} " + "\r\n", Time.realtimeSinceStartup));

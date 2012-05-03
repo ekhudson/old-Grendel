@@ -1,0 +1,18 @@
+User Name: Elliot
+Machine Name: ELLIOT-PC
+OS Platform: Win32NT OS Version: 6.1.7601.0 OS Service Pack: 
+Processor Type: Intel(R) Core(TM) i7 CPU 950 @ 3.07GHz Processor Count: 8
+System Memory: 12280
+GPU: AMD Radeon HD 6900 Series GPU Memory: 2026 GPU Shader: 30
+Unity Version: 3.5.0f1
+Unity Editor: True
+
+Total Playtime: 210.8726 
+
+Grendel 12/26/05 01:26:18 - Playing Music Track: 07_Yu_karak_II
+Grendel 12/28/05 01:28:03 - Going to Camera Setup: Cam Setup - Topdown
+Grendel 12/28/05 01:28:04 - Going to Camera Setup: Cam Setup - First Person
+Grendel 12/29/05 01:29:21 - MiniMap Disabled
+Grendel 12/29/05 01:29:26 - Going to Camera Setup: Cam Setup - Third Person
+Elliot 12/29/05 01:29:49 - OutputLog
+Grendel 12/29/05 01:29:49 - Log File 122905 012949.txt Created

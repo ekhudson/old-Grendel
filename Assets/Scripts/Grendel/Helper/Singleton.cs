@@ -23,7 +23,7 @@ public class Singleton<T> : MonoBehaviour where T : class
 		get {return _instance;}
 	}
 		
-	void Awake()
+	virtual protected void Awake()
 	{
 		//checks if there is already an instance in the game
 		//and destroys this object if it is a duplicate

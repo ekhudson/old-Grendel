@@ -24,23 +24,62 @@ public class AudioManager : Singleton<AudioManager>
 	private List<AudioClip> _currentPlayingMusicTracks = new List<AudioClip>();
 	
 	private Dictionary<int, AudioSource> AudioDictionary = new Dictionary<int, AudioSource>();
+	private int MusicAudioSourceID;
 	
 	
 	// Use this for initialization
 	void Start () 
 	{
-	
+		//not sure if I need this yet
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		//not sure if I need this yet
+	}
 	
+	public void VolumeUp()
+	{
+		Mathf.Clamp(GlobalVolumeSFX += 0.1f, 0, 1);
+		Mathf.Clamp(GlobalVolumeMusic += 0.1f, 0, 1);
+		Console.Instance.OutputToConsole(System.String.Format("Volume Up - Music: {0} SFX: {1}", GlobalVolumeMusic, GlobalVolumeSFX), Console.Instance.Style_Admin);
+		UpdateAudio();
+	}
+	
+	public void VolumeDown()
+	{
+		Mathf.Clamp(GlobalVolumeSFX -= 0.1f, 0, 1);
+		Mathf.Clamp(GlobalVolumeMusic -= 0.1f, 0, 1);
+		Console.Instance.OutputToConsole(System.String.Format("Volume Down - Music: {0} SFX: {1}", GlobalVolumeMusic, GlobalVolumeSFX), Console.Instance.Style_Admin);
+		UpdateAudio();
+	}
+	
+	public void UpdateAudio()
+	{
+		//List<AudioClip> tempList = new List<AudioClip>();
+		//AudioDictionary.Values.
+		
+		foreach(AudioSource source in AudioDictionary.Values)
+		{
+			source.volume = GlobalVolumeSFX = GlobalVolumeMusic; //TODO: Separate these	
+		}
 	}
 	
 	public void PlayMusicTrack(AudioClip musicTrack)
 	{
-		AudioSource source = gameObject.AddComponent<AudioSource>();	
+		AudioSource source;
+		
+		if (!AudioDictionary.ContainsKey(MusicAudioSourceID))
+		{		
+			source = gameObject.AddComponent<AudioSource>();
+			MusicAudioSourceID = source.GetInstanceID();
+			AudioDictionary.Add(MusicAudioSourceID, source);
+		}
+		else
+		{
+			source = AudioDictionary[MusicAudioSourceID];
+		}
 		
 		source.clip = musicTrack;
 		source.volume = GlobalVolumeMusic;
@@ -53,8 +92,25 @@ public class AudioManager : Singleton<AudioManager>
 		catch
 		{
 			Console.Instance.OutputToConsole("Error Playing Music Track: " + musicTrack.name, Console.Instance.Style_Error);
-		}			
+		}	
 		
-		AudioDictionary.Add(GetInstanceID(), source);
+	}
+	
+	public void IncrementMusicTrack(int increment)
+	{
+		if (MusicAudioSourceID != null)
+		{
+			int index = AudioList.Instance.MusicTracks.IndexOf( AudioDictionary[MusicAudioSourceID].clip );
+			index += increment;
+			
+			if (index > (AudioList.Instance.MusicTracks.Count - 1)){ index = 0; } //limit going up in tracks
+			if (index < 0) { index = (AudioList.Instance.MusicTracks.Count - 1); } //limit going down in tracks
+			
+			PlayMusicTrack(  AudioList.Instance.MusicTracks[ index ] );
+		}
+		else
+		{
+			PlayMusicTrack(  AudioList.Instance.MusicTracks[0] );
+		}
 	}
 }

@@ -30,12 +30,12 @@ public class UserInput : Singleton<UserInput>
 		
 		if(Input.GetKeyDown(KeyCode.Equals))
 		{			
-			MapCamera.Instance.ZoomIn();	
+			AudioManager.Instance.VolumeUp();
 		}
 		
 		if(Input.GetKeyDown(KeyCode.Minus))
 		{			
-			MapCamera.Instance.ZoomOut();	
+			AudioManager.Instance.VolumeDown();	
 		}
 		
 		if(Input.GetKeyDown(KeyCode.BackQuote))
@@ -51,7 +51,7 @@ public class UserInput : Singleton<UserInput>
 		if(Input.GetAxis("Mouse ScrollWheel") < 0)
 		{
 			MapCamera.Instance.ZoomOut();
-		}
+		}		
 		
 	}
 		

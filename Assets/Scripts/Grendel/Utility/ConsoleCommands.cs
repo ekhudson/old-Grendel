@@ -39,7 +39,24 @@ public class ConsoleCommands : Singleton<ConsoleCommands>
 		FPS(parameters);
 	}
 	
-	public void OutputLog(object[] parameters)
+	void NextTrack(object[] parameters)
+	{
+		AudioManager.Instance.IncrementMusicTrack(1);
+		Console.Instance.OutputToConsole("Go to next music track.", Console.Instance.Style_Admin);
+	}
+	
+	void PreviousTrack(object[] parameters)
+	{
+		AudioManager.Instance.IncrementMusicTrack(-1);
+		Console.Instance.OutputToConsole("Go to previous music track.", Console.Instance.Style_Admin);
+	}
+	
+	void PlayTrack(object[] parameters)
+	{
+		
+	}
+	
+	void OutputLog(object[] parameters)
 	{
 		Debug.Log("here");
 		ConsoleLog.OutputLog(Console.Instance.ConsoleCommandList, System.DateTime.Now.ToString("yymmdd HHmmss"));	

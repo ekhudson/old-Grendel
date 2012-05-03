@@ -20,8 +20,9 @@ public class GameManager : Singleton<GameManager>
 	//public static Player PlayerRef;
 	#endregion		
 	
-	void Awake()
+	protected override void Awake()
 	{		
+		base.Awake();
 		DontDestroyOnLoad(gameObject);
 	}
 

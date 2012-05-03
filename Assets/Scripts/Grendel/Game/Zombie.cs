@@ -96,7 +96,7 @@ public class Zombie : Entity {
 		
 		StartCoroutine( StepCooldownMethod() );
 		
-		base.Start();
+		base.Start();	
 		
 	}
 	
@@ -271,8 +271,10 @@ public class Zombie : Entity {
 		{			
 			for (int i = 0; i < Random.Range(drop.DropCountMin, drop.DropCountMax); i++)
 			{
+				
 				GameObject item = (GameObject)Instantiate(drop.ItemToDrop, _transform.position + new Vector3( Random.Range(-1, 1), Random.Range(0, 1), Random.Range(-1, 1) ), Quaternion.identity);	
-				item.rigidbody.AddForce( Random.Range(-ItemDropForce, ItemDropForce), Random.Range(ItemDropForce * 0.5f, ItemDropForce * 2f), Random.Range(-ItemDropForce, ItemDropForce), ForceMode.Force );
+				
+				//item.rigidbody.AddForce( Random.Range(-ItemDropForce, ItemDropForce), Random.Range(ItemDropForce * 0.5f, ItemDropForce * 2f), Random.Range(-ItemDropForce, ItemDropForce), ForceMode.Force );
 			}
 		}
 	}

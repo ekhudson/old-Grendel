@@ -63,20 +63,17 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 	}
 	
 	IEnumerator HoldNotification()
-	{
-		Debug.Log("HOLD");
+	{		
 		yield return new WaitForSeconds(_currentNotification.HoldTime);
 		StartCoroutine ( "FadeNotification" );
 	}
 	
 	IEnumerator FadeNotification()
 	{
-		float fadeAmt = 1 / (_currentNotification.FadeTime * 60);
-		Debug.Log("FADE");
+		float fadeAmt = 1 / (_currentNotification.FadeTime * 60);		
 		
 		while(_currentNotification.NotificationStyle.normal.textColor.a > 0)
-		{
-			Debug.Log("Fading: " + _currentNotification.NotificationStyle.normal.textColor.a);
+		{			
 			Color textColor = _currentNotification.NotificationStyle.normal.textColor;
 			Color bgColor = _currentNotification.BoxColor;
 			textColor.a -= fadeAmt;
