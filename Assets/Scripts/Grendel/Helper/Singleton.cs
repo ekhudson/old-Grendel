@@ -16,6 +16,8 @@ using System.Reflection;
 
 public class Singleton<T> : MonoBehaviour where T : class
 { 
+	public bool DoNotDestroyOnLoad = false;
+	
 	private static T _instance;
 	
 	static public T Instance
@@ -30,6 +32,7 @@ public class Singleton<T> : MonoBehaviour where T : class
 		if (_instance == null)
 		{
 			_instance = this as T;
+			if (DoNotDestroyOnLoad){ DontDestroyOnLoad(gameObject); }
 		}
 		else
 		{

@@ -60,12 +60,15 @@
      <Compile Include="Assets\Scripts\FogManager.cs" />
      <Compile Include="Assets\Scripts\Grendel\Audio\AudioList.cs" />
      <Compile Include="Assets\Scripts\Grendel\Audio\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\Grendel\EditorObjects\EditorObject.cs" />
+     <Compile Include="Assets\Scripts\Grendel\EditorObjects\EditorObjectConnection.cs" />
+     <Compile Include="Assets\Scripts\Grendel\EditorObjects\EditorObjectUpdater.cs" />
+     <Compile Include="Assets\Scripts\Grendel\EditorObjects\Trigger.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\AIBase.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\BaseObject.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\Bullet.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\Cannon.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\CannonBall.cs" />
-     <Compile Include="Assets\Scripts\Grendel\Game\EditorObject.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\Entity.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\EntityManager.cs" />
      <Compile Include="Assets\Scripts\Grendel\Game\FactionManager.cs" />
@@ -83,6 +86,7 @@
      <Compile Include="Assets\Scripts\Grendel\Game\Zombie.cs" />
      <Compile Include="Assets\Scripts\Grendel\Helper\AutoTransparent.cs" />
      <Compile Include="Assets\Scripts\Grendel\Helper\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Grendel\ShellCasing.cs" />
      <Compile Include="Assets\Scripts\Grendel\UI\ScreenNotification.cs" />
      <Compile Include="Assets\Scripts\Grendel\UI\ScreenNotificationManager.cs" />
      <Compile Include="Assets\Scripts\Grendel\Utility\Console.cs" />

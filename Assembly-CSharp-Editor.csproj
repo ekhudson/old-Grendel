@@ -45,7 +45,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\GrendelEditor\AudioManagerEditor.cs" />
+     <Compile Include="Assets\Editor\GrendelEditor\EditorConnectionPoint.cs" />
+     <Compile Include="Assets\Editor\GrendelEditor\EditorObjectInfo.cs" />
      <Compile Include="Assets\Editor\GrendelEditor\LevelManagerEditor.cs" />
+     <Compile Include="Assets\Editor\GrendelEditor\TriggerEditor.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />

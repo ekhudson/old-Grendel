@@ -13,12 +13,13 @@ public class Cannon : MonoBehaviour
 
     public GameObject firePosition;
 	public GameObject MuzzleFlash;
-	public ParticleEmitter P_MuzzleFlash;
+	public GameObject P_MuzzleFlash;
     public GameObject cannonBall;
 	public GameObject bullet;
 	public float bulletFireForce = 1000f;
 	public AudioClip BulletFireSound;
-	public AudioClip GrenadeFireSound;	
+	public AudioClip GrenadeFireSound;
+	public GameObject CaseEjector;
 	
 	private Vector3 targetPos;
 	private Ray _ray;
@@ -55,7 +56,7 @@ public class Cannon : MonoBehaviour
     public void Fire()
     {
         AudioSource.PlayClipAtPoint(GrenadeFireSound, Vector3.zero);		
-		P_MuzzleFlash.Emit();
+		P_MuzzleFlash.particleEmitter.Emit();
 		GameObject cb = (GameObject)Instantiate(cannonBall, firePosition.transform.position, firePosition.transform.rotation);
         cb.transform.LookAt(ReticulePos);
 		cb.rigidbody.AddForce((ReticulePos - transform.position).normalized * bulletFireForce);
@@ -64,7 +65,9 @@ public class Cannon : MonoBehaviour
 	public void BulletFire()
 	{		
 		AudioSource.PlayClipAtPoint(BulletFireSound, Vector3.zero);		
-		P_MuzzleFlash.Emit();
+		P_MuzzleFlash.particleEmitter.Emit();
+		P_MuzzleFlash = (GameObject)Instantiate(CaseEjector, firePosition.transform.position, firePosition.transform.rotation);
+		P_MuzzleFlash.transform.parent = transform;
 		GameObject cb = (GameObject)Instantiate(bullet, firePosition.transform.position, firePosition.transform.rotation);
         cb.transform.LookAt(ReticulePos);
 		cb.rigidbody.AddForce((ReticulePos - transform.position).normalized * bulletFireForce);
@@ -82,7 +85,7 @@ public class Cannon : MonoBehaviour
 		Vector3 screenCenter = new Vector3(0.5f, 0.5f, 0f);
 		_ray = Camera.main.ViewportPointToRay(screenCenter);
 		_rayHit = new RaycastHit();	
-		LayerMask layerMask = 1 << LayerMask.NameToLayer("PlayerLayer") | 1 << LayerMask.NameToLayer("PlayerSearchLayer") | 1 << LayerMask.NameToLayer("ZombieSearchLayer");
+		LayerMask layerMask = 1 << LayerMask.NameToLayer("PlayerLayer") | 1 << LayerMask.NameToLayer("PlayerSearchLayer") | 1 << LayerMask.NameToLayer("ZombieSearchLayer") | 1 << LayerMask.NameToLayer("TriggerLayer");
 		
 		if(Physics.Raycast(_ray, out _rayHit, TargetRange, ~layerMask) && _rayHit.transform != Player.Instance.transform )
 		{

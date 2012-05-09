@@ -17,6 +17,10 @@ public class LevelManagerEditor : Editor {
 	// Override the GUI
 	public override void OnInspectorGUI()
 	{		
+		if (Application.isPlaying) { return; }
+		
+		GUI.changed = false;
+		
 		TheAudioList = GameObject.Find("GameManager").GetComponent<AudioList>();
 		MusicTracks = new string[TheAudioList.MusicTracks.Count];		
 			
@@ -26,23 +30,22 @@ public class LevelManagerEditor : Editor {
 		{			
 			MusicTracks[i] = clip.name;
 			i++;
-		}		
+		}			
 		
 		_target.RandomMusicTrack = EditorGUILayout.Toggle("Random Music Track:", _target.RandomMusicTrack);
 		
 		EditorGUI.BeginDisabledGroup (_target.RandomMusicTrack == true);	
 		
-		_target.MusicTrackIndex = EditorGUILayout.Popup( "Background Music:", _target.MusicTrackIndex, MusicTracks);	
-			
-		EditorGUI.EndDisabledGroup();
+		_target.MusicTrackIndex = EditorGUILayout.Popup( "Background Music:", _target.MusicTrackIndex, MusicTracks);		
 		
-		if (TheAudioList.MusicTracks.Count > 0 && !Application.isPlaying)
+		EditorGUI.EndDisabledGroup();	
+		
+		if (TheAudioList.MusicTracks.Count > 0)
 		{
-			_target.BackgroundMusicTrack =  TheAudioList.MusicTracks[_target.MusicTrackIndex];
-		}
+			_target.BackgroundMusicTrack = TheAudioList.MusicTracks[_target.MusicTrackIndex];
+		}	
 		
-		EditorUtility.SetDirty( _target );
-		
+		if (GUI.changed){ EditorUtility.SetDirty( target ); }			
 		
 	}
 }

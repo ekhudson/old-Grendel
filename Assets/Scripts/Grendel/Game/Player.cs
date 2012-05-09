@@ -144,7 +144,8 @@ public class Player : Entity
 
             _move += pFallSpeed;
 
-            ctrl.Move( _move  * Time.deltaTime);           
+            ctrl.Move( _move  * Time.deltaTime); 
+			//_rigidbody.velocity += (_move * Time.deltaTime);
         }
 
     }//end update

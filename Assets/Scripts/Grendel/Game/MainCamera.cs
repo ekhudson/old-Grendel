@@ -72,7 +72,7 @@ public class MainCamera : Singleton<MainCamera>
 		Ray _ray = Camera.main.ViewportPointToRay(screenCenter);
 		RaycastHit _rayHit = new RaycastHit();	
 		
-		LayerMask layerMask = 1 << LayerMask.NameToLayer("PlayerSearchLayer") | 1 << LayerMask.NameToLayer("ZombieSearchLayer");
+		LayerMask layerMask = 1 << LayerMask.NameToLayer("PlayerSearchLayer") | 1 << LayerMask.NameToLayer("ZombieSearchLayer") | 1 << LayerMask.NameToLayer("TriggerLayer");
 		
 		if(Physics.Raycast(_ray, out _rayHit, _distanceToPlayer, ~layerMask) && _rayHit.transform != Player.Instance.transform )
 		{

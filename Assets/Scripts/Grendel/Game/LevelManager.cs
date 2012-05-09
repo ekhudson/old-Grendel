@@ -24,7 +24,7 @@ public class LevelManager : Singleton<LevelManager> {
 	// Update is called once per frame
 //	void Update () 
 //	{
-//	
+//		Debug.Log(_musicTrackIndex);
 //	}
 	
 	void PlayBackgroundMusicTrack()

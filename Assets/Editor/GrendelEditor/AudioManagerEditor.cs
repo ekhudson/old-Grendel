@@ -11,15 +11,16 @@ public class AudioManagerEditor : Editor {
 	void OnEnable()
 	{
 		_target = (AudioManager)target;
-	FindMusicFiles();
+		FindMusicFiles();
 	}
 	
 	// Override the GUI
 	public override void OnInspectorGUI()
 	{
-		(target as AudioManager).GlobalVolumeMusic = EditorGUILayout.Slider("Global Music Volume: ", (target as AudioManager).GlobalVolumeMusic, 0f, 1f);
-		(target as AudioManager).GlobalVolumeSFX = EditorGUILayout.Slider("Global SFX Volume: ", (target as AudioManager).GlobalVolumeSFX, 0f, 1f);
-				
+		GUI.changed = false;
+		_target.GlobalVolumeMusic = EditorGUILayout.Slider("Global Music Volume: ", (target as AudioManager).GlobalVolumeMusic, 0f, 1f);
+		_target.GlobalVolumeSFX = EditorGUILayout.Slider("Global SFX Volume: ", (target as AudioManager).GlobalVolumeSFX, 0f, 1f);
+		if (GUI.changed){ EditorUtility.SetDirty( target ); }	
 	}	
 	
 	public static void FindMusicFiles()

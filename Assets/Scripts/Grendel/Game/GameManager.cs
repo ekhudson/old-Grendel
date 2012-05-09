@@ -16,14 +16,13 @@ using System.Collections;
 
 public class GameManager : Singleton<GameManager>
 {
-	#region PUBLIC VARIABLES
-	//public static Player PlayerRef;
+	#region PUBLIC VARIABLES	
 	#endregion		
 	
 	protected override void Awake()
 	{		
-		base.Awake();
-		DontDestroyOnLoad(gameObject);
+		//base.Awake();
+		//DontDestroyOnLoad(gameObject);
 	}
 
 	// Use this for initialization
