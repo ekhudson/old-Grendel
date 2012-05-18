@@ -17,7 +17,7 @@ public class LevelManagerEditor : Editor {
 	// Override the GUI
 	public override void OnInspectorGUI()
 	{		
-		if (Application.isPlaying) { return; }
+		if (Application.isPlaying) { return; }	
 		
 		GUI.changed = false;
 		

@@ -65,9 +65,18 @@ public class Trigger : EditorObject
 	
 	void OnDrawGizmos()
 	{
-		base.OnDrawGizmos();		
+		base.OnDrawGizmos();
+		
+		if (Application.isPlaying) { OnPlayGizmos(); } else { OnEditGizmos(); }	
+			
+	}
+	
+	protected override void OnPlayGizmos()
+	{
+		base.OnPlayGizmos();
+		
 		if (ObjectList.Count > 0){ Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
-		Gizmos.DrawWireSphere(transform.position, collider.bounds.extents.x);
+			Gizmos.DrawWireSphere(transform.position, collider.bounds.extents.x);
 		
 		foreach(Collider other in ObjectList)
 		{
@@ -75,6 +84,17 @@ public class Trigger : EditorObject
 			Gizmos.DrawLine(transform.position, other.transform.position);
 		}
 	}
+	
+	protected override void OnEditGizmos()
+	{
+		base.OnEditGizmos();
+		
+		if (_currentActiveObject == gameObject){ return; }
+		
+		Gizmos.color = Color.gray;
+		Gizmos.DrawWireSphere(transform.position, collider.bounds.extents.x);
+	}
+	
 	
 	void OnGUI()
 	{

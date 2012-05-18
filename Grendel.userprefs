@@ -1,19 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\GrendelEditor\EditorObjectInfo.cs">
-    <Files>
-      <File FileName="Assets\Scripts\Grendel\Game\BaseObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Grendel\Game\LevelManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Grendel\EditorObjects\Trigger.cs" Line="31" Column="5" />
-      <File FileName="Assets\Scripts\Grendel\EditorObjects\EditorObject.cs" Line="74" Column="53" />
-      <File FileName="Assets\Editor\GrendelEditor\EditorObjectInfo.cs" Line="133" Column="26" />
-      <File FileName="Assets\Editor\GrendelEditor\TriggerEditor.cs" Line="23" Column="1" />
-      <File FileName="Assets\Scripts\Grendel\Helper\Singleton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Grendel\EditorObjects\EditorObjectConnection.cs" Line="24" Column="24" />
-      <File FileName="Assets\Scripts\Grendel\EditorObjects\EditorObjectUpdater.cs" Line="11" Column="4" />
-      <File FileName="Assets\Editor\GrendelEditor\EditorConnectionPoint.cs" Line="52" Column="47" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

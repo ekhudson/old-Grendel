@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class LevelManager : Singleton<LevelManager> {
+public class LevelManager : Singleton<LevelManager> 
+{
 	
 	public bool RandomMusicTrack = false;
-	public AudioClip BackgroundMusicTrack;
+	public AudioClip BackgroundMusicTrack;	
 	
 	private int _musicTrackIndex; //the index of the currently set music track
 	

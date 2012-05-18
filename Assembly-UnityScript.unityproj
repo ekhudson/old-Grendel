@@ -67,16 +67,17 @@
      <None Include="Assets\Resources\Detonator Explosion Framework\Resources\Detonator\Textures\HeatDistort.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\skybox info.txt" />
      <None Include="Assets\ConsoleLogs\125101 235132.txt" />
-     <None Include="Assets\UnlitDouble.shader" />
+     <None Include="Assets\Grendel Shaders\UnlitDouble.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Reflective.shader" />
      <None Include="Assets\ConsoleLogs\120902 000908.txt" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Particles Additive Culled.shader" />
      <None Include="Assets\ConsoleLogs\125201 235205.txt" />
-     <None Include="Assets\DoubleTransparent.shader" />
+     <None Include="Assets\Grendel Shaders\DoubleTransparent.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Vertex Colored.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap Only.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Lightmap Shaders (Legacy)\Mobile Lightmap AlphaTest.shader" />
-     <None Include="Assets\DoubleSided.shader" />
+     <None Include="Assets\ConsoleLogs\123013 003056.txt" />
+     <None Include="Assets\Grendel Shaders\DoubleSided.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">

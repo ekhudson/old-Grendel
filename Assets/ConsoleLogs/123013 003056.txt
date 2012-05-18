@@ -1,0 +1,56 @@
+User Name: Elliot
+Machine Name: ELLIOT-PC
+OS Platform: Win32NT - OS Version: 6.1.7601.0 - OS Service Pack: 
+Processor Type: Intel(R) Core(TM) i7 CPU 950 @ 3.07GHz - Processor Count: 8
+System Memory: 12280
+GPU: AMD Radeon HD 6900 Series - GPU Memory: 2026 - GPU Shader: 30
+Unity Version: 3.5.0f1
+Unity Editor: True
+
+Total Playtime: 177.4817 
+
+Grendel 12/27/13 00:27:59 - Playing Music Track: 07_Yu_karak_II
+Grendel 12/28/13 00:28:36 - MiniMap Disabled
+Grendel 12/28/13 00:28:40 - MiniMap Enabled
+Grendel 12/28/13 00:28:41 - MiniMap Disabled
+Grendel 12/28/13 00:28:41 - MiniMap Enabled
+Grendel 12/28/13 00:28:42 - MiniMap Disabled
+Elliot 12/29/13 00:29:26 - Test
+Grendel 12/29/13 00:29:26 - Parameter missing
+Elliot 12/29/13 00:29:27 - Test 1
+Grendel 12/29/13 00:29:27 - Success!
+Elliot 12/29/13 00:29:31 - God
+Grendel 12/29/13 00:29:31 - I'm sorry Dave, I can't do that.
+Grendel 12/29/13 00:29:49 - Volume Up - Music: 0.1 SFX: 0.609
+Grendel 12/29/13 00:29:50 - Volume Down - Music: 0 SFX: 0
+Grendel 12/29/13 00:29:51 - Volume Down - Music: -0.1 SFX: -0.1
+Grendel 12/29/13 00:29:51 - Volume Down - Music: -0.2 SFX: -0.2
+Grendel 12/29/13 00:29:51 - Volume Up - Music: -0.1 SFX: -0.1
+Grendel 12/29/13 00:29:51 - Volume Up - Music: 0 SFX: 0
+Grendel 12/29/13 00:29:52 - Volume Up - Music: 0.1 SFX: 0.1
+Grendel 12/29/13 00:29:52 - Volume Up - Music: 0.2 SFX: 0.2
+Grendel 12/29/13 00:29:52 - Volume Up - Music: 0.3 SFX: 0.3
+Grendel 12/29/13 00:29:52 - Volume Up - Music: 0.4 SFX: 0.4
+Grendel 12/29/13 00:29:52 - Volume Up - Music: 0.5 SFX: 0.5
+Grendel 12/29/13 00:29:52 - Volume Up - Music: 0.6 SFX: 0.6
+Grendel 12/29/13 00:29:53 - Volume Up - Music: 0.7 SFX: 0.7
+Grendel 12/30/13 00:30:00 - Volume Down - Music: 0.6 SFX: 0.6
+Grendel 12/30/13 00:30:00 - Volume Down - Music: 0.5 SFX: 0.5
+Grendel 12/30/13 00:30:00 - Volume Down - Music: 0.4 SFX: 0.4
+Grendel 12/30/13 00:30:00 - Volume Down - Music: 0.3 SFX: 0.3
+Grendel 12/30/13 00:30:00 - Volume Down - Music: 0.2 SFX: 0.2
+Grendel 12/30/13 00:30:00 - Volume Down - Music: 0.1 SFX: 0.1
+Grendel 12/30/13 00:30:01 - Volume Down - Music: 1.490116E-08 SFX: 1.490116E-08
+Grendel 12/30/13 00:30:02 - Volume Down - Music: -0.09999999 SFX: -0.09999999
+Grendel 12/30/13 00:30:02 - Volume Down - Music: -0.2 SFX: -0.2
+Grendel 12/30/13 00:30:03 - Volume Down - Music: -0.3 SFX: -0.3
+Grendel 12/30/13 00:30:03 - Volume Down - Music: -0.4 SFX: -0.4
+Grendel 12/30/13 00:30:03 - Volume Down - Music: -0.5 SFX: -0.5
+Grendel 12/30/13 00:30:03 - Volume Down - Music: -0.6 SFX: -0.6
+Grendel 12/30/13 00:30:04 - Volume Down - Music: -0.7 SFX: -0.7
+Grendel 12/30/13 00:30:04 - Volume Down - Music: -0.8 SFX: -0.8
+Grendel 12/30/13 00:30:04 - Volume Down - Music: -0.9 SFX: -0.9
+Grendel 12/30/13 00:30:04 - Volume Down - Music: -1 SFX: -1
+Grendel 12/30/13 00:30:04 - Volume Down - Music: -1.1 SFX: -1.1
+Elliot 12/30/13 00:30:56 - OutputLog
+Grendel 12/30/13 00:30:56 - Log File 123013 003056.txt Created

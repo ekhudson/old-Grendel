@@ -5,7 +5,7 @@ using System.Collections;
 public class EditorObjectConnection
 {	
 	public enum CONNECTION_TYPE {SUBJECT_ACTIVATE, SUBJECT_DEACTIVATE, SUBJECT_TOGGLE, MASTER_ACTIVATE, MASTER_DEACTIVATE, MASTER_TOGGLE}
-	public CONNECTION_TYPE ConnectionType;
+	public CONNECTION_TYPE ConnectionType;		
 	public EditorObject ConnectedEditorObject;	
 	//public float Delay = 0f; //probably going to use a node for this
 	protected Color _connectionColor;
@@ -38,11 +38,11 @@ public class EditorObjectConnection
 				break;
 			
 				case CONNECTION_TYPE.MASTER_ACTIVATE:
-					_connectionColor =	Color.green; //TODO: Change to dark colours
+					_connectionColor =	GrendelColor.DarkGreen; 
 				break;
 			
 				case CONNECTION_TYPE.MASTER_DEACTIVATE:
-					_connectionColor =	Color.red; //TODO: Change to dark colours
+					_connectionColor =	GrendelColor.DarkRed; 
 				break;
 			
 				case CONNECTION_TYPE.MASTER_TOGGLE: 
