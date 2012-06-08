@@ -14,10 +14,16 @@ public static class GrendelColor
 	public static Color Pink = new Color(1, 0, 0.5f, 1);
 	public static Color DarkPink = new Color(0.5f, 0, 0.25f, 1);
 	public static Color GrendelYellow = new Color(1, 0.88f, 0, 1);
+		
+	public static Color RandomColor
+	{
+		get{ return new Color(Random.Range(0f,1f), Random.Range(0f,1f), Random.Range(0f,1f), 1); }
+	}
 	
 	public static Color CustomAlpha(Color color, float alpha)
 	{
 		alpha = Mathf.Clamp(alpha, 0f, 1f);
 		return new Color(color.r, color.g, color.b, alpha);
 	}
+	
 }

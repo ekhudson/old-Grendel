@@ -44,6 +44,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\EditorMessengerAdv\EditorCallback.cs" />
+     <Compile Include="Assets\Editor\EditorMessengerAdv\EditorMessenger.cs" />
      <Compile Include="Assets\Editor\GrendelEditor\AudioManagerEditor.cs" />
      <Compile Include="Assets\Editor\GrendelEditor\EditorConnectionPoint.cs" />
      <Compile Include="Assets\Editor\GrendelEditor\EditorObjectConnectionType.cs" />

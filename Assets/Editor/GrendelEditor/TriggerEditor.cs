@@ -8,7 +8,7 @@ public class TriggerEditor : EditorObjectInfo<Trigger>
 {	
 	protected override void OnEnable()
 	{		
-		base.OnEnable();			
+		base.OnEnable();	
 	}
 	
 	protected override void OnSceneGUI()

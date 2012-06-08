@@ -9,10 +9,16 @@ public class EditorObjectConnection
 	public EditorObject ConnectedEditorObject;	
 	//public float Delay = 0f; //probably going to use a node for this
 	protected Color _connectionColor;
+	protected Color _connectionColorDark;
 	
 	public Color ConnectionColor
 	{
 		get { return _connectionColor; }
+	}
+	
+	public Color ConnectionColorDark
+	{
+		get { return _connectionColorDark; }
 	}
 	
 	public EditorObjectConnection(CONNECTION_TYPE connectionType)
@@ -27,14 +33,17 @@ public class EditorObjectConnection
 		{
 				case CONNECTION_TYPE.SUBJECT_ACTIVATE:					
 					_connectionColor =	Color.green;
+					_connectionColorDark = GrendelColor.DarkGreen;
 				break;
 			
 				case CONNECTION_TYPE.SUBJECT_DEACTIVATE:
 					_connectionColor =	Color.red;
+					_connectionColorDark = GrendelColor.DarkRed;
 				break;
 			
 				case CONNECTION_TYPE.SUBJECT_TOGGLE:
 					_connectionColor =	Color.yellow;
+					_connectionColorDark = GrendelColor.DarkYellow;
 				break;
 			
 				case CONNECTION_TYPE.MASTER_ACTIVATE:

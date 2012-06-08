@@ -126,6 +126,8 @@ public class Console : Singleton<Console>
 				InputString = ""; //reset the textfield string
 			}		
 			
+			
+			
 			//check if we have previous commands to show
 			if (ConsoleCommandList.Count > 0)
 			{
@@ -136,11 +138,11 @@ public class Console : Singleton<Console>
 					
 					//Show Command Detail Text
 					GUI.TextArea(new Rect(0, (ConsoleHeight - 50) - i * 20, Screen.width, 20), ConsoleCommandList[count - 1].DetailText, Style_Detail);
-					
+										
 					//create previous commands as buttons, so the user can click on them to reuse previous commands
 					if(GUI.Button(new Rect(DetailView == true ? 185 : 0, (ConsoleHeight - 50) - i * 20, Screen.width, 20), ConsoleCommandList[count - 1].TextString, ConsoleCommandList[count - 1].Style))					
 					{
-						 //only allow the user reuse their commands (as opposed to reusing Admin or Error prompts
+						 //only allow the user to reuse their commands (as opposed to reusing Admin or Error prompts						
 						if (ConsoleCommandList[count -1].Style == Style_UserPrevious){ InputString = ConsoleCommandList[count - 1].TextString; }			
 					}
 				}

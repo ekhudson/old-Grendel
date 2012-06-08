@@ -14,6 +14,7 @@ public class Cannon : MonoBehaviour
     public GameObject firePosition;
 	public GameObject MuzzleFlash;
 	public GameObject P_MuzzleFlash;
+	public Light MuzzleFlash_Light;
     public GameObject cannonBall;
 	public GameObject bullet;
 	public float bulletFireForce = 1000f;
@@ -50,13 +51,18 @@ public class Cannon : MonoBehaviour
         }
 		
 		TraceToReticule();
-        ++counter;       
+        ++counter; 
+		
+		if (MuzzleFlash_Light.intensity > 0)
+		{
+			MuzzleFlash_Light.intensity -= 1f * Time.deltaTime;
+		}
     }
 
     public void Fire()
     {
         AudioSource.PlayClipAtPoint(GrenadeFireSound, Vector3.zero);		
-		P_MuzzleFlash.particleEmitter.Emit();
+		P_MuzzleFlash.particleEmitter.Emit();		
 		GameObject cb = (GameObject)Instantiate(cannonBall, firePosition.transform.position, firePosition.transform.rotation);
         cb.transform.LookAt(ReticulePos);
 		cb.rigidbody.AddForce((ReticulePos - transform.position).normalized * bulletFireForce);
@@ -65,13 +71,14 @@ public class Cannon : MonoBehaviour
 	public void BulletFire()
 	{		
 		AudioSource.PlayClipAtPoint(BulletFireSound, Vector3.zero);		
+		MuzzleFlash_Light.intensity = 1f;
 		P_MuzzleFlash.particleEmitter.Emit();
 		P_MuzzleFlash = (GameObject)Instantiate(CaseEjector, firePosition.transform.position, firePosition.transform.rotation);
-		P_MuzzleFlash.transform.parent = transform;
+		P_MuzzleFlash.transform.parent = transform;		
 		GameObject cb = (GameObject)Instantiate(bullet, firePosition.transform.position, firePosition.transform.rotation);
         cb.transform.LookAt(ReticulePos);
 		cb.rigidbody.AddForce((ReticulePos - transform.position).normalized * bulletFireForce);
-	}
+	}	
 	
 	void OnDrawGizmos()
 	{

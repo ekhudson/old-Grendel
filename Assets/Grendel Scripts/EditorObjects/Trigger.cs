@@ -10,8 +10,10 @@ public class Trigger : EditorObject
 	public event OnTriggerExitHandler TriggerExited;
 	
 	public List<Collider> ObjectList = new List<Collider>();
+	
 	private List<Collider> _removeList = new List<Collider>();
 	private float _scrubTimeInterval = 0.5f; //how often the list is scrubbed for nulls
+	
 	
 	// Use this for initialization
 	protected override void Start () {
@@ -68,6 +70,7 @@ public class Trigger : EditorObject
 		base.OnDrawGizmos();
 		
 		if (Application.isPlaying) { OnPlayGizmos(); } else { OnEditGizmos(); }	
+		_gizmoName = "Gizmo_Trigger";
 			
 	}
 	
@@ -81,6 +84,7 @@ public class Trigger : EditorObject
 		foreach(Collider other in ObjectList)
 		{
 			if (other == null){ continue; }
+			Gizmos.color = Color.magenta;
 			Gizmos.DrawLine(transform.position, other.transform.position);
 		}
 	}

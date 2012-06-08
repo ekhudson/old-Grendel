@@ -73,6 +73,7 @@
      <Compile Include="Assets\Grendel Scripts\Helper\AutoTransparent.cs" />
      <Compile Include="Assets\Grendel Scripts\Helper\GrendelColor.cs" />
      <Compile Include="Assets\Grendel Scripts\Helper\GrendelCustomStyles.cs" />
+     <Compile Include="Assets\Grendel Scripts\Helper\ObjectComparer.cs" />
      <Compile Include="Assets\Grendel Scripts\Helper\Singleton.cs" />
      <Compile Include="Assets\Grendel Scripts\ShellCasing.cs" />
      <Compile Include="Assets\Grendel Scripts\UI\ScreenNotification.cs" />
@@ -96,6 +97,8 @@
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSound.cs" />
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSparks.cs" />
      <Compile Include="Assets\Resources\Detonator Explosion Framework\System\DetonatorSpray.cs" />
+     <Compile Include="Assets\Scripts\AdvancedCSharpMessenger\Callback.cs" />
+     <Compile Include="Assets\Scripts\AdvancedCSharpMessenger\Messenger.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Vertex Colored Shaders\Mobile Transparent Vertex Color.shader" />
