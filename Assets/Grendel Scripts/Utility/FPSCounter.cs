@@ -32,6 +32,11 @@ public class FPSCounter : Singleton<FPSCounter>
 	
 	#endregion
 	
+	void Awake()
+	{
+		base.Awake();
+	}
+	
 	public bool ShowFPS
 	{
 		get { return _bShowFPS; }

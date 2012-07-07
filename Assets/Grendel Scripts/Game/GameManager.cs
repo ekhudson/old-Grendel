@@ -16,18 +16,20 @@ using System.Collections;
 
 public class GameManager : Singleton<GameManager>
 {
-	#region PUBLIC VARIABLES	
+	#region PUBLIC VARIABLES
+	public string ApplicationTitle = "Grendel";
+	public string ApplicationVersion = "1.0";
+	public bool DebugBuild = true;
 	#endregion		
 	
 	protected override void Awake()
 	{		
-		//base.Awake();
-		//DontDestroyOnLoad(gameObject);
+		base.Awake();		
 	}
 
 	// Use this for initialization
 	void Start () 
 	{				
-	
+		Console.Instance.OutputToConsole(string.Format("Starting up {0} {1}", ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
 	}
 }

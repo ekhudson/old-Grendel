@@ -19,6 +19,7 @@ public class LevelManager : Singleton<LevelManager>
 	// Use this for initialization
 	void Start () 
 	{
+		Console.Instance.OutputToConsole(string.Format("LevelManager: {0} loaded, calling music track.", Application.loadedLevelName), Console.Instance.Style_Admin);
 		PlayBackgroundMusicTrack();		
 	}
 	

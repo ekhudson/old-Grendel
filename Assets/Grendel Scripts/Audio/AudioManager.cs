@@ -29,8 +29,8 @@ public class AudioManager : Singleton<AudioManager>
 	
 	// Use this for initialization
 	void Start () 
-	{
-		//not sure if I need this yet
+	{		
+		Console.Instance.OutputToConsole(string.Format("AudioManager: Recognizing {0} Music Tracks and {1} Sound Effects.", AudioList.Instance.MusicTracks.Count, AudioList.Instance.SFX.Length), Console.Instance.Style_Admin);
 	}
 	
 	// Update is called once per frame
@@ -56,10 +56,7 @@ public class AudioManager : Singleton<AudioManager>
 	}
 	
 	public void UpdateAudio()
-	{
-		//List<AudioClip> tempList = new List<AudioClip>();
-		//AudioDictionary.Values.
-		
+	{		
 		foreach(AudioSource source in AudioDictionary.Values)
 		{
 			source.volume = GlobalVolumeSFX = GlobalVolumeMusic; //TODO: Separate these	
@@ -87,11 +84,11 @@ public class AudioManager : Singleton<AudioManager>
 		try
 		{
 			source.Play(1000);
-			Console.Instance.OutputToConsole("Playing Music Track: " + musicTrack.name, Console.Instance.Style_Admin);
+			Console.Instance.OutputToConsole("AudioManager: Playing Music Track: " + musicTrack.name, Console.Instance.Style_Admin);
 		}
 		catch
 		{
-			Console.Instance.OutputToConsole("Error Playing Music Track: " + musicTrack.name, Console.Instance.Style_Error);
+			Console.Instance.OutputToConsole("AudioManager: Error Playing Music Track: " + musicTrack.name, Console.Instance.Style_Error);
 		}	
 		
 	}

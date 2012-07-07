@@ -26,4 +26,11 @@ public static class GrendelColor
 		return new Color(color.r, color.g, color.b, alpha);
 	}
 	
+	public static Color FlashingColor(Color color, float time)
+	{
+		float alpha = Mathf.PingPong( (Time.realtimeSinceStartup * time), 1f);
+		//float alpha = Random.Range(0f,1f);
+		return new Color(color.r, color.g, color.b, alpha); 
+	}
+	
 }

@@ -1,22 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\GrendelEditor\EditorObjectInfo.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Grendel Scripts\Utility\ConsoleCommandList.cs">
     <Files>
-      <File FileName="Assets\Grendel Scripts\Game\Cannon.cs" Line="1" Column="1" />
-      <File FileName="Assets\Editor\GrendelEditor\EditorObjectInfo.cs" Line="783" Column="36" />
-      <File FileName="Assets\Grendel Scripts\EditorObjects\Trigger.cs" Line="1" Column="1" />
-      <File FileName="Assets\Grendel Scripts\EditorObjects\EditorObject.cs" Line="67" Column="5" />
-      <File FileName="Assets\Scripts\AdvancedCSharpMessenger\Callback.cs" Line="4" Column="64" />
-      <File FileName="Assets\Scripts\AdvancedCSharpMessenger\Messenger.cs" Line="274" Column="5" />
-      <File FileName="Assets\Editor\GrendelEditor\TriggerEditor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Editor\EditorMessengerAdv\EditorMessenger.cs" Line="140" Column="1" />
-      <File FileName="Assets\Editor\EditorMessengerAdv\EditorCallback.cs" Line="3" Column="59" />
-      <File FileName="Assets\Grendel Scripts\EditorObjects\EditorObjectConnection.cs" Line="1" Column="1" />
-      <File FileName="Assets\Grendel Scripts\Utility\Console.cs" Line="143" Column="9" />
+      <File FileName="Assets\Grendel Scripts\Utility\ConsoleCommandList.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Utility\ConsoleCommandParams.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Game\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Utility\Console.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Audio\AudioList.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Utility\ConsoleLog.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Utility\ConsoleCommandRegistry.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\EditorObjects\EditorObjectUpdater.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Audio\AudioManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\GrendelEditor\Utility\ConsoleCommandEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\GrendelEditor\EditorObjectInfo.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Elliot\git\Grendel\Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" line="193" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

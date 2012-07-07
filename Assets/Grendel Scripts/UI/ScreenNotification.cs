@@ -42,6 +42,11 @@ public class ScreenNotification
 		get{return _styleToUse;}
 	}
 	
+	public string Text
+	{
+		get{ return _textToShow; }
+	}
+	
 	public Color BoxColor
 	{
 		get{return _defaultBoxColor;}

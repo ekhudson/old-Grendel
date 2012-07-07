@@ -32,9 +32,7 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 	
 	public void AddNotification(ScreenNotification notification)
 	{		
-		_notificationsList.Add(notification);
-		_notificationsList.Remove(_currentNotification);
-		_currentNotification = null;
+		_notificationsList.Add(notification);	
 	}
 	
 	public void RemoveNotification(ScreenNotification notification)
@@ -45,6 +43,11 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 	
 	void OnGUI()
 	{
+		if (!GameManager.Instance.DebugBuild)
+		{
+			return;
+		}
+		
 		if (_currentNotification == null && _notificationsList.Count > 0)
 		{
 			_currentNotification = _notificationsList[0];
@@ -53,7 +56,15 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 		
 		if (_currentNotification != null)
 		{			
-			if (!Console.Instance.ShowConsole){ _currentNotification.DisplayNotification(); }
+			if (!Console.Instance.ShowConsole)
+			{ 
+				//_currentNotification.DisplayNotification();
+				foreach(ScreenNotification notification in NotificationList)
+				{
+					GUILayout.Label(notification.Text, notification.NotificationStyle, GUILayout.Width( (Screen.width * 0.25f) ));
+				}
+				
+			}
 		}
 		else
 		{
@@ -64,7 +75,7 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 	
 	IEnumerator HoldNotification()
 	{		
-		yield return new WaitForSeconds(_currentNotification.HoldTime);
+		yield return new WaitForSeconds(NotificationList.Count > 1 ? _currentNotification.HoldTime * 0.25f : _currentNotification.HoldTime);
 		StartCoroutine ( "FadeNotification" );
 	}
 	

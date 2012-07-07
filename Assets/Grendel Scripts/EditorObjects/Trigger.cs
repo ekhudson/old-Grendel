@@ -6,19 +6,22 @@ public class Trigger : EditorObject
 {
 	public delegate void OnTriggerEnterHandler(Trigger trigger, Collider intruder);
 	public delegate void OnTriggerExitHandler(Trigger trigger, Collider intruder);
-	public event OnTriggerEnterHandler TriggerEntered;
-	public event OnTriggerExitHandler TriggerExited;
 	
 	public List<Collider> ObjectList = new List<Collider>();
 	
 	private List<Collider> _removeList = new List<Collider>();
 	private float _scrubTimeInterval = 0.5f; //how often the list is scrubbed for nulls
 	
+	protected event EditorObjectEventHandler OnEnterEvent;
+	protected event EditorObjectEventHandler OnExitEvent;
+	protected event EditorObjectEventHandler OnStayEvent;
+	
 	
 	// Use this for initialization
-	protected override void Start () {
-
-		base.Start();
+	protected override void Start () 
+	{
+		base.Start();		
+		
 		StartCoroutine( ScrubList() );
 	}	
 	
@@ -33,6 +36,7 @@ public class Trigger : EditorObject
 			{
 				if (other != null)
 				{
+					//Messenger.Broadcast<Trigger, Entity>("OnTriggerStay", this, EntityManager.EntityDictionary[other.gameObject.GetInstanceID()]);
 					continue;
 				}
 				else
@@ -44,28 +48,31 @@ public class Trigger : EditorObject
 			foreach(Collider other in _removeList)
 			{				
 				ObjectList.Remove(other);				
-			}
+			}		
 			
 			_removeList.Clear();
 			
 			yield return new WaitForSeconds(_scrubTimeInterval);
 		}		
-		
 	}
 	
-	virtual protected void OnTriggerEnter(Collider collider)
+	virtual public void OnTriggerEnter(Collider collider)
 	{		
-		if (TriggerEntered != null){ TriggerEntered(this, collider); }
+		//if (TriggerEntered != null){ TriggerEntered(this, collider); }
 		ObjectList.Add(collider);
+		//Messenger.Broadcast<Trigger, Entity>("OnTriggerEnter", this, EntityManager.EntityDictionary[collider.gameObject.GetInstanceID()]);
+		//CallSubjects();
+		Activate(this);
 	}
 	
 	virtual protected void OnTriggerExit(Collider collider)
 	{		
-		if (TriggerExited != null){ TriggerExited(this, collider); }
+		//if (TriggerExited != null){ TriggerExited(this, collider); }
 		ObjectList.Remove(collider);
+		Messenger.Broadcast<Trigger, Entity>("OnTriggerExit", this, EntityManager.EntityDictionary[collider.gameObject.GetInstanceID()]);
 	}
 	
-	void OnDrawGizmos()
+	protected override void OnDrawGizmos()
 	{
 		base.OnDrawGizmos();
 		
@@ -97,12 +104,13 @@ public class Trigger : EditorObject
 		
 		Gizmos.color = Color.gray;
 		Gizmos.DrawWireSphere(transform.position, collider.bounds.extents.x);
-	}
-	
+	}	
 	
 	void OnGUI()
 	{
 		OnSceneGUI();
 	}
+	
+	
 	
 }

@@ -52,7 +52,7 @@ public static class ConsoleLog
 		
 		
 		//Begin dumping the console contents
-		foreach(Console.ConsoleLine command in Console.Instance.ConsoleCommandList)
+		foreach(Console.ConsoleLine command in Console.Instance.ConsoleLineList)
 		{	
 			try
 			{

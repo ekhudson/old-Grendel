@@ -4,62 +4,74 @@ using System.Collections;
 [System.Serializable]
 public class EditorObjectConnection
 {	
-	public enum CONNECTION_TYPE {SUBJECT_ACTIVATE, SUBJECT_DEACTIVATE, SUBJECT_TOGGLE, MASTER_ACTIVATE, MASTER_DEACTIVATE, MASTER_TOGGLE}
-	public CONNECTION_TYPE ConnectionType;		
-	public EditorObject ConnectedEditorObject;	
-	//public float Delay = 0f; //probably going to use a node for this
-	protected Color _connectionColor;
-	protected Color _connectionColorDark;
+	//PUBLIC VARIABLES
+	public EditorObject Caller;
+	public EditorObject Subject;
+	public EditorObject.EditorObjectMessage Message = EditorObject.EditorObjectMessage.Activate;
 	
-	public Color ConnectionColor
+	//PUBLIC VARIABLES (HIDDEN)
+	[HideInInspector]
+	public string GUID; //used to easily match connections when testing between objects
+	
+	//PROTECTED VARIABLES
+	protected Color _messageColor;
+	protected Color _messageColorDark;
+	
+	//PROPERTIES
+	public Color MessageColor
 	{
-		get { return _connectionColor; }
+		get { return _messageColor; }
 	}
 	
-	public Color ConnectionColorDark
+	public Color MessageColorDark
 	{
-		get { return _connectionColorDark; }
-	}
+		get { return _messageColorDark; }
+	}	
 	
-	public EditorObjectConnection(CONNECTION_TYPE connectionType)
+	//Constructor
+	public EditorObjectConnection(EditorObject.EditorObjectMessage message)
 	{
-		ConnectionType = connectionType;		
+		Message = message;
+		GUID = System.Guid.NewGuid().ToString();
 		SetColor();		
 	}
 	
 	public void SetColor()
 	{		
-		switch(ConnectionType)
+		switch(Message)
 		{
-				case CONNECTION_TYPE.SUBJECT_ACTIVATE:					
-					_connectionColor =	Color.green;
-					_connectionColorDark = GrendelColor.DarkGreen;
+				case EditorObject.EditorObjectMessage.None:						
+					_messageColor =	Color.white;
+					_messageColorDark = Color.gray;					
+				break;
+		
+				case EditorObject.EditorObjectMessage.Activate:					
+					_messageColor =	Color.green;
+					_messageColorDark = GrendelColor.DarkGreen;
 				break;
 			
-				case CONNECTION_TYPE.SUBJECT_DEACTIVATE:
-					_connectionColor =	Color.red;
-					_connectionColorDark = GrendelColor.DarkRed;
+				case EditorObject.EditorObjectMessage.Deactivate:	
+					_messageColor =	Color.red;
+					_messageColorDark = GrendelColor.DarkRed;
 				break;
 			
-				case CONNECTION_TYPE.SUBJECT_TOGGLE:
-					_connectionColor =	Color.yellow;
-					_connectionColorDark = GrendelColor.DarkYellow;
+				case EditorObject.EditorObjectMessage.Toggle:	
+					_messageColor =	Color.yellow;
+					_messageColorDark = GrendelColor.DarkYellow;
 				break;
 			
-				case CONNECTION_TYPE.MASTER_ACTIVATE:
-					_connectionColor =	GrendelColor.DarkGreen; 
+				case EditorObject.EditorObjectMessage.Enable:	
+					_messageColor = Color.magenta;
+					_messageColorDark = GrendelColor.DarkMagenta;
 				break;
 			
-				case CONNECTION_TYPE.MASTER_DEACTIVATE:
-					_connectionColor =	GrendelColor.DarkRed; 
-				break;
-			
-				case CONNECTION_TYPE.MASTER_TOGGLE: 
-					_connectionColor =	Color.yellow; //TODO: Change to dark colours
-				break;
+				case EditorObject.EditorObjectMessage.Disable:
+					_messageColor = GrendelColor.Orange;
+					_messageColorDark =	GrendelColor.DarkOrange; 
+				break;			
 				
 				default:					
-					_connectionColor =	Color.grey; //TODO: Change to dark colours					
+					_messageColor =	Color.grey; //TODO: Change to dark colours					
 				break;
 		}		
 	}

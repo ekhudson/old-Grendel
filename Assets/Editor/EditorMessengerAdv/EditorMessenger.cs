@@ -304,5 +304,6 @@ public sealed class MessengerHelper : MonoBehaviour {
     //Clean up eventTable every time a new level loads.
     public void OnDisable() {
         EditorMessenger.Cleanup();
+		if (!Application.isPlaying){ DestroyImmediate(gameObject); }
     }
 }

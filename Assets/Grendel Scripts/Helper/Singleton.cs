@@ -22,7 +22,15 @@ public class Singleton<T> : MonoBehaviour where T : class
 	
 	static public T Instance
 	{
-		get {return _instance;}
+		get 
+		{
+//			if (_instance == null)
+//			{
+//				Debug.LogWarning(string.Format("Component of type <{0}> does not exist in the scene", typeof(T).ToString() ));				
+//			}		
+			
+			return _instance;
+		}
 	}
 		
 	virtual protected void Awake()
@@ -36,7 +44,8 @@ public class Singleton<T> : MonoBehaviour where T : class
 		}
 		else
 		{
-			Destroy( gameObject );
+			if(GameManager.Instance.DebugBuild){ Debug.Log("Destroying: " + typeof(T).ToString() ); }
+			Destroy( this );
 		}
 	}
 			
