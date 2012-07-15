@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Trigger : EditorObject 
 {
 	public delegate void OnTriggerEnterHandler(Trigger trigger, Collider intruder);

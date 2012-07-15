@@ -19,6 +19,7 @@ public class LevelManagerEditor : Editor {
 	{		
 		if (Application.isPlaying) { return; }	
 		
+		
 		GUI.changed = false;
 		
 		TheAudioList = GameObject.Find("GameManager").GetComponent<AudioList>();

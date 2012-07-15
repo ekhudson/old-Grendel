@@ -13,24 +13,19 @@ public class EditorObjectInfo<T> : Editor where T : class
 	protected int _editorWindowWidth = 320;
 	protected int _editorWindowHeight = 192;
 	
-	//protected List<EditorObjectConnection> _subjectActivateList = new List<EditorObjectConnection>();
-	//protected List<EditorObjectConnection> _deactivateList = new List<EditorObjectConnection>();
-	//protected List<EditorObjectConnection> _toggleList = new List<EditorObjectConnection>();
-	//protected List<EditorObjectConnection> _ActivateList = new List<EditorObjectConnection>();
-	//protected List<EditorObjectConnection> _deactivateList = new List<EditorObjectConnection>();
-	//protected List<EditorObjectConnection> _toggleList = new List<EditorObjectConnection>();
-	
-	protected List<EditorObjectConnection> _activateList = new List<EditorObjectConnection>();
-	protected List<EditorObjectConnection> _deactivateList = new List<EditorObjectConnection>();
-	protected List<EditorObjectConnection> _toggleList = new List<EditorObjectConnection>();
-	protected List<EditorObjectConnection> _enableList = new List<EditorObjectConnection>();
-	protected List<EditorObjectConnection> _disableList = new List<EditorObjectConnection>();
-
 	protected bool _quickMenu = false;
 	protected static EditorObject _currentHoveredObject;
 	protected Camera _currentCamera;
 	protected int _toolbarInt;
 	protected Dictionary<string, int> _nameConflictCounts = new Dictionary<string, int>();
+	
+	[MenuItem("Assets/Create/ConnectionRegistry")]
+	public static void CreateRegistry()
+	{
+		ConnectionRegistry asset = ScriptableObject.CreateInstance<ConnectionRegistry>();
+		
+		AssetDatabase.CreateAsset(asset, "Assets/Resources/ConnectionRegistry/ConnectionRegistry.asset");
+	}
 	
 	virtual public EditorObject Target
 	{		
@@ -39,8 +34,7 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	virtual protected void OnEnable()
 	{		
-		if (!_target) { _target = target as EditorObject;}
-		EditorMessenger.AddListener<EditorObject>("EditorObject Hovered", OnEditorObjectHover);
+		if (!_target) { _target = target as EditorObject;}		
 		CheckNameConflicts();
 		//VerifyConnections();
 		//EditorApplication.ExecuteMenuItem("Grendel/Show Toolbar");
@@ -48,8 +42,7 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	void OnDisable()
 	{
-		CheckNameConflicts();
-		EditorMessenger.Cleanup();
+		CheckNameConflicts();		
 	}	
 	
 	protected void OnEditorObjectHover(EditorObject eo)
@@ -151,18 +144,19 @@ public class EditorObjectInfo<T> : Editor where T : class
 	virtual protected void DrawInfo()
 	{				
 		Vector3 screenPos = new Vector3(16, (Screen.height - _editorWindowHeight) - 32 ,0);	
-//		
+		
 		Handles.BeginGUI();			
-//
+
 		GUILayout.Window(0, new Rect(screenPos.x, screenPos.y, Screen.width, _editorWindowHeight), InfoWindow, "", GUI.skin.box);		
-//
+
 		Handles.EndGUI();		
-//						
+						
 		DrawConnectionLines();	
-//		
+		
 		DrawSearchLine();		
-//		
-//		EditorUtility.SetDirty(_target);
+		
+		EditorUtility.SetDirty(_target);
+		EditorUtility.SetDirty(EditorObjectManager.DesignInstance);
 	}
 	
 	virtual public void InfoWindow(int windowID)
@@ -211,11 +205,6 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	void SortConnections()
 	{		
-		_activateList.Clear();
-		_deactivateList.Clear();
-		_toggleList.Clear();
-		_enableList.Clear();
-		_disableList.Clear();
 		
 		foreach(EditorObjectConnection connection in _target.Connections)
 		{			
@@ -226,50 +215,60 @@ public class EditorObjectInfo<T> : Editor where T : class
 			
 			connection.SetColor();					
 			
-			switch(connection.Message)
-			{
-				case EditorObject.EditorObjectMessage.Activate:
-				
-					_activateList.Add(connection);				
-				
-				break;
-				
-				case EditorObject.EditorObjectMessage.Deactivate:
-				
-					_deactivateList.Add(connection);
-				
-				break;
-				
-				case EditorObject.EditorObjectMessage.Toggle:
-				
-					_toggleList.Add(connection);
-								
-				break;
-				
-				case EditorObject.EditorObjectMessage.Enable:	
-				
-					_enableList.Add(connection);
-							
-				break;
-				
-				case EditorObject.EditorObjectMessage.Disable:
-				
-					_disableList.Add(connection);
-								
-				break;
-				
-				default:				
-								
-				break;				
-			}			
+//			switch(connection.Message)
+//			{
+//				case EditorObject.EditorObjectMessage.Activate:
+//				
+//					_activateList.Add(connection);				
+//				
+//				break;
+//				
+//				case EditorObject.EditorObjectMessage.Deactivate:
+//				
+//					_deactivateList.Add(connection);
+//				
+//				break;
+//				
+//				case EditorObject.EditorObjectMessage.Toggle:
+//				
+//					_toggleList.Add(connection);
+//								
+//				break;
+//				
+//				case EditorObject.EditorObjectMessage.Enable:	
+//				
+//					_enableList.Add(connection);
+//							
+//				break;
+//				
+//				case EditorObject.EditorObjectMessage.Disable:
+//				
+//					_disableList.Add(connection);
+//								
+//				break;
+//				
+//				default:				
+//								
+//				break;				
+//			}			
 		}
 	}
 	
 	virtual protected void DrawConnectionLines()
 	{	
-		foreach(EditorObjectConnection connection in _target.Connections)
+		
+		if (ConnectionRegistry.Instance == null)
 		{
-			
+			ConnectionRegistry.Instance = AssetDatabase.LoadAssetAtPath("Assets/Resources/ConnectionRegistry/ConnectionRegistry.asset", typeof(ConnectionRegistry)) as ConnectionRegistry;
+		}
+		
+		if (ConnectionRegistry.Instance.Registry.Count <= 0)
+		{
+			return;
+		}
+		
+		foreach(EditorObjectConnection connection in ConnectionRegistry.Instance.Registry)
+		{
 			if (connection.Subject == null)
 			{
 				continue;
@@ -347,19 +346,28 @@ public class EditorObjectInfo<T> : Editor where T : class
 			Vector3 origin = Vector3.zero;
 			origin.x += _editorWindowWidth;						
 				
+			if (ConnectionRegistry.Instance == null)
+			{
+				ConnectionRegistry.Instance = AssetDatabase.LoadAssetAtPath("Assets/Resources/ConnectionRegistry/ConnectionRegistry.asset", typeof(ConnectionRegistry)) as ConnectionRegistry;
+			}
 			
-			for (int i = (_target.Connections.Count - 1); i >= 0; i--)
-			{							
-				if (_target.Connections[i] == null)
-				{
-					continue;
-				}
-			
-				DrawConnectionBox(_target.Connections[i].Caller != _target ? _target.Connections[i].MessageColorDark : _target.Connections[i].MessageColor, 
-								  _target.Connections[i], origin);
-				origin.x += 192;		
+			if (ConnectionRegistry.Instance.Registry.Count <= 0)
+			{
+				return;
 			}
 		
+			foreach(EditorObjectConnection connection in ConnectionRegistry.Instance.Registry)
+			{	
+				if (connection.Caller != Target)
+				{
+					continue;
+				}				
+			
+				DrawConnectionBox(connection.MessageColor, connection, origin);
+				origin.x += 192;		
+			}
+			
+			
 			GUI.color = Color.green;
 			
 			if (_toolbarInt == 0)
@@ -368,58 +376,7 @@ public class EditorObjectInfo<T> : Editor where T : class
 			}		
 		
 			GUILayout.EndHorizontal();		
-//				
-//			origin.y += 64;
-//			origin.x = _editorWindowWidth;
-//		
-//			GUILayout.BeginHorizontal();			
-//			
-//			foreach(EditorObjectConnection eoc in _toolbarInt == 0 ? _activateList : _activateList)
-//			{
-//				DrawConnectionBox(Color.red, eoc, origin);
-//				origin.x += 192;
-//			}
-//		
-//			GUI.color = Color.red;
-		
-//			if (_toolbarInt == 0)
-//			{
-//				_target.LookingForSubject = GUI.Toggle(new Rect(origin.x, origin.y, 64, 64), _target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.red, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));
-//			}
-//		
-//			if (_target.LookingForSubject)
-//			{
-//				_target.LookingForSubject = false;
-//				_target.LookingForSubject = false;
-//			}	
-		
-//			GUILayout.EndHorizontal();
-		
-//			origin.y += 64;
-//			origin.x = _editorWindowWidth;
-//		
-//			GUILayout.BeginHorizontal();		
-//			
-//			foreach(EditorObjectConnection eoc in _toolbarInt == 0 ? _toggleList : _toggleList)
-//			{
-//				DrawConnectionBox(Color.yellow, eoc, origin);
-//				origin.x += 192;
-//			}
-//		
-//			GUI.color = Color.yellow;
-				
-//			if (_toolbarInt == 0)
-//			{
-//				_target.LookingForSubject = GUI.Toggle(new Rect(origin.x, origin.y, 64, 64), _target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.yellow, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));
-//			}
-//			
-//			if (_target.LookingForSubject)
-//			{
-//				_target.LookingForSubject = false;
-//				_target.LookingForSubject = false;
-//			}			
-		
-//			GUILayout.EndHorizontal();		
+
 		
 		GUILayout.EndVertical();		
 
@@ -446,10 +403,18 @@ public class EditorObjectInfo<T> : Editor where T : class
 		
 		GUILayout.BeginArea(boxRect, GrendelCustomStyles.CustomElement(GUI.skin.textArea, color, Color.white,TextAnchor.UpperCenter));
 		
-		GUILayout.BeginVertical();
-		
-			editorObjectConnection.Message = (EditorObject.EditorObjectMessage)EditorGUILayout.EnumPopup(editorObjectConnection.Message);
+		GUILayout.BeginVertical();		
 			
+			//EditorObjectConnection oldConnection = editorObjectConnection;
+			editorObjectConnection.Message = (EditorObject.EditorObjectMessage)EditorGUILayout.EnumPopup(editorObjectConnection.Message);		
+			
+//			if(editorObjectConnection.Message != oldConnection.Message)
+//			{			
+//				editorObjectConnection.Subject.Connections[editorObjectConnection.Subject.Connections.IndexOf(oldConnection)]
+//				.Message = editorObjectConnection.Message;			
+//			}	
+		
+		
 			GUILayout.BeginHorizontal();
 			GUILayout.BeginVertical();
 			GUILayout.FlexibleSpace();
@@ -545,32 +510,6 @@ public class EditorObjectInfo<T> : Editor where T : class
 		{
 			CloseOpenConnections();
 		}
-//		else if (e.button == 1 && e.type == EventType.MouseDown && _currentHoveredObject != null)
-//		{			
-//			_quickMenu = true;
-//		}
-//		else if(e.button == 1 && e.type == EventType.MouseUp)
-//		{
-//			_quickMenu = false;
-//		}
-//		else if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.A))
-//		{
-//			_target.LookingForSubject = false;
-//			_target.LookingForSubject = false;
-//			_target.LookingForSubject = _target.LookingForSubject ? false : true;
-//		}
-//		else if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.D))
-//		{
-//			_target.LookingForSubject = false;
-//			_target.LookingForSubject = false;
-//			_target.LookingForSubject = _target.LookingForSubject ? false : true;
-//		}
-//		else if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.S))
-//		{
-//			_target.LookingForSubject = false;
-//			_target.LookingForSubject = false;
-//			_target.LookingForSubject = _target.LookingForSubject ? false : true;
-//		}
 	}
 	
 	void DrawQuickMenu()
@@ -596,127 +535,34 @@ public class EditorObjectInfo<T> : Editor where T : class
 	void ChooseObject()
 	{		
 		if (EditorObject.CurrentHoveredEditorObject == null)
-		{
+		{			
 			return;
 		}
-		_target.AddConnection(EditorObject.CurrentHoveredEditorObject);
-		EditorObject.CurrentHoveredEditorObject = null;
-		
-//		EditorObject eo = _currentHoveredObject;
-//		
-//		if (eo == null)
-//		{
-//			return;
-//		}
-//		
-//		EditorObjectConnection newConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.Activate);
-//		EditorObjectConnection masterConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.Activate);
-//		
-//		if (_target.LookingForSubject)
-//		{
-//			newConnection.Message = EditorObject.EditorObjectMessage.Activate;
-//			masterConnection.Message = EditorObject.EditorObjectMessage.Activate;
-//		}
-//		else if (_target.LookingForSubject)
-//		{
-//			newConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.Deactivate);
-//			masterConnection.Message = EditorObject.EditorObjectMessage.Deactivate;
-//		}
-//		else if (_target.LookingForSubject)
-//		{
-//			newConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.Toggle);
-//			masterConnection.Message = EditorObject.EditorObjectMessage.Toggle;
-//		}
-//		else
-//		{
-//			return;
-//		}
-//		
-//		newConnection.Subject = eo;
-//		newConnection.SetColor();
-//		masterConnection.Subject = _target;
-//		masterConnection.SetColor();
-//		
-//		EditorObjectConnection testConnection;
-//		
-//		for(int i = (_activateList.Count - 1); i >= 0; i--)
-//		{			
-//			testConnection = _activateList[i];
-//			
-//			if (newConnection.Message == EditorObject.EditorObjectMessage.Activate)
-//			{
-//				if(testConnection.Subject.GetInstanceID() == eo.GetInstanceID())
-//				{
-//					return;
-//				}
-//				else
-//				{
-//					//nada
-//				}
-//			}
-//			else
-//			{
-//				if(testConnection.Subject.GetInstanceID() == eo.GetInstanceID())
-//				{	
-//					RemoveConnection(testConnection);
-//				}
-//			}
-//		}
-//		
-//		for(int i = (_deactivateList.Count - 1); i >= 0; i--)
-//		{			
-//			
-//			testConnection = _deactivateList[i];
-//			
-//			if (newConnection.Message == EditorObject.EditorObjectMessage.Deactivate)
-//			{
-//				if(testConnection.Subject.GetInstanceID() == eo.GetInstanceID())
-//				{
-//					return;
-//				}
-//				else
-//				{
-//					//nada
-//				}
-//			}
-//			else
-//			{
-//				if(testConnection.Subject.GetInstanceID() == eo.GetInstanceID())
-//				{					
-//					RemoveConnection(testConnection);
-//				}
-//			}
-//		}
-//		
-//		for(int i = (_toggleList.Count - 1); i >= 0; i--)
-//		{			
-//			testConnection = _toggleList[i];
-//			
-//			if (newConnection.Message == EditorObject.EditorObjectMessage.Toggle)
-//			{
-//				if(testConnection.Subject.GetInstanceID() == eo.GetInstanceID())
-//				{
-//					return;
-//				}
-//				else
-//				{
-//					//nada
-//				}
-//			}
-//			else
-//			{
-//				if(testConnection.Subject.GetInstanceID() == eo.GetInstanceID())
-//				{					
-//					RemoveConnection(testConnection);
-//				}
-//			}
-//		}		
-//		
-//		_target.Connections.Add(newConnection);
-//		eo.Connections.Add(masterConnection);	
-//		
-//		_target.LookingForSubject = false;
-//		_currentHoveredObject = null;
+	
+		if(!EditorObjectManager.DesignInstance.ContainsConnection(EditorObject.CurrentHoveredEditorObject, _target))
+		{
+			//EditorObjectManager.DesignInstance.AddConnection(EditorObject.CurrentHoveredEditorObject, _target, EditorObject.EditorObjectMessage.Activate);
+			//ConnectionRegistry registry = AssetDatabase.LoadAssetAtPath("Assets/Resources/ConnectionRegistry/ConnectionRegistry.asset", ConnectionRegistry);
+			
+			if (ConnectionRegistry.Instance == null)
+			{
+				ConnectionRegistry.Instance = AssetDatabase.LoadAssetAtPath("Assets/Resources/ConnectionRegistry/ConnectionRegistry.asset", typeof(ConnectionRegistry)) as ConnectionRegistry;
+			}		
+			
+			ConnectionRegistry.Instance.AddConnection(EditorObject.CurrentHoveredEditorObject, _target, EditorObject.EditorObjectMessage.Activate);
+								
+			EditorUtility.SetDirty(ConnectionRegistry.Instance);
+			
+			//AssetDatabase.SaveAssets();
+			//AssetDatabase.Refresh();	
+			
+			EditorObject.CurrentHoveredEditorObject = null;
+			_target.LookingForSubject = false;
+		}
+		else
+		{
+			
+		}		
 	}	
 
 	[DrawGizmo (GizmoType.NotSelected | GizmoType.Selected | GizmoType.Pickable)]
@@ -773,50 +619,59 @@ public class EditorObjectInfo<T> : Editor where T : class
 //					{
 //						
 //					}				
-						foreach(EditorObjectConnection connection in eo.Connections)
+						//foreach(EditorObjectConnection connection in eo.Connections)
+						if(!EditorObjectManager.DesignInstance.ConnectionRegistry.ContainsKey(eo))
 						{
-						
-						if (connection.Subject == null)
-						{
-							continue;
+							//nada
 						}
-						else if (connection.Subject.HighlightHighlight)
+						else
 						{
-							Handles.color = Color.cyan;
-							Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
-							continue;
-						}	
-						
-						Handles.color = GrendelColor.FlashingColor(connection.MessageColorDark, 4f);			
-						
-							switch(connection.Message)
+					
+							foreach(EditorObjectConnection connection in EditorObjectManager.DesignInstance.ConnectionRegistry[eo])
 							{
-								case EditorObject.EditorObjectMessage.Activate:				
-								
-								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);	
-								//DrawConnectionHelper(eo.transform.position, connection.Subject.transform.position);
-								
-								break;
-								
-								case EditorObject.EditorObjectMessage.Deactivate:				
-								
-								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
-								//DrawConnectionHelper(eo.transform.position, connection.Subject.transform.position);
-								
-								break;
-								
-								case EditorObject.EditorObjectMessage.Toggle:				
-								
-								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
-								//DrawConnectionHelper(eo.transform.position, connection.Subject.transform.position);
-								
-								break;
 							
-								default:
+							if (connection.Subject == null)
+							{
+								continue;
+							}
+							else if (connection.Subject.HighlightHighlight)
+							{
+								Handles.color = Color.cyan;
+								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
+								continue;
+							}	
 							
-								break;
-							}		
-						}
+							Handles.color = GrendelColor.FlashingColor(connection.MessageColorDark, 4f);			
+							
+								switch(connection.Message)
+								{
+									case EditorObject.EditorObjectMessage.Activate:				
+									
+									Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);	
+									//DrawConnectionHelper(eo.transform.position, connection.Subject.transform.position);
+									
+									break;
+									
+									case EditorObject.EditorObjectMessage.Deactivate:				
+									
+									Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
+									//DrawConnectionHelper(eo.transform.position, connection.Subject.transform.position);
+									
+									break;
+									
+									case EditorObject.EditorObjectMessage.Toggle:				
+									
+									Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
+									//DrawConnectionHelper(eo.transform.position, connection.Subject.transform.position);
+									
+									break;
+								
+									default:
+								
+									break;
+								}		
+							}
+					}
 					
 					Gizmos.DrawIcon(eo.transform.position, "Gizmo_Cyan_Ring"); 
 					Gizmos.DrawIcon(eo.transform.position, "Gizmo_Fill");

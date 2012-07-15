@@ -1,9 +1,9 @@
 using UnityEngine;
-//using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class EditorObject : MonoBehaviour, IEditorObject
 {
 	public bool DebugMode = true;
@@ -60,6 +60,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	
 	private bool _clearConnections = false;
 	
+	[System.Serializable]
 	public enum EditorObjectMessage
 	{
 		None,

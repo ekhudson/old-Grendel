@@ -36,6 +36,16 @@ public class EditorObjectConnection
 		SetColor();		
 	}
 	
+	//Constructor
+	public EditorObjectConnection(EditorObject.EditorObjectMessage message, EditorObject caller, EditorObject subject)
+	{
+		Message = message;
+		Caller = caller;
+		Subject = subject;
+		GUID = System.Guid.NewGuid().ToString();
+		SetColor();		
+	}
+	
 	public void SetColor()
 	{		
 		switch(Message)

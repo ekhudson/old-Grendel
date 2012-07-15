@@ -46,10 +46,11 @@
   <ItemGroup>
      <Compile Include="Assets\Grendel Scripts\Audio\AudioList.cs" />
      <Compile Include="Assets\Grendel Scripts\Audio\AudioManager.cs" />
+     <Compile Include="Assets\Grendel Scripts\EditorObjects\ConnectionRegistry.cs" />
      <Compile Include="Assets\Grendel Scripts\EditorObjects\EditorManager.cs" />
      <Compile Include="Assets\Grendel Scripts\EditorObjects\EditorObject.cs" />
      <Compile Include="Assets\Grendel Scripts\EditorObjects\EditorObjectConnection.cs" />
-     <Compile Include="Assets\Grendel Scripts\EditorObjects\EditorObjectUpdater.cs" />
+     <Compile Include="Assets\Grendel Scripts\EditorObjects\EditorObjectManager.cs" />
      <Compile Include="Assets\Grendel Scripts\EditorObjects\IEditorObject.cs" />
      <Compile Include="Assets\Grendel Scripts\EditorObjects\Spawner.cs" />
      <Compile Include="Assets\Grendel Scripts\EditorObjects\Trigger.cs" />
