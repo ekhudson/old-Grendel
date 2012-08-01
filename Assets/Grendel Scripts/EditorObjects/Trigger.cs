@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Trigger : EditorObject 
+public class Trigger : EditorObject, IEditorObject 
 {
 	public delegate void OnTriggerEnterHandler(Trigger trigger, Collider intruder);
 	public delegate void OnTriggerExitHandler(Trigger trigger, Collider intruder);

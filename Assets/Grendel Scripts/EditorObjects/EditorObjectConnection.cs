@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 [System.Serializable]
-public class EditorObjectConnection
+public class EditorObjectConnection : ScriptableObject
 {	
 	//PUBLIC VARIABLES
-	public EditorObject Caller;
-	public EditorObject Subject;
-	public EditorObject.EditorObjectMessage Message = EditorObject.EditorObjectMessage.Activate;
+	[SerializeField]public EditorObject Caller;
+	[SerializeField]public EditorObject Subject;	
+	[SerializeField]public EditorObject.EditorObjectMessage Message = EditorObject.EditorObjectMessage.Activate;
 	
 	//PUBLIC VARIABLES (HIDDEN)
 	[HideInInspector]
@@ -20,7 +20,11 @@ public class EditorObjectConnection
 	//PROPERTIES
 	public Color MessageColor
 	{
-		get { return _messageColor; }
+		get 
+		{ 			
+			SetColor();			
+			return _messageColor; 			
+		}
 	}
 	
 	public Color MessageColorDark

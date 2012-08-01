@@ -3,25 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class ConnectionRegistry : ScriptableObject{
-	
-	[SerializeField]public List<EditorObjectConnection> _registry;
-	
+public class ConnectionRegistry : Singleton<ConnectionRegistry>
+{	
+	[SerializeField]private List<EditorObjectConnection> _registry;	
 	private static ConnectionRegistry _instance = null;
 	private EditorObjectConnectionComparer _comparer = new EditorObjectConnectionComparer();
+	private static ConnectionRegistry _designInstance;
+
+	protected override void Awake()
+	{		
+		base.Awake();		
+	}
 	
-	public static ConnectionRegistry Instance
-	{	
-        get
-        {       
-            return _instance;
-        }   
-		set
+	public static ConnectionRegistry DesignInstance
+	{
+		get
 		{
-			_instance = value;
+			if(_designInstance == null)
+			{
+				_designInstance = GameObject.Find("ConnectionRegistry").GetComponent<ConnectionRegistry>();
+			}
+			
+			return _designInstance;
 		}
 	}
-
+	
 	public List<EditorObjectConnection> Registry
 	{
 		get
@@ -60,7 +66,7 @@ public class ConnectionRegistry : ScriptableObject{
 		if (ContainsConnection(subject, caller) == null)
 		{
 		
-			EditorObjectConnection newConnection = new EditorObjectConnection(message, caller, subject);
+			EditorObjectConnection newConnection = new EditorObjectConnection(message, caller as EditorObject, subject as EditorObject);						
 			
 			Registry.Add(newConnection);
 			Registry.Sort(_comparer);

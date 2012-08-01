@@ -9,7 +9,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	public bool DebugMode = true;
 	public string Comment = "";
 	public int NumberOfUses = -1; //-1 == infinite
-	public List<EditorObjectConnection> Connections = new List<EditorObjectConnection>();
+	//public List<EditorObjectConnection> Connections = new List<EditorObjectConnection>();
 	//public Dictionary<Delegate, EditorObjectConnection> Connections = new Dictionary<Delegate, EditorObjectConnection>();
 	
 	protected Transform _transform;
@@ -173,8 +173,8 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		
 		if (_clearConnections)
 		{
-			Connections.Clear();
-			_clearConnections = false;
+			//Connections.Clear();
+			//_clearConnections = false;
 		}
 		
 		//OnEditGizmos();
@@ -291,17 +291,20 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	}
 	
 	//Run through connections
+//	virtual public void CallSubjects()
+//	{
+//		if (Connections == null || Connections.Count <= 0)
+//		{
+//			return;
+//		}		
+//		
+//		foreach(EditorObjectConnection connection in Connections)
+//		{			
+//			connection.Subject.GetComponent<EditorObject>().Call(connection.Message, this); //call the subject with the message
+//		}
+//	}
 	virtual public void CallSubjects()
 	{
-		if (Connections == null || Connections.Count <= 0)
-		{
-			return;
-		}		
-		
-		foreach(EditorObjectConnection connection in Connections)
-		{			
-			connection.Subject.Call(connection.Message, this); //call the subject with the message
-		}
 	}
 	
 	virtual public void Call(EditorObject.EditorObjectMessage message, EditorObject caller)
@@ -336,77 +339,77 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		}		
 	}
 	
-	public void AddConnection(EditorObject subject)		
-	{
-		if (subject == null)
-		{
-			return;
-		}
-		
-		EditorObjectConnection newConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.None);		
-					
-		newConnection.Subject = subject;
-		newConnection.Caller = this;		
-		
-		EditorObjectConnection testConnection;
-		
-		for(int i = (Connections.Count - 1); i >= 0; i--)
-		{			
-			testConnection = Connections[i];
-			
-			if (testConnection.Subject != newConnection.Subject) //test for matching subjects
-			{
-				continue;
-			}
-			else if (testConnection.Message == newConnection.Message) //now test for matching message
-			{
-				LookingForSubject = false; //this connection already exists, let's stop			
-				return;
-			}
-			else
-			{
-				Connections.Remove(testConnection); //message changed, remove old connection
-			}
-		}	
-		
-		Connections.Add(newConnection);
-		subject.Connections.Add(newConnection);		
-		
-		LookingForSubject = false;			
-	}
+//	public void AddConnection(EditorObject subject)		
+//	{
+//		if (subject == null)
+//		{
+//			return;
+//		}
+//		
+//		EditorObjectConnection newConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.None);		
+//					
+//		newConnection.Subject = subject;
+//		newConnection.Caller = this;		
+//		
+//		EditorObjectConnection testConnection;
+//		
+//		for(int i = (Connections.Count - 1); i >= 0; i--)
+//		{			
+//			testConnection = Connections[i];
+//			
+//			if (testConnection.Subject != newConnection.Subject) //test for matching subjects
+//			{
+//				continue;
+//			}
+//			else if (testConnection.Message == newConnection.Message) //now test for matching message
+//			{
+//				LookingForSubject = false; //this connection already exists, let's stop			
+//				return;
+//			}
+//			else
+//			{
+//				Connections.Remove(testConnection); //message changed, remove old connection
+//			}
+//		}	
+//		
+//		Connections.Add(newConnection);
+//		subject.Connections.Add(newConnection);		
+//		
+//		LookingForSubject = false;			
+//	}
 	
-	public void RemoveConnection(EditorObjectConnection connection)
-	{
-		EditorObjectConnection testConnection;		
-		
-		if (connection == null || !Connections.Contains(connection)) 
-		{
-			Debug.LogWarning(string.Format("EditorObject {0} tried to remove a connection that didn't exist.", this.name), this);
-			return;
-		}
-		else
-		{			
-			
-			EditorObject editorObject = connection.Caller == this ? connection.Subject : connection.Caller;
-			
-			for(int i = (editorObject.Connections.Count - 1); i >= 0; i--)
-			{				
-				testConnection = editorObject.Connections[i];
-			
-				if (testConnection.GUID != connection.GUID) //test for matching subjects
-				{
-					continue;
-				}
-				else
-				{					
-					editorObject.Connections.Remove(testConnection); //message matched, remove old connection
-					break;
-				}
-			}
-			
-			Connections.Remove(connection);
-		}		
-	}	
+//	public void RemoveConnection(EditorObjectConnection connection)
+//	{
+//		EditorObjectConnection testConnection;		
+//		
+//		if (connection == null || !Connections.Contains(connection)) 
+//		{
+//			Debug.LogWarning(string.Format("EditorObject {0} tried to remove a connection that didn't exist.", this.name), this);
+//			return;
+//		}
+//		else
+//		{			
+//			
+//			EditorObject editorObject = connection.Caller == this ? connection.Subject.GetComponent<EditorObject>() : connection.Caller.GetComponent<EditorObject>();
+//			
+//			for(int i = (editorObject.Connections.Count - 1); i >= 0; i--)
+//			{				
+//				testConnection = editorObject.Connections[i];
+//			
+//				if (testConnection.GUID != connection.GUID) //test for matching subjects
+//				{
+//					continue;
+//				}
+//				else
+//				{					
+//					editorObject.Connections.Remove(testConnection); //message matched, remove old connection
+//					break;
+//				}
+//			}
+//			
+//			Connections.Remove(connection);
+//		}		
+//	}	
 	
 	//returns false if there are no more uses left
 	private bool DecrementUses()

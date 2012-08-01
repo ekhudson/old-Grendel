@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class Spawner : EditorObject, IEditorObject 
-{
-	
+{	
 	public List<GameObject> EntitiesToSpawn = new List<GameObject>();
 
 	// Use this for initialization
