@@ -10,8 +10,8 @@ using System.Collections.Generic;
 public class EditorObjectInfo<T> : Editor where T : class
 {	
 	protected EditorObject _target;
-	protected int _editorWindowWidth = 320;
-	protected int _editorWindowHeight = 192;
+	protected int _editorWindowWidth = 896;
+	protected int _editorWindowHeight = 384;
 	
 	protected bool _quickMenu = false;
 	protected static EditorObject _currentHoveredObject;
@@ -20,6 +20,12 @@ public class EditorObjectInfo<T> : Editor where T : class
 	protected Dictionary<string, int> _nameConflictCounts = new Dictionary<string, int>();	
 	
 	protected GenericMenu _messageMenu;
+	
+	//CONSTANTS
+	private const int kCommentCharacterLimit = 512;
+	private const int kTextFieldHeight = 64;
+	private const int kTextFieldWidth = 256;
+	private const int kConnectionScrollAreaWidth = 464;
 	
 	virtual public EditorObject Target
 	{		
@@ -123,10 +129,13 @@ public class EditorObjectInfo<T> : Editor where T : class
 	{		
 		//EditorObject.CurrentHoveredEditorObject = null;	
 		_currentCamera = SceneView.currentDrawingSceneView.camera;
-		//SortConnections();
+		
 		if(_target.LookingForSubject){ GetInput(); }
-		DrawToolbar();
-		DrawInfo();
+		//DrawToolbar();		
+		DrawInfo();		
+		
+    	
+		
 		if(_quickMenu){ DrawQuickMenu(); }
 		
 		if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.End))
@@ -137,7 +146,12 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	private void DrawToolbar()
 	{
-		_toolbarInt = GUI.Toolbar(new Rect(_editorWindowWidth + 16, (Screen.height - _editorWindowHeight) - 80, 256, 32), _toolbarInt, new string[]{ "Subjects", "Masters"}, GUI.skin.button); 
+		if (Target.AssociatedEvents == null || Target.AssociatedEvents.Length <= 0)
+		{
+			return;
+		}
+		
+		_toolbarInt = GUI.Toolbar(new Rect(_editorWindowWidth + 16, (Screen.height - _editorWindowHeight) - 80, 256, 32), _toolbarInt, Array.ConvertAll(Target.AssociatedEvents, p => p.ToString()), GUI.skin.button); 
 	}
 	
 	virtual protected void DrawInfo()
@@ -146,10 +160,14 @@ public class EditorObjectInfo<T> : Editor where T : class
 		
 		Handles.BeginGUI();			
 
-		GUILayout.Window(0, new Rect(screenPos.x, screenPos.y, Screen.width, _editorWindowHeight), InfoWindow, "", GUI.skin.box);		
-
+		GUILayout.Window(0, new Rect(screenPos.x, screenPos.y, _editorWindowWidth, _editorWindowHeight), InfoWindow, "", GUI.skin.box);	
+		
+		//DrawConnectionBoxes();
+		
 		Handles.EndGUI();		
-						
+					
+		
+		
 		DrawConnectionLines();	
 		
 		DrawSearchLine();		
@@ -160,6 +178,63 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	virtual public void InfoWindow(int windowID)
 	{		
+//		SerializedObject sObject = new SerializedObject (_target);
+//		SerializedProperty comment = sObject.FindProperty("Comment");
+//		string nameForTest = _target.name;
+//		
+//		int nameConflicts = _nameConflictCounts.ContainsKey(_target.name) ? _nameConflictCounts[_target.name] : 0;
+//		Color nameColor = _target.NameConflict == true ? Color.red : Color.white;
+//				
+		
+		
+			GUILayout.BeginVertical();		
+				
+				GUILayout.BeginArea(new Rect(0,0,_editorWindowWidth, _editorWindowHeight), _target.GetType().ToString(),GrendelCustomStyles.CustomElement(GUI.skin.window, Color.white, Color.yellow,TextAnchor.MiddleCenter,FontStyle.Bold) );
+					
+				GUILayout.BeginHorizontal();
+//					GUILayout.BeginVertical();	
+//					GUILayout.BeginHorizontal();				
+//						GUILayout.Label(new GUIContent(string.Format("Name: {0}", nameConflicts <= 0 ? "" : nameConflicts.ToString()),
+//										nameConflicts <= 0 ? "" : string.Format("There are {0} name conflicts.", nameConflicts.ToString())),
+//										GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, nameColor), GUILayout.Width(64) );
+//					
+//						GUI.skin.textField.focused.textColor = nameColor;
+//						_target.name = GUILayout.TextField(_target.name, GrendelCustomStyles.CustomElement(GUI.skin.textArea, Color.white, nameColor), GUILayout.Width(kTextFieldWidth));	
+//					GUILayout.EndHorizontal();
+//					
+//					GUILayout.BeginHorizontal();			
+//						GUILayout.Label("Comment: ", GUILayout.Width(64));			
+//						GUI.skin.textField.wordWrap = true;
+//						comment.stringValue = GUILayout.TextField(comment.stringValue, kCommentCharacterLimit, GUI.skin.textField, new GUILayoutOption[]{GUILayout.Width(kTextFieldWidth), GUILayout.Height(64)});		
+//					
+//					GUILayout.EndHorizontal();	
+//					sObject.ApplyModifiedProperties();	
+//					GUILayout.EndVertical();
+		
+					CustomInspector();
+					
+					_target.LookingForSubject = GUILayout.Toggle(_target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.green, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));			
+					
+					DrawConnectionBoxes();
+					
+					
+					GUILayout.EndHorizontal();
+		
+					
+			
+					
+					GUILayout.EndArea();
+				
+			GUILayout.EndVertical();		
+		
+//		if (_target.name != nameForTest || _nameConflictCounts == null)
+//		{
+//			CheckNameConflicts();
+//		}		
+	}
+	
+	public void CustomInspector()
+	{
 		SerializedObject sObject = new SerializedObject (_target);
 		SerializedProperty comment = sObject.FindProperty("Comment");
 		string nameForTest = _target.name;
@@ -167,54 +242,42 @@ public class EditorObjectInfo<T> : Editor where T : class
 		int nameConflicts = _nameConflictCounts.ContainsKey(_target.name) ? _nameConflictCounts[_target.name] : 0;
 		Color nameColor = _target.NameConflict == true ? Color.red : Color.white;
 				
-				
-		GUILayout.BeginVertical();
 		
-		GUILayout.BeginArea(new Rect(0,0,_editorWindowWidth, _editorWindowHeight), _target.GetType().ToString(),GrendelCustomStyles.CustomElement(GUI.skin.window, Color.white, Color.yellow,TextAnchor.MiddleCenter,FontStyle.Bold) );
-						
-		GUILayout.BeginHorizontal();
+		GUILayout.BeginVertical();	
 		
-			GUILayout.Label(new GUIContent(string.Format("Name: {0}", nameConflicts <= 0 ? "" : nameConflicts.ToString()),
-							nameConflicts <= 0 ? "" : string.Format("There are {0} name conflicts.", nameConflicts.ToString())),
-							GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, nameColor), GUILayout.Width(64) );
+			GUILayout.BeginHorizontal();				
+				GUILayout.Label(new GUIContent(string.Format("Name: {0}", nameConflicts <= 0 ? "" : nameConflicts.ToString()),
+								nameConflicts <= 0 ? "" : string.Format("There are {0} name conflicts.", nameConflicts.ToString())),
+								GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, nameColor), GUILayout.Width(64) );
+			
+				GUI.skin.textField.focused.textColor = nameColor;
+				_target.name = GUILayout.TextField(_target.name, GrendelCustomStyles.CustomElement(GUI.skin.textArea, Color.white, nameColor), GUILayout.Width(kTextFieldWidth));	
+			GUILayout.EndHorizontal();
+			
+			GUILayout.BeginHorizontal();			
+				GUILayout.Label("Comment: ", GUILayout.Width(64));			
+				GUI.skin.textField.wordWrap = true;
+				comment.stringValue = GUILayout.TextField(comment.stringValue, kCommentCharacterLimit, GUI.skin.textField, new GUILayoutOption[]{GUILayout.Width(kTextFieldWidth), GUILayout.Height(64)});		
+			
+			GUILayout.EndHorizontal();	
+			sObject.ApplyModifiedProperties();		
+			EditorGUIUtility.LookLikeControls();
+			
+			OnInspectorGUI();
 		
-			GUI.skin.textField.focused.textColor = nameColor;
-			_target.name = GUILayout.TextField(_target.name, GrendelCustomStyles.CustomElement(GUI.skin.textArea, Color.white, nameColor));	
-		GUILayout.EndHorizontal();
-		
-		GUILayout.BeginHorizontal();			
-			GUILayout.Label("Comment: ", GUILayout.Width(64));			
-			GUI.skin.textField.wordWrap = true;
-			comment.stringValue = GUILayout.TextField(comment.stringValue, 512, GUI.skin.textField, GUILayout.Height(64));		
-		GUILayout.EndHorizontal();		
-		
-		GUILayout.EndArea();
-	
 		GUILayout.EndVertical();
 		
-		sObject.ApplyModifiedProperties();
 		
 		if (_target.name != nameForTest || _nameConflictCounts == null)
 		{
 			CheckNameConflicts();
-		}
-		
-    	DrawConnectionBoxes();			
+		}			
 	}
 	
-//	void SortConnections()
-//	{		
-//		
-//		foreach(EditorObjectConnection connection in _target.Connections)
-//		{			
-//			if (connection.Subject == null)
-//			{
-//				continue;
-//			}		
-//			
-//			connection.SetColor();				
-//		}
-//	}
+	public override void OnInspectorGUI()
+	{
+		base.OnInspectorGUI();
+	}
 	
 	virtual protected void DrawConnectionLines()
 	{		
@@ -243,49 +306,43 @@ public class EditorObjectInfo<T> : Editor where T : class
 			
 			switch(connection.Message)
 			{
-				case EditorObject.EditorObjectMessage.None:				
+				case EditorObject.EditorObjectMessage.None:					
 				
-				//DrawConnectionHelper(connection.Caller.transform.position, connection.Subject.transform.position);
 				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
 				
 				break;	
 			
 				case EditorObject.EditorObjectMessage.Activate:				
 				
-				connection.Subject.ActivateHighlight = true;
-				//DrawConnectionHelper(connection.Caller.transform.position, connection.Subject.transform.position);
+				connection.Subject.ActivateHighlight = true;				
 				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
 				
 				break;
 				
 				case EditorObject.EditorObjectMessage.Deactivate:				
 				
-				connection.Subject.DeactivateHighlight = true;
-				//DrawConnectionHelper(connection.Caller.transform.position, connection.Subject.transform.position);
+				connection.Subject.DeactivateHighlight = true;				
 				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
 				
 				break;
 				
 				case EditorObject.EditorObjectMessage.Toggle:				
 				
-				connection.Subject.ToggleHighlight = true;
-				//DrawConnectionHelper(connection.Caller.transform.position, connection.Subject.transform.position);
+				connection.Subject.ToggleHighlight = true;				
 				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
 				
 				break;
 				
 				case EditorObject.EditorObjectMessage.Enable:				
 				
-				connection.Subject.ActivateHighlight = true;
-				//DrawConnectionHelper(connection.Caller.transform.position, connection.Subject.transform.position);
+				connection.Subject.ActivateHighlight = true;				
 				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
 				
 				break;
 				
 				case EditorObject.EditorObjectMessage.Disable:				
 				
-				connection.Subject.DeactivateHighlight = true;
-				//DrawConnectionHelper(connection.Caller.transform.position, connection.Subject.transform.position);
+				connection.Subject.DeactivateHighlight = true;				
 				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
 				
 				break;
@@ -299,55 +356,125 @@ public class EditorObjectInfo<T> : Editor where T : class
 
 	void DrawConnectionBoxes()
 	{
-				
-		GUILayoutOption[] buttonSize = new GUILayoutOption[] { GUILayout.Width(64), GUILayout.Height(64) };
+		//SerializedProperty infoScrollPos = serializedObject.FindProperty("InfoScrollPos");
+		Target.InfoScrollPos = GUILayout.BeginScrollView(Target.InfoScrollPos, false, true, GUI.skin.horizontalScrollbar, GUI.skin.verticalScrollbar, GUI.skin.textArea, GUILayout.Width(kConnectionScrollAreaWidth));
+		//serializedObject.ApplyModifiedProperties();
 		
-		GUILayout.BeginVertical();
-		
-			GUILayout.BeginHorizontal();
+			//GUILayout.BeginHorizontal();
 			
-			Vector3 origin = Vector3.zero;
-			origin.x += _editorWindowWidth;				
+			//Vector3 origin = Vector3.zero;
+			//origin.x += _editorWindowWidth;				
 			
 			if (ConnectionRegistry.DesignInstance.Registry.Count <= 0)
 			{
 				//do nothing
 			}
 			else
-			{
-		
-				foreach(EditorObjectConnection connection in ConnectionRegistry.DesignInstance.Registry)
-				{	
-					if (connection.Caller != Target)
+			{				
+				for(int i = (ConnectionRegistry.DesignInstance.Registry.Count - 1); i >= 0; i--)
+				{					
+					EditorObjectConnection connection = ConnectionRegistry.DesignInstance.Registry[i];
+				
+					if (connection == null || connection.Caller != Target)
 					{
 						continue;
-					}				
+					}
+//					else if(connection.OnEvent.ToString() != Target.AssociatedEvents[_toolbarInt].ToString())
+//					{
+//						continue;
+//					}					
 				
-					DrawConnectionBox(connection.MessageColor, connection, origin);
-					origin.x += 192;		
+					DrawConnectionBox(connection.MessageColor, connection, Vector3.zero);
+					//origin.x += 192;		
 				}				
 			}
 		
-			GUI.color = Color.green;
-				
-			if (_toolbarInt == 0)
-			{			
-				_target.LookingForSubject = GUI.Toggle(new Rect(origin.x, origin.y, 64, 64), _target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.green, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));			
-			}
-			
-			GUILayout.EndHorizontal();		
+			GUI.color = Color.green;				
+						
+			//_target.LookingForSubject = GUILayout.Toggle(_target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.green, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));			
+						
+			//GUILayout.EndHorizontal();		
 
 		
-		GUILayout.EndVertical();		
+		GUILayout.EndScrollView();		
 
 	}	
 	
 	void DrawConnectionBox(Color color, EditorObjectConnection editorObjectConnection, Vector3 origin)
 	{	
-		int connectionWidth = 192;
+		//int connectionWidth = 192;
 		GUI.color = color;		
 		
-		Rect boxRect = new Rect(origin.x, origin.y, 192, 64);
+		//Rect boxRect = new Rect(origin.x, origin.y, 192, 64);
+		
+		
+		//Event e = Event.current;
+		
+//		if (boxRect.Contains(e.mousePosition))
+//		{			
+//			editorObjectConnection.Subject.HighlightHighlight = true;			
+//		}
+		
+		if (editorObjectConnection.Subject.HighlightHighlight)
+		{
+			GUI.color = Color.cyan;			
+		}
+		
+		//GUILayout.BeginArea(boxRect, GrendelCustomStyles.CustomElement(GUI.skin.textArea, color, Color.white,TextAnchor.UpperCenter));
+		
+		GUILayout.BeginHorizontal(GUI.skin.textArea);		
+
+			//editorObjectConnection.Message = (EditorObject.EditorObjectMessage)EditorGUILayout.EnumPopup(editorObjectConnection.Message);	
+			SerializedObject connectionSerialized = new SerializedObject(editorObjectConnection);
+			SerializedProperty eventSerialized = connectionSerialized.FindProperty("OnEvent");
+			SerializedProperty messageSerialized = connectionSerialized.FindProperty("Message");
+		
+		
+			string[] eventChoices = new string[Target.AssociatedEvents.Length];
+			foreach(EventTransceiver.Events evt in Target.AssociatedEvents)
+			{
+				eventChoices[(int)evt] = evt.ToString();
+			}
+		
+		
+		
+			eventSerialized.enumValueIndex = EditorGUILayout.Popup(eventSerialized.enumValueIndex, eventChoices, EditorStyles.toolbarPopup, GUILayout.Width(128));
+			messageSerialized.enumValueIndex = EditorGUILayout.Popup(messageSerialized.enumValueIndex, messageSerialized.enumNames, EditorStyles.toolbarPopup, GUILayout.Width(128));
+		
+			
+		
+			//GUILayout.BeginHorizontal();
+			//GUILayout.BeginVertical();
+			//GUILayout.FlexibleSpace();
+				if(GUILayout.Button(editorObjectConnection.Subject.ToString(), GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.white,TextAnchor.MiddleLeft), GUILayout.Width(256)))
+				{
+					Selection.activeGameObject = editorObjectConnection.Subject.gameObject;	
+				}
+			//	GUILayout.Label(editorObjectConnection.Subject.name, GrendelCustomStyles.CustomElement(GUI.skin.label, color, Color.white,TextAnchor.MiddleLeft));
+			//GUILayout.FlexibleSpace();
+			//GUILayout.EndVertical();
+			//GUILayout.FlexibleSpace();
+			//GUILayout.BeginVertical();		
+				
+				if( GUILayout.Button("Del", GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.white, TextAnchor.MiddleCenter), GUILayout.Width(32)) )
+				{					
+					//_target.RemoveConnection(editorObjectConnection);
+					ConnectionRegistry.DesignInstance.Registry.Remove(editorObjectConnection);
+					EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);
+				}
+		
+//				if( GUILayout.Button("Sel", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.grey, Color.white, TextAnchor.MiddleCenter), GUILayout.Width(32)) )
+//				{
+//					Selection.activeGameObject = editorObjectConnection.Subject.gameObject;	
+//				}
+		connectionSerialized.ApplyModifiedProperties();
+			//GUILayout.EndVertical();
+		
+			//GUILayout.EndHorizontal();
+		
+		GUILayout.EndHorizontal();
+		
+		Rect boxRect = GUILayoutUtility.GetLastRect();	
 		
 		Event e = Event.current;
 		
@@ -355,51 +482,11 @@ public class EditorObjectInfo<T> : Editor where T : class
 		{			
 			editorObjectConnection.Subject.HighlightHighlight = true;			
 		}
-		
-		if (editorObjectConnection.Subject.HighlightHighlight)
+		else
 		{
-			GUI.color = Color.cyan;			
+			//editorObjectConnection.Subject.HighlightHighlight = false;
 		}
-		
-		GUILayout.BeginArea(boxRect, GrendelCustomStyles.CustomElement(GUI.skin.textArea, color, Color.white,TextAnchor.UpperCenter));
-		
-		GUILayout.BeginVertical();		
-
-			//editorObjectConnection.Message = (EditorObject.EditorObjectMessage)EditorGUILayout.EnumPopup(editorObjectConnection.Message);	
-			SerializedObject connectionSerialized = new SerializedObject(editorObjectConnection);
-			SerializedProperty messageSerializd = connectionSerialized.FindProperty("Message");
-		
-			messageSerializd.enumValueIndex = EditorGUILayout.Popup(messageSerializd.enumValueIndex, messageSerializd.enumNames);
-		
-			connectionSerialized.ApplyModifiedProperties();
-		
-			GUILayout.BeginHorizontal();
-			GUILayout.BeginVertical();
-			GUILayout.FlexibleSpace();
-				GUILayout.Label(editorObjectConnection.Subject.GetType().ToString(), GrendelCustomStyles.CustomElement(GUI.skin.label, color, Color.white,TextAnchor.MiddleLeft));
-				GUILayout.Label(editorObjectConnection.Subject.name, GrendelCustomStyles.CustomElement(GUI.skin.label, color, Color.white,TextAnchor.MiddleLeft));
-			GUILayout.FlexibleSpace();
-			GUILayout.EndVertical();
-			GUILayout.FlexibleSpace();
-			GUILayout.BeginVertical();		
-				
-				if( GUILayout.Button("Del", GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.white, TextAnchor.MiddleCenter), GUILayout.Width(32)) )
-				{					
-					//_target.RemoveConnection(editorObjectConnection);
-					ConnectionRegistry.DesignInstance.Registry.Remove(editorObjectConnection);
-				}
-		
-				if( GUILayout.Button("Sel", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.grey, Color.white, TextAnchor.MiddleCenter), GUILayout.Width(32)) )
-				{
-					Selection.activeGameObject = editorObjectConnection.Subject.gameObject;	
-				}
-		
-			GUILayout.EndVertical();
-		
-			GUILayout.EndHorizontal();
-		
-		GUILayout.EndVertical();
-		GUILayout.EndArea();		
+		//GUILayout.EndArea();		
 		
 		GUI.color = Color.white;
 	}
@@ -464,21 +551,18 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	void DrawQuickMenu()
 	{
-		int count = 0;
-		int selection = 0;		
+		int count = 0;		
 		
-		EditorObjectConnection connection = ConnectionRegistry.DesignInstance.ContainsConnection(_currentHoveredObject, _target);		
+		//EditorObjectConnection connection = ConnectionRegistry.DesignInstance.ContainsConnection(_currentHoveredObject, _target);		
 		
-		if (connection != null)
-		{
-			selection = (int)connection.Message;
-		}
+//		if (connection != null)
+//		{
+//			selection = (int)connection.Message;
+//		}
 		
 		string[] messages = Enum.GetNames(typeof(EditorObject.EditorObjectMessage));		
 		 
-        if( _messageMenu == null) { _messageMenu = new GenericMenu(); }
-		
-		object hey;
+        if( _messageMenu == null) { _messageMenu = new GenericMenu(); }		
        
 		foreach(string message in messages)
 		{
@@ -551,14 +635,14 @@ public class EditorObjectInfo<T> : Editor where T : class
 	
 	void ChooseObject(EditorObject.EditorObjectMessage message)
 	{		
-		if (EditorObject.CurrentHoveredEditorObject == null || message == null)
+		if (EditorObject.CurrentHoveredEditorObject == null)
 		{			
 			return;
 		}	
 				
-		ConnectionRegistry.DesignInstance.AddConnection(EditorObject.CurrentHoveredEditorObject, _target, message);
+		ConnectionRegistry.DesignInstance.AddConnection(EditorObject.CurrentHoveredEditorObject, _target, message, Target.AssociatedEvents[_toolbarInt]);
 							
-		EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);
+		EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);		
 		new SerializedObject(ConnectionRegistry.DesignInstance).SetIsDifferentCacheDirty();
 		
 		EditorObject.CurrentHoveredEditorObject = null;

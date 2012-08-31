@@ -115,7 +115,15 @@ public class Entity : BaseObject {
 	{
 		foreach(Collider collider in _searchRadius.ObjectList)
 		{
-			_testEntity = EntityManager.EntityDictionary[ collider.GetInstanceID() ];			
+			_testEntity = EntityManager.EntityDictionary[ collider.GetInstanceID() ];
+			if(_testEntity.Faction == this.Faction)
+			{
+				_nearbyAllies.Add(_testEntity);
+			}
+			else
+			{
+				_nearbyEnemies.Add(_testEntity);
+			}
 		}
 	}
 	

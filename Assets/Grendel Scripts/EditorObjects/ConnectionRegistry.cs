@@ -1,18 +1,72 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
 public class ConnectionRegistry : Singleton<ConnectionRegistry>
 {	
-	[SerializeField]private List<EditorObjectConnection> _registry;	
-	private static ConnectionRegistry _instance = null;
+	[SerializeField]private List<EditorObjectConnection> _registry;		
 	private EditorObjectConnectionComparer _comparer = new EditorObjectConnectionComparer();
 	private static ConnectionRegistry _designInstance;
 
 	protected override void Awake()
 	{		
 		base.Awake();		
+	}
+		
+	public void BuildConnections()
+	{
+		if (_registry.Count <= 0)
+		{
+			Console.Instance.OutputToConsole(string.Format("{0}: There were no connections to build.", this.ToString()), Console.Instance.Style_Admin);
+			return;
+		}
+		
+		Console.Instance.OutputToConsole(string.Format("{0}: Building {1} connections.",this.ToString(), _registry.Count), Console.Instance.Style_Admin);
+		
+		foreach(EditorObjectConnection connection in _registry)
+		{			
+			switch(connection.Message)
+			{
+				
+				case EditorObject.EditorObjectMessage.Activate:
+					
+					EventManager.Instance.AddHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(), connection.Subject.OnActivate);
+					
+				break;
+					
+				case EditorObject.EditorObjectMessage.Deactivate:
+					
+					EventManager.Instance.AddHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(), connection.Subject.OnDeactivate);
+					
+				break;
+					
+				case EditorObject.EditorObjectMessage.Toggle:
+					
+					EventManager.Instance.AddHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(),connection.Subject.OnToggle);
+					
+				break;
+				
+				case EditorObject.EditorObjectMessage.Enable:
+					
+					EventManager.Instance.AddHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(),connection.Subject.OnEnabled);
+					
+				break;
+				
+				case EditorObject.EditorObjectMessage.Disable:
+					
+					EventManager.Instance.AddHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(),connection.Subject.OnDisabled);
+					
+				break;
+				
+				default:
+				
+				break;				
+			}			
+		}
+		
+		Console.Instance.OutputToConsole(string.Format("{0}: Connections established.",this.ToString()), Console.Instance.Style_Admin);
 	}
 	
 	public static ConnectionRegistry DesignInstance
@@ -61,13 +115,18 @@ public class ConnectionRegistry : Singleton<ConnectionRegistry>
 		return testConnection;			
 	}
 	
-	public void AddConnection(EditorObject subject, EditorObject caller, EditorObject.EditorObjectMessage message)
+	public void AddConnection(EditorObject subject, EditorObject caller, EditorObject.EditorObjectMessage message, EventTransceiver.Events onEvent)
 	{					
 		if (ContainsConnection(subject, caller) == null)
 		{
 		
-			EditorObjectConnection newConnection = new EditorObjectConnection(message, caller as EditorObject, subject as EditorObject);						
-			
+			EditorObjectConnection newConnection = EditorObjectConnection.CreateInstance<EditorObjectConnection>();
+				
+			newConnection.Message = message;
+			newConnection.Caller = caller;
+			newConnection.Subject = subject;
+			newConnection.OnEvent = onEvent;									
+						
 			Registry.Add(newConnection);
 			Registry.Sort(_comparer);
 		}

@@ -21,10 +21,10 @@ public class AudioManager : Singleton<AudioManager>
 	
 	public int MaxPlayingMusicTracks = 3;
 	
-	private List<AudioClip> _currentPlayingMusicTracks = new List<AudioClip>();
+	//private List<AudioClip> _currentPlayingMusicTracks = new List<AudioClip>();
 	
 	private Dictionary<int, AudioSource> AudioDictionary = new Dictionary<int, AudioSource>();
-	private int MusicAudioSourceID;
+	private int MusicAudioSourceID = 0;
 	
 	
 	// Use this for initialization
@@ -95,7 +95,7 @@ public class AudioManager : Singleton<AudioManager>
 	
 	public void IncrementMusicTrack(int increment)
 	{
-		if (MusicAudioSourceID != null)
+		if (MusicAudioSourceID != 0)
 		{
 			int index = AudioList.Instance.MusicTracks.IndexOf( AudioDictionary[MusicAudioSourceID].clip );
 			index += increment;

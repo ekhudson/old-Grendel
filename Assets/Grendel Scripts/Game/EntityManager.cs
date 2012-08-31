@@ -14,8 +14,8 @@ public class EntityManager : MonoBehaviour {
 	private static Entity[] _toUpdateArray = new Entity[0];
 	private int _updateIndex = 0; //current spot in the _toUpdate Array
 	private int _updateTargetIndex = 0; //where we'll end our update cycle
-	private static List<int> _removeList = new List<int>(); //for removing entities from the EntityDictionary during updating
-	private static List<Entity> _addList = new List<Entity>(); //for adding entities to the EntityDictionary during updating
+	//private static List<int> _removeList = new List<int>(); //for removing entities from the EntityDictionary during updating
+	//private static List<Entity> _addList = new List<Entity>(); //for adding entities to the EntityDictionary during updating
 	private static Entity _testEntity; //this test entity is used for updating
 	
 	// Use this for initialization
@@ -57,8 +57,11 @@ public class EntityManager : MonoBehaviour {
 			for ( ; _updateIndex <= _updateTargetIndex && _updateIndex < MaxEntities; _updateIndex++)
 			{				
 				_testEntity = _toUpdateArray[_updateIndex];				
-				if(_testEntity != null){ _testEntity.CalledUpdate(); }							
-			}
+				if(_testEntity != null)
+				{ 
+					_testEntity.CalledUpdate(); 
+				}				
+			}			
 			
 			if ( _updateIndex >= (MaxEntities - 1) ) {_updateTargetIndex = 0; _updateIndex = 0;} //reset the cycle
 			

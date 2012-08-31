@@ -30,12 +30,7 @@ public class FPSCounter : Singleton<FPSCounter>
 	private Color textColor = Color.green;
 	private GUIStyle _fPSStyle = new GUIStyle();
 	
-	#endregion
-	
-	void Awake()
-	{
-		base.Awake();
-	}
+	#endregion	
 	
 	public bool ShowFPS
 	{

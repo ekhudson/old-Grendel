@@ -7,31 +7,15 @@ using System.Collections.Generic;
 public class EditorObject : MonoBehaviour, IEditorObject
 {
 	public bool DebugMode = true;
-	public string Comment = "";
+	[HideInInspector]public string Comment = "";
 	public int NumberOfUses = -1; //-1 == infinite
-	//public List<EditorObjectConnection> Connections = new List<EditorObjectConnection>();
-	//public Dictionary<Delegate, EditorObjectConnection> Connections = new Dictionary<Delegate, EditorObjectConnection>();
 	
 	protected Transform _transform;
 	protected GameObject _gameObject;
-	protected GUIStyle SelectedTextStyle = new GUIStyle();
+	//protected GUIStyle SelectedTextStyle = new GUIStyle();
 	protected int _labelWidth = 128;
-	protected int _labelHeight = 32;
-	protected GameObject _currentActiveObject;	
-	
-//	[HideInInspector]
-//	public bool SubjectActivateOpen = false;
-//	[HideInInspector]
-//	public bool SubjectDeactivateOpen = false;
-//	[HideInInspector]
-//	public bool SubjectToggleOpen = false;
-//	
-//	[HideInInspector]
-//	public bool MasterActivateOpen = false;
-//	[HideInInspector]
-//	public bool MasterDeactivateOpen = false;
-//	[HideInInspector]
-//	public bool MasterToggleOpen = false;
+	//protected int _labelHeight = 32;
+	protected GameObject _currentActiveObject;
 	
 	[HideInInspector]
 	public bool LookingForSubject = false;
@@ -50,15 +34,12 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	protected Camera _cameraToUse;
 	protected string _gizmoName = "";
 	protected bool _nameConflict = false; //used by the editor to flag this object if it has a name conflict with another object
-	
-	public event EditorObjectEventHandler ActivateEvent;
-	protected event EditorObjectEventHandler DeactivateEvent;
-	protected event EditorObjectEventHandler ToggleEvent;
-	protected event EditorObjectEventHandler EnableEvent;
-	protected event EditorObjectEventHandler DisableEvent;
-	public delegate void EditorObjectEventHandler(EditorObject caller);
+	protected EventTransceiver.Events[] _associatedEvents;
 	
 	private bool _clearConnections = false;
+	
+	[HideInInspector]
+	public Vector2 InfoScrollPos;
 	
 	[System.Serializable]
 	public enum EditorObjectMessage
@@ -97,6 +78,12 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		get {return _gizmoName;}		
 	}
 	
+	//returns events associated with this object
+	virtual public EventTransceiver.Events[] AssociatedEvents
+	{
+		get {return null;}
+	}
+	
 	public EditorObject() : base()
 	{
 		_clearConnections = true;				
@@ -110,11 +97,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	// Use this for initialization
 	virtual protected void Start () 
 	{
-		ActivateEvent += new EditorObjectEventHandler(OnActivate);
-		DeactivateEvent += new EditorObjectEventHandler(OnDeactivate);
-		ToggleEvent += new EditorObjectEventHandler(OnToggle);
-		EnableEvent += new EditorObjectEventHandler(OnEnabled);
-		DisableEvent += new EditorObjectEventHandler(OnDisabled);
+	
 	}
 	
 	// Update is called once per frame
@@ -128,18 +111,18 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		
 	}
 	
-	public void DrawSimpleLabel(Camera cameraToUse)
-	{		
-		Vector3 distance = cameraToUse.transform.position - transform.position;	
-		_cameraToUse = cameraToUse;
-		
-		SelectedTextStyle = GUI.skin.button;
-		SelectedTextStyle.normal.textColor = Color.yellow;
-		Vector2 screenCoords = cameraToUse.WorldToScreenPoint(transform.position);
-		screenCoords.y = cameraToUse.pixelHeight - screenCoords.y;			
-		
-		Rect labelRect = new Rect(screenCoords.x - (_labelWidth * 0.5f), screenCoords.y - (_labelHeight * 0.5f), _labelWidth, _labelHeight);
-	}
+//	public void DrawSimpleLabel(Camera cameraToUse)
+//	{		
+//		Vector3 distance = cameraToUse.transform.position - transform.position;	
+//		_cameraToUse = cameraToUse;
+//		
+//		SelectedTextStyle = GUI.skin.button;
+//		SelectedTextStyle.normal.textColor = Color.yellow;
+//		Vector2 screenCoords = cameraToUse.WorldToScreenPoint(transform.position);
+//		screenCoords.y = cameraToUse.pixelHeight - screenCoords.y;			
+//		
+//		Rect labelRect = new Rect(screenCoords.x - (_labelWidth * 0.5f), screenCoords.y - (_labelHeight * 0.5f), _labelWidth, _labelHeight);
+//	}
 		
 	public void LabelWindow(int windowID)
 	{		
@@ -190,16 +173,59 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		
 	}
 	
-	public void Activate(EditorObject caller)
+//	public void AcceptMessage(EditorObjectMessage message, EditorObject caller)
+//	{
+//		switch (message)
+//		{
+//			case EditorObjectMessage.Activate:
+//				OnActivate(caller);
+//			break;
+//			
+//			case EditorObjectMessage.Deactivate:
+//				OnDeactivate(caller);
+//			break;
+//			
+//			case EditorObjectMessage.Toggle:
+//				OnToggle(caller);
+//			break;
+//			
+//			case EditorObjectMessage.Disable:
+//				OnDisabled(caller);
+//			break;
+//			
+//			case EditorObjectMessage.Enable:
+//				OnEnabled(caller);
+//			break;
+//			
+//			default:
+//				Debug.LogWarning(string.Format("Message {0} from caller {1} to subject {2} unrecognized.",
+//								 message.ToString(), caller.name, this.name));
+//			break;			
+//		}
+//	}
+	
+	public void SetState(EDITOROBJECTSTATES state)
 	{
-		OnActivate(caller);
+		switch (state)
+		{
+			
+			case EDITOROBJECTSTATES.ACTIVE:
+				//stuff to do when going active
+			break;
+			
+			case EDITOROBJECTSTATES.INACTIVE:
+				//stuff to do when going inactive
+			break;
+			
+			case EDITOROBJECTSTATES.DISABLED:
+				//stuff to do when going disabled
+			break;	
+		}
 	}
 	
 	//This EditorObject has been Activated
-	virtual public void OnActivate(EditorObject caller)
-	{
-		Debug.Log("Heard from: " + caller.name);
-		
+	virtual public void OnActivate(object caller, EventBase evt)
+	{		
 		switch(_state)
 		{
 			case EDITOROBJECTSTATES.ACTIVE:
@@ -217,7 +243,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	}
 	
 	//This EditorObject has been Deactivated
-	virtual public void OnDeactivate(EditorObject caller)
+	virtual public void OnDeactivate(object caller, EventBase evt)
 	{		
 		switch(_state)
 		{
@@ -236,7 +262,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 	}
 	
 	//This EditorObject has been Toggled
-	virtual public void OnToggle(EditorObject caller)
+	virtual public void OnToggle(object caller, EventBase evt)
 	{
 		switch(_state)
 		{
@@ -254,7 +280,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		}		
 	}
 	
-	virtual public void OnEnabled(EditorObject caller)
+	virtual public void OnEnabled(object caller, EventBase evt)
 	{
 		switch(_state)
 		{
@@ -272,7 +298,7 @@ public class EditorObject : MonoBehaviour, IEditorObject
 		}		
 	}
 	
-	virtual public void OnDisabled(EditorObject caller)
+	virtual public void OnDisabled(object caller, EventBase evt)
 	{
 		switch(_state)
 		{
@@ -288,129 +314,8 @@ public class EditorObject : MonoBehaviour, IEditorObject
 			
 			break;
 		}		
-	}
-	
-	//Run through connections
-//	virtual public void CallSubjects()
-//	{
-//		if (Connections == null || Connections.Count <= 0)
-//		{
-//			return;
-//		}		
-//		
-//		foreach(EditorObjectConnection connection in Connections)
-//		{			
-//			connection.Subject.GetComponent<EditorObject>().Call(connection.Message, this); //call the subject with the message
-//		}
-//	}
-	virtual public void CallSubjects()
-	{
-	}
-	
-	virtual public void Call(EditorObject.EditorObjectMessage message, EditorObject caller)
-	{
-		switch(message)
-		{
-			case EditorObjectMessage.Activate:
-			
-			break;
-			
-			case EditorObjectMessage.Deactivate:
-			
-			break;
-			
-			case EditorObjectMessage.Toggle:
-			
-			break;
-			
-			case EditorObjectMessage.Disable:
-			
-			break;
-			
-			case EditorObjectMessage.Enable:
-			
-			break;
-			
-			default:
-			
-				Debug.LogWarning(string.Format("Message: {0} from Editor Object {1} is unrecognized", message, caller), this);
-			
-			break;
-		}		
-	}
-	
-//	public void AddConnection(EditorObject subject)		
-//	{
-//		if (subject == null)
-//		{
-//			return;
-//		}
-//		
-//		EditorObjectConnection newConnection = new EditorObjectConnection(EditorObject.EditorObjectMessage.None);		
-//					
-//		newConnection.Subject = subject;
-//		newConnection.Caller = this;		
-//		
-//		EditorObjectConnection testConnection;
-//		
-//		for(int i = (Connections.Count - 1); i >= 0; i--)
-//		{			
-//			testConnection = Connections[i];
-//			
-//			if (testConnection.Subject != newConnection.Subject) //test for matching subjects
-//			{
-//				continue;
-//			}
-//			else if (testConnection.Message == newConnection.Message) //now test for matching message
-//			{
-//				LookingForSubject = false; //this connection already exists, let's stop			
-//				return;
-//			}
-//			else
-//			{
-//				Connections.Remove(testConnection); //message changed, remove old connection
-//			}
-//		}	
-//		
-//		Connections.Add(newConnection);
-//		subject.Connections.Add(newConnection);		
-//		
-//		LookingForSubject = false;			
-//	}
-	
-//	public void RemoveConnection(EditorObjectConnection connection)
-//	{
-//		EditorObjectConnection testConnection;		
-//		
-//		if (connection == null || !Connections.Contains(connection)) 
-//		{
-//			Debug.LogWarning(string.Format("EditorObject {0} tried to remove a connection that didn't exist.", this.name), this);
-//			return;
-//		}
-//		else
-//		{			
-//			
-//			EditorObject editorObject = connection.Caller == this ? connection.Subject.GetComponent<EditorObject>() : connection.Caller.GetComponent<EditorObject>();
-//			
-//			for(int i = (editorObject.Connections.Count - 1); i >= 0; i--)
-//			{				
-//				testConnection = editorObject.Connections[i];
-//			
-//				if (testConnection.GUID != connection.GUID) //test for matching subjects
-//				{
-//					continue;
-//				}
-//				else
-//				{					
-//					editorObject.Connections.Remove(testConnection); //message matched, remove old connection
-//					break;
-//				}
-//			}
-//			
-//			Connections.Remove(connection);
-//		}		
-//	}	
-	
+	}	
+
 	//returns false if there are no more uses left
 	private bool DecrementUses()
 	{

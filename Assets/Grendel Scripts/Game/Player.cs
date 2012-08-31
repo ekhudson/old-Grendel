@@ -32,7 +32,7 @@ public class Player : Entity
 	}
 	
 	// Use this for initialization
-    void Awake()
+    protected override void Awake()
     {		
 		base.Awake();
 		instance = this;
@@ -157,7 +157,7 @@ public class Player : Entity
 	
 	public override int TakeDamage(int amount)
 	{		
-		GameObject cb = (GameObject)Instantiate(DamageParticles, _transform.position, _transform.rotation);		
+		Instantiate(DamageParticles, _transform.position, _transform.rotation);		
 		
 		return base.TakeDamage(amount);
 	}	

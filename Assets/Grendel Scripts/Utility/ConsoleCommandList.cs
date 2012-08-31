@@ -18,12 +18,6 @@ using System.Collections.Generic;
 
 public class ConsoleCommandList : Singleton<ConsoleCommandList> 
 {	
-	
-	void Awake()
-	{		
-		base.Awake();
-	}	
-	
 	void Start()
 	{		
 		RegisterCommands();

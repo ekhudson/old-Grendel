@@ -60,7 +60,7 @@ public class Bullet : MonoBehaviour {
 
     public void createExplode()
 	{
-    GameObject ex = (GameObject)Instantiate(explosionObject, _myTransform.position, Quaternion.identity);
+    Instantiate(explosionObject, _myTransform.position, Quaternion.identity);
 	
 	AudioSource.PlayClipAtPoint(ImpactSound,transform.position);
 	

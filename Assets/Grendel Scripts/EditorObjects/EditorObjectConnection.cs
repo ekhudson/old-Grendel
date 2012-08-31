@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 [System.Serializable]
@@ -7,7 +8,8 @@ public class EditorObjectConnection : ScriptableObject
 	//PUBLIC VARIABLES
 	[SerializeField]public EditorObject Caller;
 	[SerializeField]public EditorObject Subject;	
-	[SerializeField]public EditorObject.EditorObjectMessage Message = EditorObject.EditorObjectMessage.Activate;
+	[SerializeField]public EditorObject.EditorObjectMessage Message = EditorObject.EditorObjectMessage.Activate;	
+	[SerializeField]public EventTransceiver.Events OnEvent;
 	
 	//PUBLIC VARIABLES (HIDDEN)
 	[HideInInspector]
@@ -41,8 +43,9 @@ public class EditorObjectConnection : ScriptableObject
 	}
 	
 	//Constructor
-	public EditorObjectConnection(EditorObject.EditorObjectMessage message, EditorObject caller, EditorObject subject)
+	public EditorObjectConnection(EditorObject.EditorObjectMessage message, EditorObject caller, EditorObject subject, EventTransceiver.Events onEvent)
 	{
+		OnEvent = onEvent;
 		Message = message;
 		Caller = caller;
 		Subject = subject;

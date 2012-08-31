@@ -9,12 +9,11 @@ public class GrendelToolbarButton : MonoBehaviour
 	{
 		public ToolbarButtonAttribute(string itemName) 
 		{ 
-			this.name = itemName;			
+			this.name = itemName;
+			Debug.Log(name);
 		}		
 		
-		string name;
-		
-		
+		string name;		
 	}
 	
 	public static void Main() 

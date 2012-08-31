@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,15 +9,26 @@ public class Trigger : EditorObject, IEditorObject
 	public delegate void OnTriggerEnterHandler(Trigger trigger, Collider intruder);
 	public delegate void OnTriggerExitHandler(Trigger trigger, Collider intruder);
 	
-	public List<Collider> ObjectList = new List<Collider>();
+	[HideInInspector]public List<Collider> ObjectList = new List<Collider>();
 	
 	private List<Collider> _removeList = new List<Collider>();
-	private float _scrubTimeInterval = 0.5f; //how often the list is scrubbed for nulls
+	private float _scrubTimeInterval = 0.5f; //how often the list is scrubbed for nulls	
 	
-	protected event EditorObjectEventHandler OnEnterEvent;
-	protected event EditorObjectEventHandler OnExitEvent;
-	protected event EditorObjectEventHandler OnStayEvent;
-	
+	public override EventTransceiver.Events[] AssociatedEvents
+	{
+		get
+		{
+			if(_associatedEvents == null || _associatedEvents.Length <= 0)
+			{
+				_associatedEvents = new EventTransceiver.Events[]{ EventTransceiver.Events.TriggerEventEnter,
+									  							   EventTransceiver.Events.TriggerEventExit,
+								     					           EventTransceiver.Events.TriggerEventStay
+																 };
+			}
+			
+			return _associatedEvents;
+		}
+	}
 	
 	// Use this for initialization
 	protected override void Start () 
@@ -37,7 +49,7 @@ public class Trigger : EditorObject, IEditorObject
 			{
 				if (other != null)
 				{
-					//Messenger.Broadcast<Trigger, Entity>("OnTriggerStay", this, EntityManager.EntityDictionary[other.gameObject.GetInstanceID()]);
+					EventManager.Instance.Post(this, new TriggerEventStay(other));
 					continue;
 				}
 				else
@@ -59,18 +71,16 @@ public class Trigger : EditorObject, IEditorObject
 	
 	virtual public void OnTriggerEnter(Collider collider)
 	{		
-		//if (TriggerEntered != null){ TriggerEntered(this, collider); }
-		ObjectList.Add(collider);
-		//Messenger.Broadcast<Trigger, Entity>("OnTriggerEnter", this, EntityManager.EntityDictionary[collider.gameObject.GetInstanceID()]);
-		//CallSubjects();
-		Activate(this);
+		EventManager.Instance.Post(this, new TriggerEventEnter(collider));
+		
+		ObjectList.Add(collider);		
 	}
 	
 	virtual protected void OnTriggerExit(Collider collider)
-	{		
-		//if (TriggerExited != null){ TriggerExited(this, collider); }
+	{	
+		EventManager.Instance.Post(this, new TriggerEventExit(collider));		
+		
 		ObjectList.Remove(collider);
-		Messenger.Broadcast<Trigger, Entity>("OnTriggerExit", this, EntityManager.EntityDictionary[collider.gameObject.GetInstanceID()]);
 	}
 	
 	protected override void OnDrawGizmos()

@@ -38,11 +38,6 @@ public class FactionManager : Singleton<FactionManager>
 		get { return System.Enum.GetNames(typeof(Factions)); }
 	}
 	
-	void Awake()
-	{
-		
-	}
-	
 	// Use this for initialization
 	void Start () 
 	{

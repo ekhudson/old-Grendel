@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 	/// <summary>
 	/// Title: Grendel Engine
@@ -22,7 +23,7 @@ public class FlockingAgent : MonoBehaviour
 	
 	private SearchRadius _agentSearchRadius;
 	private Entity _agent;
-	private Entity[] _flock;
+	private List<Entity> _flock = new List<Entity>();
 		
 	// Use this for initialization
 	void Start () 

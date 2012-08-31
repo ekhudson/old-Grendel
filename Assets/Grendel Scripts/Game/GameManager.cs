@@ -31,5 +31,6 @@ public class GameManager : Singleton<GameManager>
 	void Start () 
 	{				
 		Console.Instance.OutputToConsole(string.Format("Starting up {0} {1}", ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
+		ConnectionRegistry.Instance.BuildConnections();
 	}
 }

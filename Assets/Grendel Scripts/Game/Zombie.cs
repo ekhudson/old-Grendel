@@ -44,12 +44,12 @@ public class Zombie : Entity {
 	public ItemDrop[] ItemDrops;
 	
 	private float _currentSpeed = 1f;
-	private float _currentStepTime = 0;
-	private float _currentStepCooldown = 0;
-	private float _currentWanderTime = 0;
+	//private float _currentStepTime = 0;
+	//private float _currentStepCooldown = 0;
+	//private float _currentWanderTime = 0;
 	private float _currentAttackTime = 0;
 	private float _currentSearchTime = 0;
-	private float _myTimeDelta = 0;
+	//private float _myTimeDelta = 0;
 	private float _myTimeSinceStartup = 0;
 	
 	private GameObject _playerObject;
@@ -71,7 +71,7 @@ public class Zombie : Entity {
 	
 	
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
 		
 		_playerObject = EntityManager.PlayerReference.gameObject;
 		_playerTransform = _playerObject.transform;
@@ -288,7 +288,7 @@ public class Zombie : Entity {
 			position.y = 0.25f;
 			position.z += Random.Range(-2,2);
 			
-			GameObject ex = (GameObject)Instantiate(ZombiePrefab, position, Quaternion.identity);
+			Instantiate(ZombiePrefab, position, Quaternion.identity);
 			
 		}
 		

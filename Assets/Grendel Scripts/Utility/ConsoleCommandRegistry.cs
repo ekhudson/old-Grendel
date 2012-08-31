@@ -105,9 +105,5 @@ public class ConsoleCommandRegistry : Singleton<ConsoleCommandRegistry>
             return diff;
         }
     }
-	
-	void Awake()
-	{		
-		base.Awake();
-	}
+
 }//end class

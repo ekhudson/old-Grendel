@@ -10,7 +10,7 @@ public class MapCamera : BaseObject {
 	
 	private Camera _camera; //this camera
 	private float _zoomTime = 0.05f; //zoom time between stages
-	private float _currentZoomTime = 0f;
+	//private float _currentZoomTime = 0f;
 	private Vector3 _followPosition; //position to follow
 	private static MapCamera _instance;
 	private float _currentSize;
@@ -21,7 +21,7 @@ public class MapCamera : BaseObject {
 		get {return _instance;}
 	}
 	
-	void Awake ()
+	protected override void Awake ()
 	{
 		base.Awake();
 		_camera = GetComponent<Camera>();
@@ -29,7 +29,7 @@ public class MapCamera : BaseObject {
 	}
 	
 	// Use this for initialization
-	void Start () 
+	protected override void Start () 
 	{
 		base.Start();
 		

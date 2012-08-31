@@ -8,9 +8,15 @@ public class Spawner : EditorObject, IEditorObject
 	public List<GameObject> EntitiesToSpawn = new List<GameObject>();
 
 	// Use this for initialization
-	void Start () 
+	protected override void Start () 
 	{
 		base.Start();
+		
+	}
+			
+	public void OnHear(object sender, TriggerEventBase evt)
+	{
+		//Debug.Log("Hear Event " + evt.evt.ToString() + " with " + evt.GetCollider + evt.Place);
 	}
 	
 	protected override void OnDrawGizmos()
@@ -22,10 +28,9 @@ public class Spawner : EditorObject, IEditorObject
 			
 	}
 	
-	public override void OnActivate(EditorObject caller) //called when the editor object is activated
-	{
-		Debug.Log("ACTIVATE!");
-		base.OnActivate(caller);
+	public override void OnActivate(object caller, EventBase evt) //called when the editor object is activated
+	{		
+		base.OnActivate(caller, evt);
 		
 		foreach(GameObject entityToSpawn in EntitiesToSpawn)
 		{
@@ -33,24 +38,24 @@ public class Spawner : EditorObject, IEditorObject
 		}
 	}
 	
-	public override void OnDeactivate(EditorObject caller) //called when the editor object is deactivated
+	public override void OnDeactivate(object caller, EventBase evt) //called when the editor object is deactivated
 	{
-		base.OnDeactivate(caller);
+		base.OnDeactivate(caller, evt);
 	}
 	
-	public override void OnToggle(EditorObject caller) //called when the editor object is toggled
+	public override void OnToggle(object caller, EventBase evt) //called when the editor object is toggled
 	{
-		base.OnToggle(caller);
+		base.OnToggle(caller, evt);
 	}
 	
-	public override void OnEnabled(EditorObject caller) //called when the editor object is deactivated
+	public override void OnEnabled(object caller, EventBase evt) //called when the editor object is deactivated
 	{
-		base.OnEnabled(caller);
+		base.OnEnabled(caller, evt);
 	}
 	
-	public override void OnDisabled(EditorObject caller) //called when the editor object is toggled
+	public override void OnDisabled(object caller, EventBase evt) //called when the editor object is toggled
 	{
-		base.OnDisabled(caller);
+		base.OnDisabled(caller, evt);
 	}
 	
 	

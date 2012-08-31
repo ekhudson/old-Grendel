@@ -21,7 +21,6 @@ public class InfoTracker : Singleton<InfoTracker> {
 	private string _username = "";
 	private string _machineName = "";	
 	private string _unityVersion = "";
-	private string _unityEditor = "";
 	
 	private string _osPlatform = "";
 	private string _osVersion = "";

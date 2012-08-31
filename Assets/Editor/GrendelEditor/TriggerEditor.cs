@@ -19,4 +19,10 @@ public class TriggerEditor : EditorObjectInfo<Trigger>
 		
 	}
 	
+	public override void OnInspectorGUI()
+	{
+		base.OnInspectorGUI();
+		GUILayout.Label("TRIGGER!");		
+	}
+	
 }

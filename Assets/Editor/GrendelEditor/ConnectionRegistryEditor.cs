@@ -56,8 +56,8 @@ public class ConnectionRegistryEditor : Editor
 			EditorGUI.indentLevel = 2;
 			connection.SetColor();
 			GUI.color = connection.MessageColor;			
-			EditorGUILayout.LabelField(string.Format("{0} {1} {2}",connection.Caller, connection.Message, connection.Subject), GUI.skin.box);			
-			GUI.color = Color.white;						
+			EditorGUILayout.LabelField(string.Format("{0} {1} {2} on {3}",connection.Caller, connection.Message, connection.Subject, connection.OnEvent.ToString()), GUI.skin.box);			
+			GUI.color = Color.white;			
 		}
 		
 		EditorUtility.SetDirty(Target);	

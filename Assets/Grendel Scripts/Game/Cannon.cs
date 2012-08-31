@@ -22,7 +22,7 @@ public class Cannon : MonoBehaviour
 	public AudioClip GrenadeFireSound;
 	public GameObject CaseEjector;
 	
-	private Vector3 targetPos;
+	//private Vector3 targetPos;
 	private Ray _ray;
 	private RaycastHit _rayHit;
 	
@@ -97,7 +97,7 @@ public class Cannon : MonoBehaviour
 		if(Physics.Raycast(_ray, out _rayHit, TargetRange, ~layerMask) && _rayHit.transform != Player.Instance.transform )
 		{
 			ReticulePos = _rayHit.point;
-			targetPos = ReticulePos;
+			//targetPos = ReticulePos;
 			//Debug.DrawRay(transform.position, _ray.direction * TargetRange, Color.red);
 			//Debug.DrawLine(transform.position, _rayHit.point, Color.red);
 		}
@@ -105,7 +105,7 @@ public class Cannon : MonoBehaviour
 		{
 			//Debug.DrawRay(transform.position, _ray.direction * TargetRange, Color.blue);	
 			ReticulePos = _ray.direction * TargetRange;
-			targetPos = ReticulePos;			
+			//targetPos = ReticulePos;			
 		}
 		
 		

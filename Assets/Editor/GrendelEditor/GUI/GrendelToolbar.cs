@@ -8,7 +8,7 @@ public class GrendelToolbar : Editor
 	private static bool _objectPlacer = false;
 	private static int _buttonSize = 64;
 	private static GUILayoutOption[] buttonSizes = new GUILayoutOption[]{ GUILayout.Width(_buttonSize), GUILayout.Height(_buttonSize) };
-	private static GameObject _objectToPlace = null;
+	//private static GameObject _objectToPlace = null;
 	
 	[MenuItem ("Grendel/Show Toolbar")]	
 	static void Init() 
