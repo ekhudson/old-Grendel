@@ -1,3 +1,4 @@
+#define DEBUG_MODE
 using UnityEngine;
 using System;
 using System.Collections;
@@ -287,8 +288,11 @@ public class Console : Singleton<Console>
 	//This method can be called from anywhere to output a line to the console, useful for logging events	
 	public void OutputToConsole(string text, GUIStyle style, bool showDetail)
 	{
+#if DEBUG_MODE
+		Debug.Log(text);
+#endif
 		ConsoleLine line = new ConsoleLine();
-		
+
 		if (showDetail)
 		{
 			

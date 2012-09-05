@@ -9,8 +9,8 @@ using System.Collections;
 	/// Filename: GameManager.cs
 	/// 
 	/// Summary: Essentially holds information that might need to be
-	/// accessed by a variety of objects in the scene, and contains
-	/// global references to useful scripts (ie. UserInput, EntityManager)
+	/// accessed by a variety of objects in the scene, as well as maintains
+	/// the current state of the Game
 	///  
 	/// </summary>
 
@@ -20,7 +20,24 @@ public class GameManager : Singleton<GameManager>
 	public string ApplicationTitle = "Grendel";
 	public string ApplicationVersion = "1.0";
 	public bool DebugBuild = true;
-	#endregion		
+	
+	public enum GAMESTATE
+	{
+		LOADING,
+		INTRO,
+		MAINMENU,
+		OPTIONS,
+		RUNNING,
+		PAUSED,
+		CREDITS,
+	}	
+	#endregion
+	
+	#region PRIVATE VARIABLES
+	
+	private GAMESTATE _gameState = GAMESTATE.LOADING;
+	
+	#endregion
 	
 	protected override void Awake()
 	{		
@@ -32,5 +49,45 @@ public class GameManager : Singleton<GameManager>
 	{				
 		Console.Instance.OutputToConsole(string.Format("Starting up {0} {1}", ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
 		ConnectionRegistry.Instance.BuildConnections();
+	}
+	
+	public void SetGameState(GAMESTATE state)
+	{
+		switch(state)
+		{
+			case GAMESTATE.LOADING:
+			
+			break;
+			
+			case GAMESTATE.INTRO:
+			
+			break;
+			
+			case GAMESTATE.MAINMENU:
+			
+			break;
+			
+			case GAMESTATE.OPTIONS:
+			
+			break;
+			
+			case GAMESTATE.RUNNING:
+			
+			break;
+			
+			case GAMESTATE.PAUSED:
+			
+			break;
+			
+			case GAMESTATE.CREDITS:
+			
+			break;			
+			
+			default:
+			
+				_gameState = state;
+			
+			break;
+		}
 	}
 }

@@ -1,17 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Grendel Scripts\EditorObjects\EditorObject.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Grendel Scripts\Game\GameManager.cs">
     <Files>
       <File FileName="Assets\Grendel Scripts\EditorObjects\EditorObject.cs" Line="231" Column="35" />
-      <File FileName="Assets\Grendel Scripts\EditorObjects\Trigger.cs" Line="17" Column="34" />
+      <File FileName="Assets\Grendel Scripts\EditorObjects\Trigger.cs" Line="1" Column="1" />
       <File FileName="Assets\Grendel Scripts\EditorObjects\EditorObjectConnection.cs" Line="1" Column="1" />
-      <File FileName="Assets\Grendel Scripts\Events\EventTransceiver.cs" Line="5" Column="14" />
-      <File FileName="Assets\Editor\GrendelEditor\EditorObjectInfo.cs" Line="463" Column="64" />
+      <File FileName="Assets\Grendel Scripts\Events\EventTransceiver.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\GrendelEditor\EditorObjectInfo.cs" Line="1" Column="1" />
       <File FileName="Assets\Editor\GrendelEditor\LevelManagerEditor.cs" Line="1" Column="1" />
       <File FileName="Assets\Editor\GrendelEditor\TriggerEditor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Grendel Scripts\EditorObjects\ConnectionRegistry.cs" Line="91" Column="49" />
+      <File FileName="Assets\Grendel Scripts\EditorObjects\ConnectionRegistry.cs" Line="1" Column="1" />
       <File FileName="Assets\Grendel Scripts\Events\EventBase.cs" Line="1" Column="1" />
       <File FileName="Assets\Grendel Scripts\Events\Triggers\TriggerEventBase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grendel Scripts\Game\GameManager.cs" Line="60" Column="10" />
+      <File FileName="Assets\Grendel Scripts\Utility\Console.cs" Line="304" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
