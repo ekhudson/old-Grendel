@@ -39,6 +39,14 @@ public class GameManager : Singleton<GameManager>
 	
 	#endregion
 	
+	#region PROPERTIES
+	public GAMESTATE GameState
+	{
+		get{return _gameState;}
+		
+	}
+	#endregion
+	
 	protected override void Awake()
 	{		
 		base.Awake();		
@@ -47,16 +55,21 @@ public class GameManager : Singleton<GameManager>
 	// Use this for initialization
 	void Start () 
 	{				
-		Console.Instance.OutputToConsole(string.Format("Starting up {0} {1}", ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
+		Console.Instance.OutputToConsole(string.Format("{0}: Starting up {1} {2}",  this.ToString(), ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
 		ConnectionRegistry.Instance.BuildConnections();
 	}
 	
-	public void SetGameState(GAMESTATE state)
+	void Update()
 	{
-		switch(state)
+		switch (_gameState)
 		{
 			case GAMESTATE.LOADING:
 			
+				if (ComponentsLoaded())
+				{
+					SetGameState(GAMESTATE.RUNNING);
+				}
+									
 			break;
 			
 			case GAMESTATE.INTRO:
@@ -81,13 +94,320 @@ public class GameManager : Singleton<GameManager>
 			
 			case GAMESTATE.CREDITS:
 			
+			break;
+		
+			default:
+		
+			break;
+		}
+	}
+	
+	public void SetGameState(GAMESTATE state)
+	{
+		if (state == _gameState)
+		{
+			Console.Instance.OutputToConsole(string.Format("{0}: Attempted to set GameState to {1}, but GameState is already set to {2}", this.ToString(), state.ToString(), _gameState.ToString()), Console.Instance.Style_Admin);
+			return;
+		}
+		
+		switch(state)
+		{
+			case GAMESTATE.LOADING:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:
+									
+					break;
+					
+					case GAMESTATE.INTRO:
+					
+					break;
+					
+					case GAMESTATE.MAINMENU:
+					
+					break;
+					
+					case GAMESTATE.OPTIONS:
+					
+					break;
+					
+					case GAMESTATE.RUNNING:
+					
+					break;
+					
+					case GAMESTATE.PAUSED:
+					
+					break;
+					
+					case GAMESTATE.CREDITS:
+					
+					break;
+				
+					default:
+				
+					break;
+				}
+			
+			break;
+			
+			case GAMESTATE.INTRO:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:
+								
+					break;
+					
+					case GAMESTATE.INTRO:
+							
+					break;
+					
+					case GAMESTATE.MAINMENU:
+					
+					break;
+					
+					case GAMESTATE.OPTIONS:
+					
+					break;
+					
+					case GAMESTATE.RUNNING:
+					
+					break;
+					
+					case GAMESTATE.PAUSED:
+					
+					break;
+					
+					case GAMESTATE.CREDITS:
+					
+					break;
+				
+					default:
+				
+					break;
+				}
+			
+			break;
+			
+			case GAMESTATE.MAINMENU:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:
+								
+					break;
+					
+					case GAMESTATE.INTRO:
+					
+					break;
+					
+					case GAMESTATE.MAINMENU:
+						
+					break;
+					
+					case GAMESTATE.OPTIONS:
+					
+					break;
+					
+					case GAMESTATE.RUNNING:
+					
+					break;
+					
+					case GAMESTATE.PAUSED:
+					
+					break;
+					
+					case GAMESTATE.CREDITS:
+					
+					break;
+				
+					default:
+				
+					break;
+				}
+			
+			break;
+			
+			case GAMESTATE.OPTIONS:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:					
+									
+					break;
+					
+					case GAMESTATE.INTRO:
+					
+					break;
+					
+					case GAMESTATE.MAINMENU:
+					
+					break;
+					
+					case GAMESTATE.OPTIONS:					
+											
+					break;
+					
+					case GAMESTATE.RUNNING:
+					
+					break;
+					
+					case GAMESTATE.PAUSED:
+					
+					break;
+					
+					case GAMESTATE.CREDITS:
+					
+					break;
+				
+					default:
+				
+					break;
+				}
+			
+			break;
+			
+			case GAMESTATE.RUNNING:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:
+									
+					break;
+					
+					case GAMESTATE.INTRO:
+					
+					break;
+					
+					case GAMESTATE.MAINMENU:
+					
+					break;
+					
+					case GAMESTATE.OPTIONS:
+					
+					break;
+					
+					case GAMESTATE.RUNNING:
+						
+					break;
+					
+					case GAMESTATE.PAUSED:
+					
+					break;
+					
+					case GAMESTATE.CREDITS:
+					
+					break;
+				
+					default:
+				
+					break;
+				}
+			
+			break;
+			
+			case GAMESTATE.PAUSED:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:
+									
+					break;
+					
+					case GAMESTATE.INTRO:
+					
+					break;
+					
+					case GAMESTATE.MAINMENU:
+					
+					break;
+					
+					case GAMESTATE.OPTIONS:
+					
+					break;
+					
+					case GAMESTATE.RUNNING:
+					
+					break;
+					
+					case GAMESTATE.PAUSED:
+						
+					break;
+					
+					case GAMESTATE.CREDITS:
+					
+					break;
+				
+					default:
+				
+					break;
+				}
+			
+			break;
+			
+			case GAMESTATE.CREDITS:
+			
+				switch (_gameState)
+				{
+					case GAMESTATE.LOADING:
+								
+					break;
+					
+					case GAMESTATE.INTRO:
+					
+					break;
+					
+					case GAMESTATE.MAINMENU:
+					
+					break;
+					
+					case GAMESTATE.OPTIONS:
+					
+					break;
+					
+					case GAMESTATE.RUNNING:
+					
+					break;
+					
+					case GAMESTATE.PAUSED:
+					
+					break;
+					
+					case GAMESTATE.CREDITS:
+							
+					break;
+				
+					default:
+				
+					break;
+				}
+			
 			break;			
 			
-			default:
-			
-				_gameState = state;
+			default:				
 			
 			break;
 		}
+		
+		
+		Console.Instance.OutputToConsole(string.Format("{0}: Setting GameState to {1}. Previous state: {2}", this.ToString(), state.ToString(), _gameState.ToString()), Console.Instance.Style_Admin);
+		_gameState = state;
+		
+	}
+	
+	private bool ComponentsLoaded()
+	{		
+		object[] singletons = FindObjectsOfType(typeof(Singleton<>));
+		
+		foreach(object st in singletons)
+		{
+			if (st == null)
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

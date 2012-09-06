@@ -37,6 +37,12 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 		ConsoleCommandRegistry.Instance.Register(OutputLog, "OutputLog", "Dump the console log to a .txt file", true);
 		ConsoleCommandRegistry.Instance.Register(Test, "Test", "Test command", true);
 		ConsoleCommandRegistry.Instance.Register(ShowCommands, "ShowCommands", "List all Console Commands", true);
+		
+		#region GameState Commands
+		ConsoleCommandRegistry.Instance.Register(SetGameState, "SetGameState", "Set the current game state", true);
+		ConsoleCommandRegistry.Instance.Register(GetGameState, "GetGameState", "Show the current game state", true);
+		ConsoleCommandRegistry.Instance.Register(ListGameStates, "ListGameStates", "List all game states", true);
+		#endregion
 	}	
 
 	void Quit(ConsoleCommandParams parameters)
@@ -139,6 +145,44 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 		{
 			Console.Instance.OutputToConsole("Success!", Console.Instance.Style_Admin);
 		}
+	}
+	
+	void SetGameState(ConsoleCommandParams parameters)
+	{		
+		if (parameters.Params == null || parameters.Params[0] == null)
+		{
+			Console.Instance.OutputToConsole("Parameter incorrect.", Console.Instance.Style_Error);
+		}
+		else
+		{
+			Console.Instance.OutputToConsole(string.Format("Attempting to set GameState to {0}", parameters.Params[0].ToString()), Console.Instance.Style_Admin);
+			try
+			{
+				GameManager.Instance.SetGameState(  (GameManager.GAMESTATE)Enum.Parse(typeof(GameManager.GAMESTATE), parameters.Params[0].ToString()));
+			}
+			catch
+			{
+				Console.Instance.OutputToConsole(string.Format("Attempt failed. {0} is not a valid GameState.", parameters.Params[0].ToString()), Console.Instance.Style_Error);
+			}
+		}
+	}
+	
+	void GetGameState(ConsoleCommandParams parameters)
+	{		
+		Console.Instance.OutputToConsole(string.Format("Current GameState is <{0}>", GameManager.Instance.GameState), Console.Instance.Style_Admin);		
+	}
+	
+	void ListGameStates(ConsoleCommandParams parameters)
+	{
+		Console.Instance.OutputToConsole("Listing GameStates:", Console.Instance.Style_Admin);
+		Console.Instance.OutputToConsole("", Console.Instance.Style_Admin, false);
+		
+		foreach(GameManager.GAMESTATE state in Enum.GetValues(typeof(GameManager.GAMESTATE)))
+		{
+			Console.Instance.OutputToConsole(state.ToString(), Console.Instance.Style_Admin, false);
+		}
+		
+		Console.Instance.OutputToConsole("", Console.Instance.Style_Admin, false);
 	}
 	
 	
