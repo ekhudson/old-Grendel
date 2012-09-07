@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 	/// <summary>
 	/// Title: Grendel Engine
@@ -20,6 +21,8 @@ public class GameManager : Singleton<GameManager>
 	public string ApplicationTitle = "Grendel";
 	public string ApplicationVersion = "1.0";
 	public bool DebugBuild = true;
+	[SerializeField]
+	public string MainMenuScene = null;
 	
 	public enum GAMESTATE
 	{
@@ -226,6 +229,8 @@ public class GameManager : Singleton<GameManager>
 				
 					break;
 				}
+			
+			LevelManager.Instance.LoadLevel(MainMenuScene);
 			
 			break;
 			

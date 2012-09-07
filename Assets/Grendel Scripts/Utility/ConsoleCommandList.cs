@@ -43,6 +43,10 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 		ConsoleCommandRegistry.Instance.Register(GetGameState, "GetGameState", "Show the current game state", true);
 		ConsoleCommandRegistry.Instance.Register(ListGameStates, "ListGameStates", "List all game states", true);
 		#endregion
+		
+		#region LevelManager Commands
+		ConsoleCommandRegistry.Instance.Register(LoadLevel, "LoadLevel", "<levelname> : loads a level.", true);		
+		#endregion
 	}	
 
 	void Quit(ConsoleCommandParams parameters)
@@ -183,6 +187,18 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 		}
 		
 		Console.Instance.OutputToConsole("", Console.Instance.Style_Admin, false);
+	}
+	
+	void LoadLevel(ConsoleCommandParams parameters)
+	{		
+		if (parameters.Params == null || parameters.Params[0] == null)
+		{
+			Console.Instance.OutputToConsole("Parameter missing", Console.Instance.Style_Error);
+		}
+		else
+		{
+			LevelManager.Instance.LoadLevel(parameters.Params[0].ToString());
+		}
 	}
 	
 	

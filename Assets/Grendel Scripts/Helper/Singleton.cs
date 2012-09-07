@@ -45,7 +45,7 @@ public class Singleton<T> : MonoBehaviour where T : class
 		else
 		{
 			if(GameManager.Instance.DebugBuild){ Debug.Log("Destroying: " + typeof(T).ToString() ); }
-			Destroy( this );
+			Destroy( this.gameObject );
 		}
 	}
 			

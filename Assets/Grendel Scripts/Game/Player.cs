@@ -35,6 +35,12 @@ public class Player : Entity
     protected override void Awake()
     {		
 		base.Awake();
+		
+		if (instance != null)
+		{
+			Destroy(instance.gameObject);
+		}
+		
 		instance = this;
 		//GameManager.PlayerRef = this;
     }
