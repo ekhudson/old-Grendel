@@ -19,10 +19,9 @@ public class LevelManagerEditor : Editor {
 	{		
 		if (Application.isPlaying) { return; }	
 		
-		
 		GUI.changed = false;
 		
-		TheAudioList = GameObject.Find("GameManager").GetComponent<AudioList>();
+		TheAudioList = (AudioList)GameObject.FindObjectOfType(typeof(AudioList));//GameObject.Find("GameManager").GetComponent<AudioList>();
 		MusicTracks = new string[TheAudioList.MusicTracks.Count];		
 			
 		int i = 0;

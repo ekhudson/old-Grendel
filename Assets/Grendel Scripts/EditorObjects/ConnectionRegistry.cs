@@ -14,6 +14,11 @@ public class ConnectionRegistry : Singleton<ConnectionRegistry>
 	{		
 		base.Awake();		
 	}
+	
+	protected void Start()
+	{
+		BuildConnections();
+	}
 		
 	public void BuildConnections()
 	{
@@ -67,6 +72,54 @@ public class ConnectionRegistry : Singleton<ConnectionRegistry>
 		}
 		
 		Console.Instance.OutputToConsole(string.Format("{0}: Connections established.",this.ToString()), Console.Instance.Style_Admin);
+	}
+	
+	public void RemoveBuiltConnections()
+	{
+		if (_registry.Count <= 0) { return; }
+		
+		Console.Instance.OutputToConsole(string.Format("{0}: Removing {1} connections that were built in the scene.",this.ToString(), _registry.Count), Console.Instance.Style_Admin);
+		
+		foreach(EditorObjectConnection connection in _registry)
+		{			
+			switch(connection.Message)
+			{
+				
+				case EditorObject.EditorObjectMessage.Activate:
+					
+					EventManager.Instance.RemoveHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(), connection.Subject.OnActivate);
+					
+				break;
+					
+				case EditorObject.EditorObjectMessage.Deactivate:
+					
+					EventManager.Instance.RemoveHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(), connection.Subject.OnDeactivate);
+					
+				break;
+					
+				case EditorObject.EditorObjectMessage.Toggle:
+					
+					EventManager.Instance.RemoveHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(),connection.Subject.OnToggle);
+					
+				break;
+				
+				case EditorObject.EditorObjectMessage.Enable:
+					
+					EventManager.Instance.RemoveHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(),connection.Subject.OnEnabled);
+					
+				break;
+				
+				case EditorObject.EditorObjectMessage.Disable:
+					
+					EventManager.Instance.RemoveHandler(EventTransceiver.LookupEvent(connection.OnEvent).GetType(),connection.Subject.OnDisabled);
+					
+				break;
+				
+				default:
+				
+				break;				
+			}
+		}
 	}
 	
 	public static ConnectionRegistry DesignInstance
@@ -157,4 +210,9 @@ public class ConnectionRegistry : Singleton<ConnectionRegistry>
             return x.Caller.name.CompareTo(y.Caller.name);
         }
     }
+	
+	private void OnDestroy()
+	{
+		RemoveBuiltConnections();
+	}
 }

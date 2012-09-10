@@ -18,7 +18,7 @@ public class ConnectionRegistryEditor : Editor
     }
 	
 	public override void OnInspectorGUI()
-	{
+	{		
 		EditorGUIUtility.LookLikeControls();	
 		EditorGUILayout.LabelField("Connection Count: " + Target.Registry.Count);
 		

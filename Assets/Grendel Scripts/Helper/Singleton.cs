@@ -3,7 +3,7 @@ using System.Collections;
 using System.Reflection;
 
 	/// <summary>
-	/// Title: Grendel Engine
+	/// Title: Grendel Framework
 	/// Author: Elliot Hudson
 	/// Date: Mar 28, 2012
 	/// 
@@ -17,6 +17,8 @@ using System.Reflection;
 public class Singleton<T> : MonoBehaviour where T : class
 { 
 	public bool DoNotDestroyOnLoad = false;
+	public bool DestroyNewDuplicate = true;
+	public bool DestroyGameObject = false;
 	
 	private static T _instance;
 	
@@ -45,7 +47,29 @@ public class Singleton<T> : MonoBehaviour where T : class
 		else
 		{
 			if(GameManager.Instance.DebugBuild){ Debug.Log("Destroying: " + typeof(T).ToString() ); }
-			Destroy( this.gameObject );
+			if (DestroyNewDuplicate)
+			{
+				if (DestroyGameObject)
+				{
+					Destroy( this.gameObject );
+				}
+				else
+				{
+					Destroy ( this );
+				}
+			}
+			else
+			{
+				if (DestroyGameObject)
+				{
+					Destroy( (_instance as MonoBehaviour).gameObject );
+				}
+				else
+				{
+					Destroy( _instance as MonoBehaviour);
+				}
+				_instance = this as T;
+			}
 		}
 	}
 			

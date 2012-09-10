@@ -43,13 +43,13 @@ public class AudioManagerEditor : Editor {
 				if (tempClip != null)
 				{
 					
-					if( GameObject.Find("GameManager").GetComponent<AudioList>().MusicTracks.Contains(tempClip) )
+					if( (GameObject.FindObjectOfType(typeof(AudioList))as AudioList).MusicTracks.Contains(tempClip) )
 					{
 						continue;
 					}
 					else
 					{
-						GameObject.Find("GameManager").GetComponent<AudioList>().MusicTracks.Add(tempClip);
+						(GameObject.FindObjectOfType(typeof(AudioList))as AudioList).MusicTracks.Add(tempClip);
 					}
 				}
 				else

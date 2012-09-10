@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MainCamera : Singleton<MainCamera>
+public class MainCamera : MonoBehaviour
 {
 	
 	public float CameraUpperLimit = 180f;
@@ -20,11 +20,24 @@ public class MainCamera : Singleton<MainCamera>
 	private Vector3 _initialRotation = Vector3.zero;
 	
 	private float _distanceToPlayer = 5.0f;
+	private static MainCamera _instance;
 	
 	//TODO: Cam Setups should be a datatype that defines special
 	//cam parameters, such as locking cam 'look' in RTS mode
 	//and hiding the player in FPS mode
 	
+	public static MainCamera Instance
+	{
+		get
+		{
+			return _instance;
+		}
+	}
+	
+	void Awake()
+	{
+		_instance = this;
+	}
 	
 	// Use this for initialization
 	void Start () 

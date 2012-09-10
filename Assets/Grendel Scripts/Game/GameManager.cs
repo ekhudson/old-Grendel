@@ -59,7 +59,6 @@ public class GameManager : Singleton<GameManager>
 	void Start () 
 	{				
 		Console.Instance.OutputToConsole(string.Format("{0}: Starting up {1} {2}",  this.ToString(), ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
-		ConnectionRegistry.Instance.BuildConnections();
 	}
 	
 	void Update()
@@ -277,7 +276,7 @@ public class GameManager : Singleton<GameManager>
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:
+					case GAMESTATE.LOADING:						
 									
 					break;
 					
@@ -414,5 +413,5 @@ public class GameManager : Singleton<GameManager>
 		}
 		
 		return true;
-	}
+	}	
 }

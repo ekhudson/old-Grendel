@@ -52,12 +52,28 @@ public class LevelManager : Singleton<LevelManager>
 		
 		try
 		{			
-			Application.LoadLevel(sceneName);
-			GameManager.Instance.SetGameState(GameManager.GAMESTATE.LOADING);
+			StartCoroutine("LevelLoading");
+			//GameManager.Instance.SetGameState(GameManager.GAMESTATE.LOADING);
+			Application.LoadLevel(sceneName);			
+			
+			
 		}
 		catch
 		{
 			Console.Instance.OutputToConsole(string.Format("{0}: Attempted to load scene {1}, but a scene with that name was not found.", this.ToString(), sceneName), Console.Instance.Style_Error);					
 		}
+	}
+	
+	IEnumerable LevelLoading()
+	{
+		double time = Time.realtimeSinceStartup;
+		GameManager.Instance.SetGameState(GameManager.GAMESTATE.LOADING);
+		while(Application.isLoadingLevel)
+		{
+			
+		}
+		time = Time.realtimeSinceStartup - time;
+		Console.Instance.OutputToConsole(string.Format("{0}: Scene {1} loaded in {2} seconds.", this.ToString(), Application.loadedLevelName, time.ToString()), Console.Instance.Style_Admin);	
+		return null;
 	}
 }
