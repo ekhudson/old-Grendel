@@ -1,6 +1,7 @@
+using System.Collections;
+
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 
 public class DrawConnectionLine : ScriptableObject 
 {
@@ -8,7 +9,7 @@ public class DrawConnectionLine : ScriptableObject
 	private const float kArrowSpacing = 1f;
 	
 	
-	public static void DrawLine(EditorObject source, EditorObject target, Color color)
+	public static void DrawLine(GameObject source, GameObject target, Color color)
 	{
 		Vector3 sourcePosition = source.transform.position;
 		Vector3 targetPosition = target.transform.position;			
@@ -31,4 +32,10 @@ public class DrawConnectionLine : ScriptableObject
 		Handles.color = Color.white;
 	}	
 	
+	public static void DrawLine(EditorObject source, EditorObject target, Color color)
+	{
+		DrawLine(source.gameObject, target.gameObject, color);
+	}
+	
 }
+

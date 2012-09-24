@@ -1,6 +1,7 @@
+using System.Collections;
+
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 
 public class MoveObjectToGround : ScriptableObject
 {
@@ -29,3 +30,4 @@ public class MoveObjectToGround : ScriptableObject
 		}
 	}
 }
+
