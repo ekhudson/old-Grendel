@@ -24,7 +24,7 @@ public class ScreenNotification
 	private Texture2D _defaultTexture;
 	private Color _defaultBoxColor = new Color(0.25f, 0.25f, 0.25f, 0.75f);
 	private string _textToShow = "";
-	private Rect _notificationBox = new Rect(10f,10f, (Screen.width * 0.25f), 25f);
+	//private Rect _notificationBox = new Rect(10f,10f, (Screen.width * 0.50f), 50f);
 	private GUIStyle _styleToUse;
 	
 	public float HoldTime
@@ -45,6 +45,12 @@ public class ScreenNotification
 	public string Text
 	{
 		get{ return _textToShow; }
+	}
+	
+	public Texture2D BoxTexture
+	{
+		get{ return _defaultTexture; }
+		set { _defaultTexture = value; }
 	}
 	
 	public Color BoxColor
@@ -86,15 +92,10 @@ public class ScreenNotification
 	
 	public void DisplayNotification()
 	{
-		if (_styleToUse == null) {_styleToUse = _defaultGUIStyle; }
+		if (_styleToUse == null) {_styleToUse = _defaultGUIStyle; }		
 		
-		_defaultTexture.SetPixel(1,1, _defaultBoxColor);
-		_defaultTexture.Apply();
-		_styleToUse.normal.background = _defaultTexture;
 		_styleToUse.alignment = TextAnchor.MiddleLeft;
-		_styleToUse.contentOffset = new Vector2(10,0);
-		
-		GUI.Box(_notificationBox, _textToShow, _styleToUse	);		
+		_styleToUse.contentOffset = new Vector2(10,0);				
 	}
 	
 	public void AddToNotificationList()

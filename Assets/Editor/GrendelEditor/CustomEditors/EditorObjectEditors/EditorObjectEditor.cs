@@ -23,8 +23,7 @@ public class EditorObjectEditor<T> : Editor where T : class
 	protected GenericMenu _messageMenu;
 	
 	private bool mShowOutgoingConnections = true;
-	private bool mShowIncomingConnections = true;
-	
+	private bool mShowIncomingConnections = true;	
 	
 	//CONSTANTS
 	private const int kCommentCharacterLimit = 512;
@@ -40,9 +39,7 @@ public class EditorObjectEditor<T> : Editor where T : class
 	virtual protected void OnEnable()
 	{		
 		if (!_target) { _target = target as EditorObject;}		
-		CheckNameConflicts();		
-		
-		//EditorApplication.ExecuteMenuItem("Grendel/Show Toolbar");		
+		CheckNameConflicts();				
 		
 		SetAllFiltersOn();
 		
@@ -125,114 +122,18 @@ public class EditorObjectEditor<T> : Editor where T : class
 	
 	virtual protected void OnSceneGUI()
 	{		
-		//EditorObject.CurrentHoveredEditorObject = null;	
-		_currentCamera = SceneView.currentDrawingSceneView.camera;
 		
-		//if(_target.LookingForSubject){ GetInput(); }
-		GetInput();
-		//DrawToolbar();		
-		//DrawInfo();		
-		DrawConnectionLines();		
+		_currentCamera = SceneView.currentDrawingSceneView.camera;		
+	
+		GetInput();				
 		DrawSearchLine();	
     	
+		ConnectionRegistryEditor.DrawConnectionsForObject(Target);
 		
-		if(_quickMenu){ DrawQuickMenu(); }
-		
-		if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.End))
-		{			
-			MoveObjectToGround.Move(Target.gameObject);
-		}
+		if(_quickMenu){ DrawQuickMenu(); }	
+
 	}
-	
-//	private void DrawToolbar()
-//	{
-//		if (Target.AssociatedEvents == null || Target.AssociatedEvents.Length <= 0)
-//		{
-//			return;
-//		}
-//		
-//		_toolbarInt = GUI.Toolbar(new Rect(_editorWindowWidth + 16, (Screen.height - _editorWindowHeight) - 80, 256, 32), _toolbarInt, Array.ConvertAll(Target.AssociatedEvents, p => p.ToString()), GUI.skin.button); 
-//	}
-	
-//	virtual protected void DrawInfo()
-//	{				
-////		Vector3 screenPos = new Vector3(16, (Screen.height - _editorWindowHeight) - 32 ,0);	
-////		
-////		Handles.BeginGUI();			
-////
-////		GUILayout.Window(0, new Rect(screenPos.x, screenPos.y, _editorWindowWidth, _editorWindowHeight), InfoWindow, "", GUI.skin.box);	
-////		
-////		//DrawConnectionBoxes();
-////		
-////		Handles.EndGUI();		
-////					
-////		
-//		
-////		DrawConnectionLines();	
-////		
-////		DrawSearchLine();		
-////		
-////		EditorUtility.SetDirty(_target);
-////		EditorUtility.SetDirty(EditorObjectManager.DesignInstance);
-//	}
-	
-//	virtual public void InfoWindow(int windowID)
-//	{		
-////		SerializedObject sObject = new SerializedObject (_target);
-////		SerializedProperty comment = sObject.FindProperty("Comment");
-////		string nameForTest = _target.name;
-////		
-////		int nameConflicts = _nameConflictCounts.ContainsKey(_target.name) ? _nameConflictCounts[_target.name] : 0;
-////		Color nameColor = _target.NameConflict == true ? Color.red : Color.white;
-////				
-//		
-//		
-//			GUILayout.BeginVertical();		
-//				
-//				GUILayout.BeginArea(new Rect(0,0,_editorWindowWidth, _editorWindowHeight), _target.GetType().ToString(),GrendelCustomStyles.CustomElement(GUI.skin.window, Color.white, Color.yellow,TextAnchor.MiddleCenter,FontStyle.Bold) );
-//					
-//				GUILayout.BeginHorizontal();
-////					GUILayout.BeginVertical();	
-////					GUILayout.BeginHorizontal();				
-////						GUILayout.Label(new GUIContent(string.Format("Name: {0}", nameConflicts <= 0 ? "" : nameConflicts.ToString()),
-////										nameConflicts <= 0 ? "" : string.Format("There are {0} name conflicts.", nameConflicts.ToString())),
-////										GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, nameColor), GUILayout.Width(64) );
-////					
-////						GUI.skin.textField.focused.textColor = nameColor;
-////						_target.name = GUILayout.TextField(_target.name, GrendelCustomStyles.CustomElement(GUI.skin.textArea, Color.white, nameColor), GUILayout.Width(kTextFieldWidth));	
-////					GUILayout.EndHorizontal();
-////					
-////					GUILayout.BeginHorizontal();			
-////						GUILayout.Label("Comment: ", GUILayout.Width(64));			
-////						GUI.skin.textField.wordWrap = true;
-////						comment.stringValue = GUILayout.TextField(comment.stringValue, kCommentCharacterLimit, GUI.skin.textField, new GUILayoutOption[]{GUILayout.Width(kTextFieldWidth), GUILayout.Height(64)});		
-////					
-////					GUILayout.EndHorizontal();	
-////					sObject.ApplyModifiedProperties();	
-////					GUILayout.EndVertical();
-//		
-//					CustomInspector();
-//					
-//					_target.LookingForSubject = GUILayout.Toggle(_target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.green, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));			
-//					
-//					DrawConnectionBoxes();
-//					
-//					
-//					GUILayout.EndHorizontal();
-//		
-//					
-//			
-//					
-//					GUILayout.EndArea();
-//				
-//			GUILayout.EndVertical();		
-//		
-////		if (_target.name != nameForTest || _nameConflictCounts == null)
-////		{
-////			CheckNameConflicts();
-////		}		
-//	}
-//	
+
 	public void CustomInspector()
 	{
 		SerializedObject sObject = new SerializedObject (_target);
@@ -298,81 +199,6 @@ public class EditorObjectEditor<T> : Editor where T : class
 		EditorUtility.SetDirty(EditorObjectManager.DesignInstance);
 	}
 	
-	virtual protected void DrawConnectionLines()
-	{		
-		if (ConnectionRegistry.DesignInstance.Registry.Count <= 0)
-		{
-			return;
-		}
-		
-		foreach(EditorObjectConnection connection in ConnectionRegistry.DesignInstance.Registry)
-		{
-			if (connection.Subject == null)
-			{
-				continue;
-			}
-			else if (connection.Subject.HighlightHighlight)
-			{
-				Handles.color = Color.cyan;				
-				//DrawConnectionHelper(Target.transform.position, connection.Subject.transform.position);
-				DrawConnectionLine.DrawLine(Target, connection.Subject, connection.MessageColor);
-				continue;
-			}		
-			
-			connection.SetColor();
-			
-			Color color = connection.Caller != _target ? connection.MessageColorDark : connection.MessageColor;			
-			
-			switch(connection.Message)
-			{
-				case EditorObject.EditorObjectMessage.None:					
-				
-				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
-				
-				break;	
-			
-				case EditorObject.EditorObjectMessage.Activate:				
-				
-				connection.Subject.ActivateHighlight = true;				
-				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
-				
-				break;
-				
-				case EditorObject.EditorObjectMessage.Deactivate:				
-				
-				connection.Subject.DeactivateHighlight = true;				
-				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
-				
-				break;
-				
-				case EditorObject.EditorObjectMessage.Toggle:				
-				
-				connection.Subject.ToggleHighlight = true;				
-				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
-				
-				break;
-				
-				case EditorObject.EditorObjectMessage.Enable:				
-				
-				connection.Subject.ActivateHighlight = true;				
-				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
-				
-				break;
-				
-				case EditorObject.EditorObjectMessage.Disable:				
-				
-				connection.Subject.DeactivateHighlight = true;				
-				DrawConnectionLine.DrawLine(connection.Caller, connection.Subject, color);
-				
-				break;
-				
-				default:				
-								
-				break;				
-			}
-		}		
-	}
-	
 	private void DrawFilters(bool[] eventFilters, bool[] actionFilters)
 	{
 			
@@ -392,12 +218,7 @@ public class EditorObjectEditor<T> : Editor where T : class
 		GUI.color = Color.gray;
 		Target.InfoScrollPos = GUILayout.BeginScrollView(Target.InfoScrollPos, false, true, GUI.skin.horizontalScrollbar, GUI.skin.verticalScrollbar, GUI.skin.textArea);
 		GUI.color = Color.white;
-		//serializedObject.ApplyModifiedProperties();
-		
-			//GUILayout.BeginHorizontal();
-			
-			//Vector3 origin = Vector3.zero;
-			//origin.x += _editorWindowWidth;				
+		//serializedObject.ApplyModifiedProperties();							
 			
 			if (ConnectionRegistry.DesignInstance.Registry.Count <= 0)
 			{
@@ -412,48 +233,24 @@ public class EditorObjectEditor<T> : Editor where T : class
 					if (connection == null || connection.Caller != Target)
 					{
 						continue;
-					}
-//					else if(connection.OnEvent.ToString() != Target.AssociatedEvents[_toolbarInt].ToString())
-//					{
-//						continue;
-//					}					
+					}				
 				
-					DrawConnectionBox(connection.MessageColor, connection, Vector3.zero);
-					//origin.x += 192;		
+					DrawConnectionBox(connection.MessageColor, connection, Vector3.zero);						
 				}				
-			}
+			}	
 		
-			//GUI.color = Color.green;				
-						
-			//_target.LookingForSubject = GUILayout.Toggle(_target.LookingForSubject, "Add", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.green, Color.white, TextAnchor.MiddleCenter, FontStyle.Bold));			
-						
-			//GUILayout.EndHorizontal();		
-
+		GUILayout.EndScrollView();
 		
-		GUILayout.EndScrollView();		
-
 	}	
 	
 	void DrawConnectionBox(Color color, EditorObjectConnection editorObjectConnection, Vector3 origin)
-	{	
-		//int connectionWidth = 192;
-				
+	{				
 		Event e = Event.current;
-		//Rect boxRect = new Rect(origin.x, origin.y, 192, 64);
 		
-		
-		//Event e = Event.current;
-		
-//		if (boxRect.Contains(e.mousePosition))
-//		{			
-//			editorObjectConnection.Subject.HighlightHighlight = true;			
-//		}
-					
-		
-		//GUILayout.BeginArea(boxRect, GrendelCustomStyles.CustomElement(GUI.skin.textArea, color, Color.white,TextAnchor.UpperCenter));
 		GUI.color = Color.black;
 		GUILayout.BeginHorizontal(GUI.skin.box);	
 		GUI.color = Color.cyan;
+		
 		if (e.type == EventType.repaint)
 		{
 			if (editorObjectConnection.Subject.HighlightHighlight)
@@ -464,61 +261,35 @@ public class EditorObjectEditor<T> : Editor where T : class
 			{
 				GUI.color = color;
 			}
+		}	
+		
+		SerializedObject connectionSerialized = new SerializedObject(editorObjectConnection);
+		SerializedProperty eventSerialized = connectionSerialized.FindProperty("OnEvent");
+		SerializedProperty messageSerialized = connectionSerialized.FindProperty("Message");
+
+		
+		if( GUILayout.Button("Del", GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.black, TextAnchor.MiddleCenter)))
+		{					
+		
+			ConnectionRegistry.DesignInstance.Registry.Remove(editorObjectConnection);
+			EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);
 		}
 		
-		//GUI.color = color;
-			//editorObjectConnection.Message = (EditorObject.EditorObjectMessage)EditorGUILayout.EnumPopup(editorObjectConnection.Message);	
-			SerializedObject connectionSerialized = new SerializedObject(editorObjectConnection);
-			SerializedProperty eventSerialized = connectionSerialized.FindProperty("OnEvent");
-			SerializedProperty messageSerialized = connectionSerialized.FindProperty("Message");
-		
-		
-//			mEventChoices = new string[Target.AssociatedEvents.Length];
-//			foreach(EventTransceiver.Events evt in Target.AssociatedEvents)
-//			{
-//				mEventChoices[(int)evt] = evt.ToString();
-//			}
-		
-			if( GUILayout.Button("Del", GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.black, TextAnchor.MiddleCenter)))
-				{					
-					//_target.RemoveConnection(editorObjectConnection);
-					ConnectionRegistry.DesignInstance.Registry.Remove(editorObjectConnection);
-					EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);
-				}
-		
-			eventSerialized.enumValueIndex = EditorGUILayout.Popup(eventSerialized.enumValueIndex, Target.AssociatedEventsAsStrings, EditorStyles.toolbarPopup);
-			GUILayout.Space(4);
-			messageSerialized.enumValueIndex = EditorGUILayout.Popup(messageSerialized.enumValueIndex, messageSerialized.enumNames, EditorStyles.toolbarPopup);
-		
-			
-		
-			//GUILayout.BeginHorizontal();
-			//GUILayout.BeginVertical();
-			//GUILayout.FlexibleSpace();
-				if(GUILayout.Button(new GUIContent(editorObjectConnection.Subject.ToString(), "Click to select " + editorObjectConnection.Subject.ToString()), GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.black,TextAnchor.MiddleLeft)))
-				{
-					Selection.activeGameObject = editorObjectConnection.Subject.gameObject;	
-				}
-			//	GUILayout.Label(editorObjectConnection.Subject.name, GrendelCustomStyles.CustomElement(GUI.skin.label, color, Color.white,TextAnchor.MiddleLeft));
-			//GUILayout.FlexibleSpace();
-			//GUILayout.EndVertical();
-			//GUILayout.FlexibleSpace();
-			//GUILayout.BeginVertical();			
-		
-//				if( GUILayout.Button("Sel", GrendelCustomStyles.CustomElement(GUI.skin.button, Color.grey, Color.white, TextAnchor.MiddleCenter), GUILayout.Width(32)) )
-//				{
-//					Selection.activeGameObject = editorObjectConnection.Subject.gameObject;	
-//				}
+		eventSerialized.enumValueIndex = EditorGUILayout.Popup(eventSerialized.enumValueIndex, Target.AssociatedEventsAsStrings, EditorStyles.toolbarPopup);
+		GUILayout.Space(4);
+		messageSerialized.enumValueIndex = EditorGUILayout.Popup(messageSerialized.enumValueIndex, messageSerialized.enumNames, EditorStyles.toolbarPopup);
+	
+		if(GUILayout.Button(new GUIContent(editorObjectConnection.Subject.ToString(), "Click to select " + editorObjectConnection.Subject.ToString()), GrendelCustomStyles.CustomElement(GUI.skin.button, color, Color.black,TextAnchor.MiddleLeft)))
+		{
+			Selection.activeGameObject = editorObjectConnection.Subject.gameObject;	
+		}
+
 		connectionSerialized.ApplyModifiedProperties();
-			//GUILayout.EndVertical();
-		
-			//GUILayout.EndHorizontal();
-		
+	
 		GUILayout.EndHorizontal();
 		
 		Rect boxRect = GUILayoutUtility.GetLastRect();			
-		
-		
+				
 		if (e.type == EventType.Repaint && boxRect.Contains(e.mousePosition))
 		{				
 			editorObjectConnection.Subject.HighlightHighlight = true;			
@@ -527,8 +298,6 @@ public class EditorObjectEditor<T> : Editor where T : class
 		{			
 			editorObjectConnection.Subject.HighlightHighlight = false;
 		}
-		//GUILayout.EndArea();
-		
 		
 		GUI.color = Color.white;
 	}
@@ -560,9 +329,9 @@ public class EditorObjectEditor<T> : Editor where T : class
 		
 		if (_target.LookingForSubject) 
 		{ 
-			HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-			Handles.color = Color.green;
-			DrawConnectionHelper(_target.transform.position, mousePos);			
+			HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));			
+			
+			DrawConnectionLine.DrawLine(_target.transform.position, mousePos, Color.green);
 		}		
 	}
 	
@@ -582,7 +351,6 @@ public class EditorObjectEditor<T> : Editor where T : class
 			{			
 				DrawQuickMenu();
 			}
-
 		}
 		
 		if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Escape))
@@ -598,16 +366,8 @@ public class EditorObjectEditor<T> : Editor where T : class
 	
 	void DrawQuickMenu()
 	{
-		int count = 0;		
-		
-		//EditorObjectConnection connection = ConnectionRegistry.DesignInstance.ContainsConnection(_currentHoveredObject, _target);		
-		
-//		if (connection != null)
-//		{
-//			selection = (int)connection.Message;
-//		}
-		
-		//string[] messageStrings = Enum.GetNames(typeof(EditorObject.EditorObjectMessage));
+		int count = 0;	
+	
 		List<string> messages = new List<string>(Enum.GetNames(typeof(EditorObject.EditorObjectMessage)));
 		
 		if (ConnectionRegistry.DesignInstance.ContainsConnection(EditorObject.CurrentHoveredEditorObject, Target))
@@ -638,55 +398,52 @@ public class EditorObjectEditor<T> : Editor where T : class
 		
 			case 0:
 			
-			ChooseObject(EditorObject.EditorObjectMessage.None);
+				ChooseObject(EditorObject.EditorObjectMessage.None);
 			
 			break;
 			
 			case 1:
 			
-			ChooseObject(EditorObject.EditorObjectMessage.Activate);
+				ChooseObject(EditorObject.EditorObjectMessage.Activate);
 			
 			break;
 			
 			case 2:
 			
-			ChooseObject(EditorObject.EditorObjectMessage.Deactivate);
+				ChooseObject(EditorObject.EditorObjectMessage.Deactivate);
 			
 			break;
 			
 			case 3:
 			
-			ChooseObject(EditorObject.EditorObjectMessage.Toggle);
+				ChooseObject(EditorObject.EditorObjectMessage.Toggle);
 			
 			break;
 			
 			case 4:
 			
-			ChooseObject(EditorObject.EditorObjectMessage.Enable);
+				ChooseObject(EditorObject.EditorObjectMessage.Enable);
 			
 			break;
 			
 			case 5:
 			
-			ChooseObject(EditorObject.EditorObjectMessage.Disable);
+				ChooseObject(EditorObject.EditorObjectMessage.Disable);
 			
 			break;
 			
 			case 6:
 			
-			ConnectionRegistry.DesignInstance.Registry.Remove(ConnectionRegistry.DesignInstance.ContainsConnection(EditorObject.CurrentHoveredEditorObject, Target));
-			EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);		
-			new SerializedObject(ConnectionRegistry.DesignInstance).SetIsDifferentCacheDirty();
+				ConnectionRegistry.DesignInstance.Registry.Remove(ConnectionRegistry.DesignInstance.ContainsConnection(EditorObject.CurrentHoveredEditorObject, Target));
+				EditorUtility.SetDirty(ConnectionRegistry.DesignInstance);		
+				new SerializedObject(ConnectionRegistry.DesignInstance).SetIsDifferentCacheDirty();
 			
 			break;
 			
 			default:
 			
 			break;
-		}
-		
-		
-	}
+		}	}
 	
 	void CloseOpenConnections()
 	{		
@@ -716,7 +473,7 @@ public class EditorObjectEditor<T> : Editor where T : class
 	{	
 		if (!Application.isPlaying)
 		{			
-			if (SceneView.currentDrawingSceneView.camera == null)
+			if (SceneView.currentDrawingSceneView == null || SceneView.currentDrawingSceneView.camera == null)
 			{
 				return;
 			}		
@@ -743,71 +500,55 @@ public class EditorObjectEditor<T> : Editor where T : class
 			
 			if (Selection.activeGameObject != eo.gameObject)
 			{				
-//				Vector3 centre = eo.transform.position;
-//				Vector3 right = (centre + (currentCamera.transform.right * 0.4f));
-//				Vector3 centreConverted = currentCamera.WorldToScreenPoint(centre);
-//				Vector3 rightConverted = currentCamera.WorldToScreenPoint(right);
-//				float dist = Mathf.Abs(centreConverted.x - rightConverted.x);
-//				
-//				centreConverted.y = currentCamera.pixelHeight - centreConverted.y;			
-//				
-//				Rect labelRect = new Rect(centreConverted.x - dist, centreConverted.y - dist, dist * 2, dist * 2);				
-				EditorGUIUtility.AddCursorRect(labelRect, MouseCursor.Link);
+				EditorGUIUtility.AddCursorRect(labelRect, MouseCursor.Link);				
 				
-				#if DEBUG
-				Handles.BeginGUI();
-					GUI.Label(labelRect, "", GUI.skin.box);
-				Handles.EndGUI();
-				#endif
-				//Event e = Event.current;
-				
-				
-				//if (labelRect.Contains(e.mousePosition))
 				if (HandleUtility.DistanceToCircle(eo.transform.position, 0.5f) <= 0.5f)
 				{					
-					eo.HighlightHighlight = true;					
-											
-					foreach(EditorObjectConnection connection in ConnectionRegistry.DesignInstance.Registry)
-					{
+					eo.HighlightHighlight = true;	
 					
-						if (connection.Caller != eo)
-						{
-							continue;
-						}
-						else if (connection.Subject.HighlightHighlight)
-						{
-							Handles.color = Color.cyan;
-							Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
-							continue;
-						}	
+					ConnectionRegistryEditor.DrawConnectionsForObject(eo);
+											
+//					foreach(EditorObjectConnection connection in ConnectionRegistry.DesignInstance.Registry)
+//					{
+//					
+//						if (connection.Caller != eo)
+//						{
+//							continue;
+//						}
+//						else if (connection.Subject.HighlightHighlight)
+//						{
+//							Handles.color = Color.cyan;
+//							Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);
+//							continue;
+//						}	
 						
-						Handles.color = GrendelColor.FlashingColor(connection.MessageColorDark, 4f);			
+//						Handles.color = GrendelColor.FlashingColor(connection.MessageColorDark, 4f);			
 						
-							switch(connection.Message)
-							{
-								case EditorObject.EditorObjectMessage.Activate:				
-								
-								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);										
-								
-								break;
-								
-								case EditorObject.EditorObjectMessage.Deactivate:				
-								
-								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);									
-								
-								break;
-								
-								case EditorObject.EditorObjectMessage.Toggle:				
-								
-								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);								
-								
-								break;
-							
-								default:
-							
-								break;
-							}						
-						}				
+//							switch(connection.Message)
+//							{
+//								case EditorObject.EditorObjectMessage.Activate:				
+//								
+//								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);										
+//								
+//								break;
+//								
+//								case EditorObject.EditorObjectMessage.Deactivate:				
+//								
+//								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);									
+//								
+//								break;
+//								
+//								case EditorObject.EditorObjectMessage.Toggle:				
+//								
+//								Handles.DrawLine(eo.transform.position, connection.Subject.transform.position);								
+//								
+//								break;
+//							
+//								default:
+//							
+//								break;
+//							}						
+//						}				
 					
 					Gizmos.DrawIcon(eo.transform.position, "Gizmo_Cyan_Ring"); 
 					Gizmos.DrawIcon(eo.transform.position, "Gizmo_Fill");
@@ -818,8 +559,7 @@ public class EditorObjectEditor<T> : Editor where T : class
 					if (EditorObject.CurrentHoveredEditorObject == eo)
 					{
 						EditorObject.CurrentHoveredEditorObject = null;
-					}
-					//eo.HighlightHighlight = false;						
+					}											
 				}
 				
 				Vector3 pos = eo.transform.position;
@@ -828,28 +568,23 @@ public class EditorObjectEditor<T> : Editor where T : class
 				
 				Handles.color = eo.NameConflict == true ? Color.red : Color.white;				
 						
-				Handles.Label(pos, eo.name, GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, Handles.color));
-				//Handles.Label(pos, eo.name, GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, Handles.color));		
-				//Handles.Label(pos, eo.name, GUI.skin.box);	
-				//GUI.Label(new Rect(labelRect), eo.name, GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, Handles.color)); 
-				
+				if (GrendelEditorPreferences.DrawEditorObjectLabels)
+				{
+					Handles.Label(pos, eo.name, GrendelCustomStyles.CustomElement(GUI.skin.label, Color.white, Handles.color));
+				}
 								
 				Handles.color = Color.white;
 			
 			}
 			else
-			{				
-				//eo.HighlightHighlight = false;
+			{			
 				Gizmos.DrawIcon(eo.transform.position, "Gizmo_Selected");
-				Gizmos.DrawIcon(eo.transform.position, "Gizmo_White_Ring");
-					
+				Gizmos.DrawIcon(eo.transform.position, "Gizmo_White_Ring");					
 			}		
 			
 			if (eo.HighlightHighlight)
 			{
-				Gizmos.DrawIcon(eo.transform.position, "Gizmo_Cyan_Ring");
-				
-				
+				Gizmos.DrawIcon(eo.transform.position, "Gizmo_Cyan_Ring");				
 			}
 			
 			eo.HighlightHighlight = false;

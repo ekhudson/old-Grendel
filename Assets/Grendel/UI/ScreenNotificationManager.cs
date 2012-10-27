@@ -22,6 +22,8 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 	
 	private List<ScreenNotification> _notificationsList = new List<ScreenNotification>();		
 	private ScreenNotification _currentNotification;
+	private const float kNotificationHeight = 16f;
+	private const float kSlideThreshold = 0.55f; //the alpha threshold below which the next notification begins to slide overtop of this one.
 	
 	
 	public List<ScreenNotification> NotificationList
@@ -60,8 +62,10 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 			{ 
 				//_currentNotification.DisplayNotification();
 				foreach(ScreenNotification notification in NotificationList)
-				{
-					GUILayout.Label(notification.Text, notification.NotificationStyle, GUILayout.Width( (Screen.width * 0.25f) ));
+				{					
+					GUILayout.Label(notification.Text, notification.NotificationStyle, 
+					                new GUILayoutOption[]{ GUILayout.Width( (Screen.width * 0.50f) ),
+						            GUILayout.Height( notification.NotificationStyle.normal.textColor.a <= 0.55f ? kNotificationHeight * (notification.NotificationStyle.normal.textColor.a / 0.55f) : kNotificationHeight)});					
 				}
 				
 			}
@@ -83,12 +87,17 @@ public class ScreenNotificationManager : Singleton<ScreenNotificationManager>
 	{
 		float fadeAmt = 1 / (_currentNotification.FadeTime * 60);		
 		
-		while(_currentNotification.NotificationStyle.normal.textColor.a > 0)
+		while(_currentNotification.BoxColor.a > 0)
 		{			
 			Color textColor = _currentNotification.NotificationStyle.normal.textColor;
-			Color bgColor = _currentNotification.BoxColor;
+			Color bgColor = _currentNotification.BoxColor;			
+			
 			textColor.a -= fadeAmt;
-			bgColor.a -= fadeAmt;
+			bgColor.a -= fadeAmt;				
+			
+			_currentNotification.BoxTexture.SetPixel(1,1, bgColor);
+			_currentNotification.BoxTexture.Apply();
+			//_currentNotification.NotificationStyle.normal.background = _defaultTexture;
 			_currentNotification.BoxColor = bgColor;	
 			_currentNotification.NotificationStyle.normal.textColor = textColor;			
 			

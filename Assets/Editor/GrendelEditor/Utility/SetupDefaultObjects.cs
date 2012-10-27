@@ -31,7 +31,7 @@ public class SetupDefaultObjects : Editor
 	[MenuItem ("Grendel/Setup Default Objects")]	
 	private static void SearchForObjects()
 	{
-		string results = "";
+		string results = string.Empty;
 		
 		foreach(Object obj in RequiredObjects)
 		{
@@ -49,7 +49,11 @@ public class SetupDefaultObjects : Editor
 			
 		}		
 		
-		EditorUtility.DisplayDialog("Setup Default Grendel Objects", results, "OK");
+		//Display results if there are any
+		if (!string.IsNullOrEmpty(results))
+		{
+			EditorUtility.DisplayDialog("Setup Default Grendel Objects", results, "OK");
+		}
 	}
 }
 

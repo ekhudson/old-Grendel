@@ -22,28 +22,32 @@ public class GameManager : Singleton<GameManager>
 	public string ApplicationVersion = "1.0";
 	public bool DebugBuild = true;
 	[SerializeField]
-	public string MainMenuScene = null;
+	public UnityEngine.Object SceneToLoadOnGameLaunch;
+	public UnityEngine.Object MainMenuScene;
 	
-	public enum GAMESTATE
-	{
-		LOADING,
-		INTRO,
-		MAINMENU,
-		OPTIONS,
-		RUNNING,
-		PAUSED,
-		CREDITS,
-	}	
+	public static class GameStates
+    {
+        public enum STATES
+        {
+            LOADING,
+             INTRO,
+             MAINMENU,
+             OPTIONS,
+             RUNNING,
+             PAUSED,
+             CREDITS,
+        }
+    }
 	#endregion
 	
 	#region PRIVATE VARIABLES
 	
-	private GAMESTATE _gameState = GAMESTATE.LOADING;
+	private GameStates.STATES _gameState = GameStates.STATES.LOADING;
 	
 	#endregion
 	
 	#region PROPERTIES
-	public GAMESTATE GameState
+	public GameStates.STATES GameState
 	{
 		get{return _gameState;}
 		
@@ -56,45 +60,50 @@ public class GameManager : Singleton<GameManager>
 	}
 
 	// Use this for initialization
-	void Start () 
+	protected virtual void Start ()
 	{				
 		Console.Instance.OutputToConsole(string.Format("{0}: Starting up {1} {2}",  this.ToString(), ApplicationTitle, ApplicationVersion), Console.Instance.Style_Admin);
+		if(SceneToLoadOnGameLaunch != null && Application.loadedLevelName != SceneToLoadOnGameLaunch.name)
+		{
+			Console.Instance.OutputToConsole(string.Format("{0}: Supposed to start up in Scene {1}, but this is Scene {2}",  this.ToString(), SceneToLoadOnGameLaunch.name, Application.loadedLevel), Console.Instance.Style_Admin);
+			Application.LoadLevel(SceneToLoadOnGameLaunch.name);
+		}
 	}
 	
-	void Update()
+	protected virtual void Update()
 	{
 		switch (_gameState)
 		{
-			case GAMESTATE.LOADING:
+			case GameStates.STATES.LOADING:
 			
 				if (ComponentsLoaded())
 				{
-					SetGameState(GAMESTATE.RUNNING);
+					SetGameState(GameStates.STATES.RUNNING);
 				}
 									
 			break;
 			
-			case GAMESTATE.INTRO:
+			case GameStates.STATES.INTRO:
 			
 			break;
 			
-			case GAMESTATE.MAINMENU:
+			case GameStates.STATES.MAINMENU:
 			
 			break;
 			
-			case GAMESTATE.OPTIONS:
+			case GameStates.STATES.OPTIONS:
 			
 			break;
 			
-			case GAMESTATE.RUNNING:
+			case GameStates.STATES.RUNNING:
 			
 			break;
 			
-			case GAMESTATE.PAUSED:
+			case GameStates.STATES.PAUSED:
 			
 			break;
 			
-			case GAMESTATE.CREDITS:
+			case GameStates.STATES.CREDITS:
 			
 			break;
 		
@@ -104,7 +113,7 @@ public class GameManager : Singleton<GameManager>
 		}
 	}
 	
-	public void SetGameState(GAMESTATE state)
+	public void SetGameState(GameStates.STATES state)
 	{
 		if (state == _gameState)
 		{
@@ -114,35 +123,35 @@ public class GameManager : Singleton<GameManager>
 		
 		switch(state)
 		{
-			case GAMESTATE.LOADING:
+			case GameStates.STATES.LOADING:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:
+					case GameStates.STATES.LOADING:
 									
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 					
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 					
 					break;
 					
-					case GAMESTATE.OPTIONS:
+					case GameStates.STATES.OPTIONS:
 					
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 					
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 					
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 					
 					break;
 				
@@ -153,35 +162,35 @@ public class GameManager : Singleton<GameManager>
 			
 			break;
 			
-			case GAMESTATE.INTRO:
+			case GameStates.STATES.INTRO:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:
+					case GameStates.STATES.LOADING:
 								
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 							
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 					
 					break;
 					
-					case GAMESTATE.OPTIONS:
+					case GameStates.STATES.OPTIONS:
 					
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 					
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 					
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 					
 					break;
 				
@@ -192,35 +201,35 @@ public class GameManager : Singleton<GameManager>
 			
 			break;
 			
-			case GAMESTATE.MAINMENU:
+			case GameStates.STATES.MAINMENU:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:
+					case GameStates.STATES.LOADING:
 								
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 					
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 						
 					break;
 					
-					case GAMESTATE.OPTIONS:
+					case GameStates.STATES.OPTIONS:
 					
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 					
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 					
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 					
 					break;
 				
@@ -229,39 +238,39 @@ public class GameManager : Singleton<GameManager>
 					break;
 				}
 			
-			LevelManager.Instance.LoadLevel(MainMenuScene);
+			LevelManager.Instance.LoadLevel(MainMenuScene.ToString());
 			
 			break;
 			
-			case GAMESTATE.OPTIONS:
+			case GameStates.STATES.OPTIONS:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:					
+					case GameStates.STATES.LOADING:
 									
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 					
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 					
 					break;
 					
-					case GAMESTATE.OPTIONS:					
+					case GameStates.STATES.OPTIONS:
 											
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 					
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 					
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 					
 					break;
 				
@@ -272,35 +281,35 @@ public class GameManager : Singleton<GameManager>
 			
 			break;
 			
-			case GAMESTATE.RUNNING:
+			case GameStates.STATES.RUNNING:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:						
+					case GameStates.STATES.LOADING:
 									
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 					
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 					
 					break;
 					
-					case GAMESTATE.OPTIONS:
+					case GameStates.STATES.OPTIONS:
 					
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 						
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 					
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 					
 					break;
 				
@@ -311,35 +320,35 @@ public class GameManager : Singleton<GameManager>
 			
 			break;
 			
-			case GAMESTATE.PAUSED:
+			case GameStates.STATES.PAUSED:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:
+					case GameStates.STATES.LOADING:
 									
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 					
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 					
 					break;
 					
-					case GAMESTATE.OPTIONS:
+					case GameStates.STATES.OPTIONS:
 					
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 					
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 						
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 					
 					break;
 				
@@ -350,35 +359,35 @@ public class GameManager : Singleton<GameManager>
 			
 			break;
 			
-			case GAMESTATE.CREDITS:
+			case GameStates.STATES.CREDITS:
 			
 				switch (_gameState)
 				{
-					case GAMESTATE.LOADING:
+					case GameStates.STATES.LOADING:
 								
 					break;
 					
-					case GAMESTATE.INTRO:
+					case GameStates.STATES.INTRO:
 					
 					break;
 					
-					case GAMESTATE.MAINMENU:
+					case GameStates.STATES.MAINMENU:
 					
 					break;
 					
-					case GAMESTATE.OPTIONS:
+					case GameStates.STATES.OPTIONS:
 					
 					break;
 					
-					case GAMESTATE.RUNNING:
+					case GameStates.STATES.RUNNING:
 					
 					break;
 					
-					case GAMESTATE.PAUSED:
+					case GameStates.STATES.PAUSED:
 					
 					break;
 					
-					case GAMESTATE.CREDITS:
+					case GameStates.STATES.CREDITS:
 							
 					break;
 				

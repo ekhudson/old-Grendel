@@ -46,7 +46,7 @@ public class Singleton<T> : MonoBehaviour where T : class
 		}
 		else
 		{
-			if(GameManager.Instance.DebugBuild){ Debug.Log("Destroying: " + typeof(T).ToString() ); }
+			Console.Instance.OutputToConsole(string.Format("Destroying: {0}", typeof(T).ToString()), Console.Instance.Style_Admin);
 			if (DestroyNewDuplicate)
 			{
 				if (DestroyGameObject)

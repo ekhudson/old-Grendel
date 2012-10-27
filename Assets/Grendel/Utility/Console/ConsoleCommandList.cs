@@ -163,7 +163,7 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 			Console.Instance.OutputToConsole(string.Format("Attempting to set GameState to {0}", parameters.Params[0].ToString()), Console.Instance.Style_Admin);
 			try
 			{
-				GameManager.Instance.SetGameState(  (GameManager.GAMESTATE)Enum.Parse(typeof(GameManager.GAMESTATE), parameters.Params[0].ToString()));
+				GameManager.Instance.SetGameState(  (GameManager.GameStates.STATES)Enum.Parse(typeof(GameManager.GameStates.STATES), parameters.Params[0].ToString()));
 			}
 			catch
 			{
@@ -174,7 +174,7 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 	
 	void GetGameState(ConsoleCommandParams parameters)
 	{		
-		Console.Instance.OutputToConsole(string.Format("Current GameState is <{0}>", GameManager.Instance.GameState), Console.Instance.Style_Admin);		
+		Console.Instance.OutputToConsole(string.Format("Current GameState is <{0}>", GameManager.Instance.GameState), Console.Instance.Style_Admin);
 	}
 	
 	void ListGameStates(ConsoleCommandParams parameters)
@@ -182,7 +182,7 @@ public class ConsoleCommandList : Singleton<ConsoleCommandList>
 		Console.Instance.OutputToConsole("Listing GameStates:", Console.Instance.Style_Admin);
 		Console.Instance.OutputToConsole("", Console.Instance.Style_Admin, false);
 		
-		foreach(GameManager.GAMESTATE state in Enum.GetValues(typeof(GameManager.GAMESTATE)))
+		foreach(GameManager.GameStates.STATES state in Enum.GetValues(typeof(GameManager.GameStates.STATES)))
 		{
 			Console.Instance.OutputToConsole(state.ToString(), Console.Instance.Style_Admin, false);
 		}

@@ -9,10 +9,10 @@ public class DrawConnectionLine : ScriptableObject
 	private const float kArrowSpacing = 1f;
 	
 	
-	public static void DrawLine(GameObject source, GameObject target, Color color)
+	public static void DrawLine(Vector3 source, Vector3 target, Color color)
 	{
-		Vector3 sourcePosition = source.transform.position;
-		Vector3 targetPosition = target.transform.position;			
+		Vector3 sourcePosition = source;
+		Vector3 targetPosition = target;			
 		
 		float arrowSize = kArrowSize;
 		Vector3 direction = (sourcePosition - targetPosition).normalized;		
@@ -28,13 +28,19 @@ public class DrawConnectionLine : ScriptableObject
 		}
 		
 		Handles.DrawLine( sourcePosition,  targetPosition + (( direction * arrowSize) / 0.5f));
+		Handles.DrawWireDisc(targetPosition, SceneView.currentDrawingSceneView.camera.transform.rotation * Vector3.back, 0.55f);
 		
 		Handles.color = Color.white;
 	}	
 	
 	public static void DrawLine(EditorObject source, EditorObject target, Color color)
 	{
-		DrawLine(source.gameObject, target.gameObject, color);
+		DrawLine(source.gameObject, target.gameObject, color);		
+	}
+	
+	public static void DrawLine(GameObject source, GameObject target, Color color)
+	{
+		DrawLine(source.transform.position, target.transform.position, color);
 	}
 	
 }

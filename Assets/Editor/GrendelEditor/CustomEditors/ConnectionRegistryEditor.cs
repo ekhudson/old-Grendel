@@ -83,13 +83,13 @@ public class ConnectionRegistryEditor : GrendelEditorBase<ConnectionRegistry>
 		}
 	}
 	
-	public void DrawConnectionsForObject(EditorObject editorObject)
-	{
-		foreach(EditorObjectConnection connection in Target.Registry)
+	public static void DrawConnectionsForObject(EditorObject editorObject)
+	{		
+		foreach(EditorObjectConnection connection in ConnectionRegistry.DesignInstance.Registry)
 		{
-			if (connection.Subject == editorObject)
-			{
-				DrawConnectionLine.DrawLine(connection.Caller.gameObject, connection.Subject.gameObject, connection.MessageColor);
+			if (connection.Caller == editorObject)
+			{				
+				DrawConnectionLine.DrawLine(connection.Caller.gameObject, connection.Subject.gameObject, Selection.activeObject == editorObject.gameObject ? connection.MessageColor : GrendelColor.FlashingColor(connection.MessageColor, 4f));
 			}
 		}
 	}

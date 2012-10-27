@@ -68,7 +68,7 @@ public class LevelManager : Singleton<LevelManager>
 	IEnumerable LevelLoading()
 	{
 		double time = Time.realtimeSinceStartup;
-		GameManager.Instance.SetGameState(GameManager.GAMESTATE.LOADING);
+		GameManager.Instance.SetGameState(GameManager.GameStates.STATES.LOADING);
 		while(Application.isLoadingLevel)
 		{
 			

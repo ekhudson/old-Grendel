@@ -4,8 +4,7 @@ using System.Collections;
 public class Player : Entity
 {
 
-    public CharacterController ctrl;
-    public Cannon pCannon;  
+    public CharacterController ctrl;      
 	public GameObject DamageParticles;
 	public SearchRadius MySearchRadius;
 
@@ -104,7 +103,7 @@ public class Player : Entity
                if (_currentCooldown >= pCooldown)
 				{
 					_currentCooldown = 0;
-				pCannon.Fire();
+				
 				}
             }
 			
@@ -113,7 +112,7 @@ public class Player : Entity
 				if(_currentBulletCooldown >= BulletCooldown)
 				{
 					_currentBulletCooldown = 0;
-				pCannon.BulletFire();
+				
 				}
 			}
 			
